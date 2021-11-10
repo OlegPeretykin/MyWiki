@@ -1,0 +1,9 @@
+DoCmd.OpenForm "TiresStep2SelectParametrs", , , , , acDialog, "Step1SelectType"
+
+-----------------------
+
+Private Sub Form_Load()
+If Len(Nz(Me.OpenArgs, 1)) > 2 Then
+    DoCmd.Close acForm, Me.OpenArgs
+End If
+End Sub

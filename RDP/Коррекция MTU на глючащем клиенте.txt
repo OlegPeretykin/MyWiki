@@ -1,0 +1,12 @@
+
+netsh interface ipv4 show subinterfaces
+Показывает MTU всех адаптеров
+
+netsh interface ipv4 set subinterface "Ethernet" mtu=1300 store=persistent
+Меняем MTU указанного адаптера "Ethernet" на 1300
+
+netsh int tcp set global autotuninglevel=disabled
+отключить автоматическую настройку значения MTU для сетевых подключений
+
+netsh int tcp set global autotuninglevel=normal
+влючить автоматическую настройку значения MTU для сетевых подключений

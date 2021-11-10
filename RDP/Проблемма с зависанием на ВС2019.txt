@@ -1,0 +1,7 @@
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations
+
+
+DWORD: 
+fEnableRemoteFXAdvancedRemoteApp
+
+0x00000001 (0)

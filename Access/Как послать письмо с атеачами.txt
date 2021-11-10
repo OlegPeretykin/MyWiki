@@ -1,0 +1,51 @@
+Private Sub SendCDOmail()    
+Dim Msg 'As CDO.Message    
+Set Msg = CreateObject("CDO.Message")   
+Dim mailaddress As String    
+Dim Msghtml As String     
+mailaddress = "kozin@mail.ru"    
+Msghtml = "<HTML><h2>См. вложения</h2></HTML>"    
+With Msg   
+   .HTMLBody = Msghtml    
+   .AddAttachment ("c:\autoexec.bat")           
+   .To = """Administratior"" <" & mailaddress & ">"         
+   .FROM = """Робомэйл"" <mailservice@mailserver.ru>"         
+   .Send    
+End With   
+Set Msg = Nothing   
+End Sub     
+End Sub
+
+--------------------------------
+уведомление о прочтении
+
+.mdnrequested = True
+
+=========================================================================
+
+Sub SendMail()
+
+
+Dim oOutlook As Outlook.Application 'запускаем аутлук
+Set oOutlook = Outlook.Application
+Dim oMail As Outlook.MailItem 'создаем письмо
+Set oMail = oOutlook.CreateItem(olMailItem)
+Dim oAttach As Object 'переменная с приложениями к письму
+Set oAttach = oMail.Attachments
+
+With oMail
+.To = "mail@yandex.ru" 'адрес e-mail для отправки письма, если несколько адресов e-mail, пишем, отделяя их точкой с запятой - ";"
+.CC = "" 'копия
+.Subject = "Отчеты" 'это тема письма
+'.Body = "Это текст письма" 'вариант отправки определённого текста
+'.Body = ActiveDocument.Selection 'вариант отправки выделенного текста
+.Attachments.Add ???????????????????
+.Attachments.Add ???????????????????
+.OriginatorDeliveryReportRequested = True 'уведомление о доставке письма
+.ReadReceiptRequested = True 'уведомление о прочтении письма
+.Save ' сохраним письмо
+' .Display 'показать окно письма, то есть показать открытую программу Outlook
+.Send 'отправить письмо
+End With
+
+End Sub

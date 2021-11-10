@@ -1,0 +1,13 @@
+1.
+Public Function ifTableExists(tblName As String) As Boolean
+
+    If DCount("[Name]", "MSysObjects", "[Name] = '" & tblName & "'") = 1 Then
+
+        ifTableExists = True
+
+    End If
+
+End Function
+
+2.
+Exists = IsObject(CurrentDb.TableDefs(tablename))

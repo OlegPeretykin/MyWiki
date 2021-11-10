@@ -1,0 +1,571 @@
+
+Option Compare Database   'Use Database order For String comparisons
+Dim Flag_Propis As Integer, Flag1_Propis As Integer
+
+'am v1.0.0_000516_17:25:40
+'http://am.rusimport.ru
+'mailto:a_mitin@mail.ru
+Public Function Num2Str(dblNum As Double, Optional lVal As Integer = 1, Optional lUseDecimal As Long = 2, Optional sGender As String) As String
+'это просто оболочка для функций.
+'lVal - валюта. поддерживаются:
+'1 -рубли
+'2 - доллары
+'3 - марки
+'4 - фунты
+'5 - условные единицы
+'6 - целых (просто числа)
+'lUseDecimal -выводить ли дробную часть
+'0 - не выводить
+'1- выводить числом
+'2- выводить прописью
+
+'am 010507
+'для простых чисел можно применять род -
+'то есть если передаешь одновременно Валюту 6,lUseDecimal=0 и какой род - то
+'в случае целого числа не будет выведено слово "целая" и число будет в указанном роде
+'Например
+'? Num2Str(1,6,0)=одна целая
+'? Num2Str(1,6,0,"c")=одно
+    
+'проверим параметры
+    Select Case sGender
+    Case "", "w", "ж", "W", "Ж" '- женский
+    Case "m", "м", "M", "М" '- мужской
+    Case "n", "с", "N", "С" '- средний
+    Case Else
+       Stop 'НЕКОРРЕКТНЫЙ РОД!
+    End Select
+'только в этом (то есть обратном) случае необходимо учитывать род!
+    If lVal <> 6 Or lUseDecimal <> 0 Then sGender = ""
+    
+    Select Case lUseDecimal
+    Case 0
+       Num2Str = Propis_X(dblNum, lVal, sGender)
+    Case 1
+       Num2Str = Propis_X(dblNum, lVal) + Propis_Коп(CCur(dblNum), lVal)
+    Case 2
+       Num2Str = Propis_X(dblNum, lVal) + Propis_Low_X(dblNum, lVal)
+    Case Else
+    End Select
+
+End Function
+
+
+
+Function Propis_Low_X(X_Sum As Double, Flag_L As Integer)
+Dim x_Sum_S As String, Result_X As String, Len_C As Integer
+Dim i As Integer, j As Integer, Start As Integer, Len_X As Integer
+x_Sum_S = Trim(str(X_Sum))
+Start = InStr(x_Sum_S, ".")
+  If Start <> 0 Then
+   Len_X = Len(x_Sum_S)
+   x_Sum_S = mID$(x_Sum_S, Start + 1, Len_X - Start)
+   Len_C = Len(x_Sum_S)
+    If Len_C > 2 Then
+       x_Sum_S = mID$(x_Sum_S, 1, 1) + Trim(str(IIf(Val(mID$(x_Sum_S, 3, 1)) > 4, Val(mID$(x_Sum_S, 2, 1)) + 1, Val(mID$(x_Sum_S, 2, 1)))))
+    Else
+        If Len_C = 1 Then
+           x_Sum_S = x_Sum_S + "0"
+        End If
+    End If
+   Len_C = 2
+   j = 1: Result_X = "": Flag_Propis = 0: Flag1_Propis = 0
+    For i = Len_C To 1 Step -1
+       Result_X = Result_X + Propis_Y(i, mID$(x_Sum_S, j, 1), Flag_L)
+       Result_X = Result_X + Propis_Low_Z(i, Flag_L)
+       j = j + 1
+    Next i
+  Else
+'am 010507 - добавил вывод подписи к нулю...
+'по идее наверное есть необходимость параметра - не выводить вообще если нет...
+   Result_X = "00 " + Propis_Low_Z(1, Flag_L)
+  End If
+Propis_Low_X = Result_X
+End Function
+
+
+Function Propis_Low_Z(Number_Position As Integer, Flag_L As Integer)
+Dim Result_Z As String
+Result_Z = ""
+  Select Case Number_Position
+   Case 13:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "сексилионов ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "сексилиона ": Flag1_Propis = 0
+     Case 2: Result_Z = "сексилион ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+   Case 10:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "миллиардов ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "миллиарда ": Flag1_Propis = 0
+     Case 2: Result_Z = "миллиард ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+   Case 7:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "миллионов ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "миллиона ": Flag1_Propis = 0
+     Case 2: Result_Z = "миллион ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+   Case 4:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "тысяч ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "тысячи ": Flag1_Propis = 0
+     Case 2: Result_Z = "тысяча ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+   Case 1:
+    Select Case Flag_Propis
+     Case 0:
+      Select Case Flag_L
+         Case 1: Result_Z = "копеек "
+         Case 2: Result_Z = "центов "
+         Case 3: Result_Z = "пфеннигов "
+         Case 4: Result_Z = "пенни "
+         Case 5: Result_Z = "сотых "
+         Case 6: Result_Z = "сотых "
+        End Select
+       Flag1_Propis = 0
+     Case 1:
+        Select Case Flag_L
+         Case 1: Result_Z = "копейки "
+         Case 2: Result_Z = "цента "
+         Case 3: Result_Z = "пфеннига "
+         Case 4: Result_Z = "пенни "
+         Case 5: Result_Z = "сотых "
+         Case 6: Result_Z = "сотых "
+        End Select
+       Flag1_Propis = 0
+     Case 2:
+        Select Case Flag_L
+         Case 1: Result_Z = "копейка "
+         Case 2: Result_Z = "цент "
+         Case 3: Result_Z = "пфенниг "
+         Case 4: Result_Z = "пенни "
+         Case 5: Result_Z = "сотая "
+         Case 6: Result_Z = "сотая "
+        End Select
+       Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+  End Select
+Propis_Low_Z = Result_Z
+End Function
+
+
+'am 010507 - добавлено sGender - описание см. Num2Str
+'am changed 001113
+Function Propis_X(X_Sum As Double, Flag_L As Integer, Optional sGender As String)
+Dim x_Sum_S As String, Result_X As String
+Dim i As Integer, j As Integer, Start As Integer, Len_X As Integer, Len_C As Integer
+x_Sum_S = Trim(str(X_Sum))
+Start = InStr(x_Sum_S, ".")
+Len_X = Len(x_Sum_S)
+Len_C = IIf(Start = 0, Len_X, Start - 1)
+j = 1: Result_X = "": Flag_Propis = 0: Flag1_Propis = 0
+   For i = Len_C To 1 Step -1
+'am 010507 - добавл sGender
+   Result_X = Result_X + Propis_Y(i, mID$(x_Sum_S, j, 1), Flag_L, sGender)
+   Result_X = Result_X + Propis_Z(i, Flag_L, sGender)
+'am 010507 - end
+   j = j + 1
+   Next i
+'am 001113
+  If Nz(Result_X, "") = "" And Len_X > 0 Then
+   Flag_Propis = 0
+   Propis_X = "ноль " & Propis_Z(1, Flag_L)
+  Else
+   Propis_X = Result_X
+  End If
+End Function
+
+
+'am 020218 - в миллионах и миллиардах добавлено слово Один (если он один)
+'am 011031 - исправлена ошибка, возникшая после добавления рода - не печатались двойки в миллионах...
+'am 010507 - добавлено sGender - описание см. Num2Str
+Function Propis_Y(Number_Position As Integer, Source_String As String, Flag_L As Integer, Optional sGender As String)
+' предполагается, что если sGender<>"" то последнее числит. выводить с указанном роде
+Dim Result_Y As String
+Result_Y = ""
+  Select Case Number_Position
+   Case 9, 6, 3, 12, 15:
+  Select Case Source_String
+     Case "1": Result_Y = "сто ": Flag1_Propis = 1
+     Case "2": Result_Y = "двести ": Flag1_Propis = 1
+     Case "3": Result_Y = "триста ": Flag1_Propis = 1
+     Case "4": Result_Y = "четыреста ": Flag1_Propis = 1
+     Case "5": Result_Y = "пятьсот ": Flag1_Propis = 1
+     Case "6": Result_Y = "шестьсот ": Flag1_Propis = 1
+     Case "7": Result_Y = "семьсот ": Flag1_Propis = 1
+     Case "8": Result_Y = "восемьсот ": Flag1_Propis = 1
+     Case "9": Result_Y = "девятьсот ": Flag1_Propis = 1
+    End Select
+   Propis_Y = Result_Y
+   Exit Function
+  Case 8, 5, 2, 11, 14:
+   Select Case Source_String
+     Case "1": Flag_Propis = 1: Flag1_Propis = 1
+     Case "2": Result_Y = "двадцать ": Flag1_Propis = 1
+     Case "3": Result_Y = "тридцать ": Flag1_Propis = 1
+     Case "4": Result_Y = "сорок ": Flag1_Propis = 1
+     Case "5": Result_Y = "пятьдесят ": Flag1_Propis = 1
+     Case "6": Result_Y = "шестьдесят ": Flag1_Propis = 1
+     Case "7": Result_Y = "семьдесят ": Flag1_Propis = 1
+     Case "8": Result_Y = "восемьдесят ": Flag1_Propis = 1
+     Case "9": Result_Y = "девяносто ": Flag1_Propis = 1
+    End Select
+   Propis_Y = Result_Y
+   Exit Function
+  Case 7, 4, 1, 10, 13:
+   If Flag_Propis = 1 Then
+     Select Case Source_String
+      Case "0": Result_Y = "десять "
+      Case "1": Result_Y = "одиннадцать "
+      Case "2": Result_Y = "двенадцать "
+      Case "3": Result_Y = "тринадцать "
+      Case "4": Result_Y = "четырнадцать "
+      Case "5": Result_Y = "пятнадцать "
+      Case "6": Result_Y = "шестнадцать "
+      Case "7": Result_Y = "семнадцать "
+      Case "8": Result_Y = "восемнадцать "
+      Case "9": Result_Y = "девятнадцать "
+     End Select
+     Flag_Propis = 0
+      Else
+       Select Case Source_String
+        Case "1":
+'am 010507 - только добавил комментарий
+'Result_Y = IIf(Number_Position = 4, "одна ", IIf(Number_Position = 1 And (Flag_L = 3 Or Flag_L = 5), "одна ", "один ")): Flag_Propis = 2
+            If Number_Position = 4 Then 'это тысячи - они в разрядах женский род, остальные (миллион и т.д.) - мужской
+               Result_Y = "одна "
+'am 020218 - чтобы 1000000 был Один миллион... а не просто миллион.
+            ElseIf Number_Position = 7 Or Number_Position = 10 Then
+'это миллионы или миллиарды - мужской род всегда
+               Result_Y = "один "
+            ElseIf Number_Position = 1 Then
+                If Flag_L = 3 Or Flag_L = 5 Then 'марки и у.е
+                   Result_Y = "одна "
+'am 010507 - добавил №6 (целая)
+'если sGender="" - то женский род (целая), иначе - в зависимости от sGender
+                ElseIf Flag_L = 6 Then
+                    Select Case sGender
+                    Case "", "w", "ж", "W", "Ж" '- женский
+                       Result_Y = "одна "
+                    Case "m", "м", "M", "М" '- мужской
+                       Result_Y = "один "
+                    Case "n", "с", "N", "С" '- средний
+                       Result_Y = "одно "
+                    Case Else
+                       Stop 'НЕкорректный род!!!
+                    End Select
+                Else
+                   Result_Y = "один " ' всё остальное
+                End If
+            End If
+           Flag_Propis = 2
+           Flag1_Propis = 1
+        Case "2":
+'am 010507 - только добавил комментарий
+'Result_Y = IIf(Number_Position = 4, "две ", IIf(Number_Position = 1 And (Flag_L = 3 Or Flag_L = 5), "две ", "два ")): Flag_Propis = 1
+            If Number_Position = 4 Then 'это тысячи - они в разрядах женский род, остальные (миллион и т.д.) - мужской
+               Result_Y = "две "
+            ElseIf Number_Position = 1 Then
+                If Flag_L = 3 Or Flag_L = 5 Then 'марки и у.е
+                   Result_Y = "две "
+'am 010507 - добавил №6 (целая)
+'если sGender="" - то женский род (целая), иначе - в зависимости от sGender
+                ElseIf Flag_L = 6 Then
+                    Select Case sGender
+                    Case "", "w", "ж", "W", "Ж" '- женский
+                       Result_Y = "две "
+                    Case "m", "м", "M", "М", "n", "с", "N", "С" '- мужской и средний
+                       Result_Y = "два "
+                    Case Else
+                       Stop 'НЕВЕРНЫЙ формат!!
+                    End Select
+                Else
+                   Result_Y = "два " ' всё остальное
+                End If
+'am 011031 - ошибка! В случае 7го разряда - проскакивает...
+            Else
+               Result_Y = "два "
+            End If
+         Flag_Propis = 1
+         Flag1_Propis = 1
+        Case "3": Result_Y = "три ": Flag_Propis = 1: Flag1_Propis = 1
+        Case "4": Result_Y = "четыре ": Flag_Propis = 1: Flag1_Propis = 1
+        Case "5": Result_Y = "пять ": Flag1_Propis = 1
+        Case "6": Result_Y = "шесть ": Flag1_Propis = 1
+        Case "7": Result_Y = "семь ": Flag1_Propis = 1
+        Case "8": Result_Y = "восемь ": Flag1_Propis = 1
+        Case "9": Result_Y = "девять ": Flag1_Propis = 1
+       End Select
+      End If
+   Propis_Y = Result_Y
+   Exit Function
+End Select
+End Function
+
+
+'am 010507 - добавлен род (здесь не проверяется - проверяется выше - вызывай всегда Num2Str
+Function Propis_Z(Number_Position As Integer, Flag_L As Integer, Optional sGender As String)
+'sGender - род числительного... подразумевается что если он <>""
+'то не надо выводить слово "целая" после числительного
+Dim Result_Z As String
+Result_Z = ""
+  Select Case Number_Position
+   Case 13:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "сексилионов ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "сексилиона ": Flag1_Propis = 0
+     Case 2: Result_Z = "сексилион ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+    Case 10:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "миллиардов ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "миллиарда ": Flag1_Propis = 0
+     Case 2: Result_Z = "миллиард ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+   Case 7:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "миллионов ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "миллиона ": Flag1_Propis = 0
+     Case 2: Result_Z = "миллион ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+   Case 4:
+    Select Case Flag_Propis
+     Case 0:
+      If Flag1_Propis = 1 Then
+       Result_Z = "тысяч ": Flag1_Propis = 0
+      End If
+     Case 1: Result_Z = "тысячи ": Flag1_Propis = 0
+     Case 2: Result_Z = "тысяча ": Flag1_Propis = 0
+    End Select
+   Flag_Propis = 0
+  Case 1:
+    Select Case Flag_Propis
+     Case 0:
+      Select Case Flag_L
+         Case 1: Result_Z = "рублей "
+         Case 2: Result_Z = "долларов США "
+         Case 3: Result_Z = "марок "
+         Case 4: Result_Z = "фунтов "
+         Case 5: Result_Z = "условных единиц "
+         Case 6: Result_Z = "целых "
+        End Select
+       Flag1_Propis = 0
+     Case 1:
+        Select Case Flag_L
+         Case 1: Result_Z = "рубля "
+         Case 2: Result_Z = "доллара США "
+         Case 3: Result_Z = "марки "
+         Case 4: Result_Z = "фунта "
+         Case 5: Result_Z = "условных единиц "
+         Case 6: Result_Z = "целых "
+        End Select
+       Flag1_Propis = 0
+     Case 2:
+        Select Case Flag_L
+         Case 1: Result_Z = "рубль "
+         Case 2: Result_Z = "доллар США "
+         Case 3: Result_Z = "марка "
+         Case 4: Result_Z = "фунт "
+         Case 5: Result_Z = "условная единица "
+         Case 6: Result_Z = "целая "
+        End Select
+       Flag1_Propis = 0
+    End Select
+'am 010507 - не выводим последнее слово если sGender <> ""
+    If Flag1_Propis = 0 And sGender <> "" Then Result_Z = " "
+'am 010507 end
+   Flag_Propis = 0
+  End Select
+
+Propis_Z = Result_Z
+End Function
+
+
+Function Propis_V(X_Sum As Double)
+Dim x_Sum_S As String, Result_X As String, Result_Y As String
+Dim i As Integer, j As Integer, Start As Integer, Len_X As Integer, Len_C As Integer
+  
+x_Sum_S = Trim$(Format(X_Sum, "#0.00"))
+Start = InStr(x_Sum_S, ".")
+Len_X = Len(x_Sum_S)
+Len_C = IIf(Start = 0, Len_X, Start - 1)
+j = 1
+Result_X = ""
+Flag_Propis = 0
+Flag1_Propis = 0
+  
+  For i = Len_C To 1 Step -1
+   Result_X = Result_X + Propis_Y(i, mID$(x_Sum_S, j, 1), 3)
+   j = j + 1
+  Next i
+  If Result_X <> "" Then Result_X = Result_X & IIf(Flag_Propis = 2, "целая ", "целых ")
+'Debug.Print Flag_Propis, Flag1_Propis
+    
+j = 1
+Result_Y = ""
+Flag_Propis = 0
+Flag1_Propis = 0
+  If Start > 0 Then
+   x_Sum_S = mID$(x_Sum_S, Start + 1, 2)
+    For i = 2 To 1 Step -1
+     Result_Y = Result_Y + Propis_Y(i, mID$(x_Sum_S, j, 1), 3)
+     j = j + 1
+    Next i
+  End If
+  If Result_Y <> "" Then Result_Y = Result_Y & IIf(Flag_Propis = 2, "сотая ", "сотых ")
+  
+Propis_V = Result_X & Result_Y & "тонн"
+
+End Function
+
+
+Public Function Propis_Коп(K_SumFP As Currency, Optional ValID As Integer = 1) As String
+Dim K_Sum As Integer, Result As String
+   K_Sum = (K_SumFP - Int(K_SumFP)) * 100
+   Select Case K_Sum
+      Case 11, 12, 13, 14: Result = " копеек"
+         Select Case ValID
+                Case 1
+                   Result = " копеек "
+                Case 2 'USD
+                   Result = " центов "
+                Case 3 'марки
+                   Result = " пфенингов "
+                Case 4 'фунт
+                   Result = " пенни "
+                Case 5 'у.е.
+                   Result = " сотых "
+                Case 6 'число
+                   Result = " сотых "
+                Case Else
+                   Result = " "
+       End Select
+      Case 1, 21, 31, 41, 51, 61, 71, 81, 91: Result = " копейка"
+         Select Case ValID
+                Case 1
+                   Result = " копейка "
+                Case 2 'USD
+                   Result = " цент "
+                Case 3 'марки
+                   Result = " пфенинг "
+                Case 4 'фунт
+                   Result = " пенни "
+                Case 5 'у.е.
+                   Result = " сотая "
+                Case 6 'число
+                   Result = " сотая "
+                Case Else
+                   Result = " "
+       End Select
+      Case Else
+         Select Case K_Sum - Int(K_Sum / 10) * 10
+            Case 2, 3, 4: Result = " копейки"
+                  Select Case ValID
+                         Case 1
+                           Result = " копейки "
+                         Case 2 'USD
+                           Result = " цента "
+                         Case 3 'марки
+                           Result = " пфенинга "
+                         Case 4 'фунт
+                           Result = " пенни "
+                         Case 5 'у.е.
+                           Result = " сотых "
+                         Case 6 'число
+                           Result = " сотых "
+                         Case Else
+                           Result = " "
+                End Select
+            Case Else: Result = " копеек"
+                    Select Case ValID
+                         Case 1
+                           Result = " копеек "
+                         Case 2 'USD
+                           Result = " центов "
+                         Case 3 'марки
+                           Result = " пфенингов "
+                         Case 4 'фунт
+                           Result = " пенни "
+                         Case 5 'у.е.
+                           Result = " сотых "
+                         Case 6 'число
+                           Result = " сотых "
+                         Case Else
+                           Result = " "
+                End Select
+         End Select
+   End Select
+   Propis_Коп = Format$(K_Sum, "00") & Result
+End Function
+
+
+
+'am 010525 - вставлю род
+Public Function Cop(zV, ValID As Long) As String
+Dim s As Currency
+   s = 100 * (zV - Int(zV))
+    Select Case ValID
+    Case 1
+       Cop = " " & s & " коп. "
+    Case 2 'USD
+        Select Case Right$(s, 1)
+        Case "1"
+           Cop = " " & s & " цент "
+        Case "2", "3", "4"
+           Cop = " " & s & " цента "
+        Case Else
+           Cop = " " & s & " центов "
+        End Select
+    Case 3 'марки
+        Select Case Right$(s, 1)
+        Case "1"
+           Cop = " " & s & " пфенинг "
+        Case "2", "3", "4"
+           Cop = " " & s & " пфенинга "
+        Case Else
+           Cop = " " & s & " пфенингов "
+        End Select
+    Case 4 'фунт
+       Cop = " " & s & " пенни "
+    Case 5, 6 'у.е., число
+        Select Case Right$(s, 1)
+        Case "1"
+           Cop = " " & s & " сотая "
+        Case Else
+           Cop = " " & s & " сотых "
+        End Select
+    Case Else
+       Cop = " " & s & " коп. "
+    End Select
+  
+End Function

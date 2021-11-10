@@ -1,0 +1,104 @@
+Public Function TextSum(numSum As Variant) As String
+w$ = Round(numSum, 2) 'Входное число - tekst tipа "123.45",защита
+'"от дурака" не сделана
+'выделение рублей в записи числа и удаление левых пробелов
+rubli$ = LTrim$(Left$(Str(Val(w$) * 100), _
+Len(Str(Val(w$) * 100)) - 2))
+cop$ = RTrim$(Right$(Str(CDbl(w$) * 100), 2)) 'выделение дробной части
+'числа и удаление правых пробелов
+
+Do While Len(rubli$) < 9
+rubli$ = "0" & rubli$
+Loop
+res$ = ""
+For i% = 1 To 3
+trojka$ = Mid$(rubli$, 3 * i% - 2, 3)
+Call Num3(trojka$, i%) ' Вызов функции формирования gotovoй тройки,
+'tipа "123 тысячи"
+res$ = res$ & trojka$ ' Накопление таких троек
+Next i%
+'res$ = UCase$(Left$(res$, 1)) & Right$(res$, Len(res$) - 1) 'Запись
+'первой буквы res$ в верхнем регистре
+
+c$ = " коп." ' Блок добавления копеек
+If (Right$(cop$, 1) = "1" And Left$(cop$, 1) <> "1") Then c$ = _
+" коп."
+If ((Right$(cop$, 1) = "2" Or Right$(cop$, 1) = "3" Or _
+Right$(cop$, 1) = "4") And Left$(cop$, 1) <> "1") Then _
+c$ = " коп."
+If Left(res$, 1) <> "Р" Then res$ = res$ & cop$ & c$ Else _
+res$ = cop$ & c$
+
+TextSum = res$ ' Выход tekstа
+End Function
+
+
+Public Function Num3(trojka$, i%)
+Dim sl$(1 To 3, 0 To 3)
+sl$(1, 1) = "миллион "
+sl$(2, 1) = "тысяча "
+sl$(3, 1) = "рубль "
+'-
+sl$(1, 2) = "миллиона "
+sl$(2, 2) = "тысячи "
+sl$(3, 2) = "рубля "
+'-
+sl$(1, 3) = "миллионов "
+sl$(2, 3) = "тысяч "
+sl$(3, 3) = "рублей "
+sl$(3, 0) = "рублей "
+'-
+ed$ = Right$(trojka$, 1)
+des$ = Mid$(trojka$, 2, 1)
+sot$ = Left$(trojka$, 1)
+'-
+If ed$ = "0" Then r3$ = ""
+If ed$ = "1" Then If i% = 2 Then r3$ = "одна " Else r3$ = "один "
+If ed$ = "2" Then If i% = 2 Then r3$ = "две " Else r3$ = "два "
+If ed$ = "3" Then r3$ = "три "
+If ed$ = "4" Then r3$ = "четыре "
+If ed$ = "5" Then r3$ = "пять "
+If ed$ = "6" Then r3$ = "шесть "
+If ed$ = "7" Then r3$ = "семь "
+If ed$ = "8" Then r3$ = "восемь "
+If ed$ = "9" Then r3$ = "девять "
+'-
+If des$ = "0" Then r2$ = ""
+s$ = des$ & ed$
+If s$ = "10" Then r3$ = "десять "
+If s$ = "11" Then r3$ = "одиннадцать "
+If s$ = "12" Then r3$ = "двенадцать "
+If s$ = "13" Then r3$ = "тринадцать "
+If s$ = "14" Then r3$ = "четырнадцать "
+If s$ = "15" Then r3$ = "пятнадцать "
+If s$ = "16" Then r3$ = "шестнадцать "
+If s$ = "17" Then r3$ = "семнадцать "
+If s$ = "18" Then r3$ = "восемнадцать "
+If s$ = "19" Then r3$ = "девятнадцать "
+'-
+If des$ = "2" Then r2$ = "двадцать "
+If des$ = "3" Then r2$ = "тридцать "
+If des$ = "4" Then r2$ = "сорок "
+If des$ = "5" Then r2$ = "пятьдесят "
+If des$ = "6" Then r2$ = "шестьдесят "
+If des$ = "7" Then r2$ = "семьдесят "
+If des$ = "8" Then r2$ = "восемьдесят "
+If des$ = "9" Then r2$ = "девяносто "
+'-
+If sot$ = "0" Then r1$ = ""
+If sot$ = "1" Then r1$ = "сто "
+If sot$ = "2" Then r1$ = "двести "
+If sot$ = "3" Then r1$ = "триста "
+If sot$ = "4" Then r1$ = "четыреста "
+If sot$ = "5" Then r1$ = "пятьсот "
+If sot$ = "6" Then r1$ = "шестьсот "
+If sot$ = "7" Then r1$ = "семьсот "
+If sot$ = "8" Then r1$ = "восемьсот "
+If sot$ = "9" Then r1$ = "девятьсот "
+'-
+If trojka$ <> "000" Then j% = (-1) * CInt(ed$ = "1" And des$ <> "1") _
++ (-2) * CInt((ed$ = "2" Or ed$ = "3" Or ed$ = "4") And des$ <> "1")
+If j% = 0 And trojka$ <> "000" Then j% = 3
+trojka$ = r1$ & r2$ & r3$ & sl$(i%, j%) 'формирование тройки цифр и
+'слова,например-"123 тысячи"
+End Function

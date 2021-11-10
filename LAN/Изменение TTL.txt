@@ -1,0 +1,5 @@
+KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\Tcpip\Parameters
+
+Создать —> Параметр DWORD или QWORD
+"DefaultTTL"
+Значение "65"

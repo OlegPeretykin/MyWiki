@@ -1,0 +1,4 @@
+'Добавить ключевое поле-счетчик:
+ALTER TABLE [Имя таблицы] ADD [Имя поля] Counter CONSTRAINT PrimaryKey PRIMARY KEY
+'Сделать ключевым существующее поле:
+CREATE INDEX PrimaryKey ON [Имя таблицы] ([Имя поля]) WITH PRIMARY

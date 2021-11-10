@@ -1,0 +1,25 @@
+
+
+1. не хватает оперативной памяти
+
+2. Disable the vsphere options 3D for the virtual maschine . It works perfect. When you want, reinstall the vm-tools for the virtual maschine.
+
+3. 
+sc config CDPUserSvc start= disabled
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\CDPUserSvc /v "Start" /t REG_DWORD /d "4" /f
+
+4. Удалить ветка реестра HKEY_LOCAL_MACHINE\Software\Microsoft\MSLicensing
+
+==========================================
+
+Была проблема. Решилась добавлением в РДП файл строчки:
+bitmapcachepersistenable:i:0
+
+======================================
+
+Hi all,
+
+I managed to fix this issue. I noticed that when trying access my RemoteAPPs in FireFox I get the errors and it was saying insecure...TLS 1.0. 
+Só i when to Server registry and couldnt find any keys. I created TLS keys for 1.0, 1.2, 2.0 for client and server and all worked.
+
+Thanks for you help, all.

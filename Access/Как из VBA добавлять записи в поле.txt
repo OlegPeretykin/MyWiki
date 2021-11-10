@@ -1,0 +1,18 @@
+Private Sub »м€ нопки_Click()
+ CurrentDb.Execute "Insert into »м€“аблицы" _
+   & "([ѕоле1],[поле2],[поле3]) Values " _
+   & "('" & Me.ѕоле¬вода1.Value & "', '" & Me.ѕоле¬вода2.Value & "',  '" & Me.ѕоле¬вода3.Value & "' );"
+End Sub
+
+--------------------------------------------------------
+
+Private Sub ButtonGo_Click()
+Dim AAA As String
+
+AAA = "INSERT INTO OutputShowTable ( ProductFullName ) VALUES (  '" & Me.FullNameProduct & "' )"
+CurrentDb.Execute AAA
+
+'CurrentDb.Execute "Insert into OutputShowTable" _
+'   & "([ѕоле1],[поле2],[поле3]) Values " _
+'   & "('" & Me.ѕоле¬вода1.Value & "', '" & Me.ѕоле¬вода2.Value & "',  '" & Me.ѕоле¬вода3.Value & "' );"
+End Sub

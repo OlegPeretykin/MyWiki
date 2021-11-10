@@ -1,0 +1,15 @@
+If xyz is fixed:
+
+DCount("*", "tblIGEMS", "[Squadron] = 'xyz'")
+If xyz is a variable in code:
+
+DCount("*", "tblIGEMS", "[Squadron] = '" & xyz & "'")
+If xyz is a field:
+
+DCount("*", "tblIGEMS", "[Squadron] = '" & [xyz] & "'")
+If xyz is a control on a form:
+
+DCount("*", "tblIGEMS", "[Squadron] = '" & [Forms]![YourFormName]![xyz] & "'")
+------------------------------
+
+If Squadron is numeric, remove the single-quotes.

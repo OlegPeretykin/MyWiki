@@ -1,0 +1,7 @@
+Если кратко - создать параметр DWORD32 в реестре по пути:
+Компьютер\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedAccess
+
+EnableRebootPersistConnection = 1
+
+======================================
+

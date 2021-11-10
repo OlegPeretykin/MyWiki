@@ -1,0 +1,16 @@
+
+c:\Program Files\1cv8\conf\nethasp.ini
+
+....
+
+;;NH_SERVER_ADDR = <Addr1>, <Addr2> 	; IP addresses of all the NetHASP 
+					; License Managers you want to search.
+					; Unlimited addresses and multiple
+					; lines are possible.
+					;
+					; Possible address format examples:
+					;  IP address:      192.114.176.65
+					;  Local Hostname:  ftp.aladdin.co.il
+NH_SERVER_ADDR = 192.168.137.155
+
+.....

@@ -1,0 +1,20 @@
+Private Sub Кнопка2_Click()
+    Dim s As String
+    'установить фокус
+    Me.ПолеСоСписком0.SetFocus
+    ' получает строку из поля со списком
+    s = Me.ПолеСоСписком0.Text
+    MsgBox s
+End Sub
+
+
+Прмер2
+
+Private Sub ButtonGo_Click()
+	Dim A, B As String
+	Me.TypeProductView.SetFocus
+	A = TypeProductView.Text
+	Me.Stocks.SetFocus
+	B = Stocks.Text
+	MsgBox (A & " " & B)
+End Sub

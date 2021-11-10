@@ -1,0 +1,51 @@
+Импорт списка юзеров
+
+Сначала в PowerShell от Администратора разрешаем выполнять сценарии:
+
+Set-ExecutionPolicy Unrestricted LocalMachine
+Set-ExecutionPolicy Unrestricted CurrentUser
+
+Проверяем:
+Get-ExecutionPolicy -List
+
+Создаём файл xxx.ps1 на основе этих правил
+и запускаем его в том же окне PowerShell 
+Комментарий там #
+-----------------------------------------------------------------------------------------------------------------------------
+
+New-LocalUser
+   [-AccountExpires <DateTime>]
+   [-AccountNeverExpires]
+   [-Description <String>]
+   [-Disabled]
+   [-FullName <String>]
+   [-Name] <String>
+   -Password <SecureString>
+   [-PasswordNeverExpires]
+   [-UserMayNotChangePassword]
+   [-WhatIf]
+   [-Confirm]
+   [<CommonParameters>]
+----------------------------------------------------------------------------------------------------------------------------------
+Пример:
+New-LocalUser -Name 'uu2' -FullName 'uuser2' -AccountNeverExpires  -Password (ConvertTo-SecureString '1234567890' –AsPlainText –Force) 
+
+Тут добавляем в группы
+-------------------------------------------------------------------------------------------------------------------------------
+Add-LocalGroupMember
+   [-Group] <LocalGroup>
+   [-Member] <LocalPrincipal[]>
+   [-WhatIf]
+   [-Confirm]
+   [<CommonParameters>]
+---------------------------------------------------------------------------------------------------------------------------------
+Пример:
+Add-LocalGroupMember -Group "Гости" -Member "uu2"
+
+Вырубаем нахрен запуск скриптов:
+
+Set-ExecutionPolicy Undefined CurrentUser
+Set-ExecutionPolicy Undefined LocalMachine
+
+Проверяем:
+Get-ExecutionPolicy -List

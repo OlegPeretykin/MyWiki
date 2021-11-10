@@ -1,0 +1,10 @@
+Проверить, что можно оптимизировать
+Dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+
+Очистить хранилище компонентов вручную одной командой
+Есть смысл вставить в планировщик
+Dism.exe /Online /Cleanup-Image /StartComponentCleanup
+
+То же со сносом информации для отката исправлений
+!!! Отмена только переустановкой системы !!!
+Dism.exe /Online /Cleanup-Image /StartComponentCleanup /ResetBase
