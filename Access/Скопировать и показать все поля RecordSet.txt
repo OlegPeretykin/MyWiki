@@ -1,0 +1,12 @@
+Private Sub Button_001_Click()
+    Dim rst As DAO.Recordset
+    Dim fld As Field, intI As Integer
+    Field_001 = ""
+
+    Set rst = Me.Recordset
+    For intI = 0 To rst.Fields.Count - 1
+        ' Print field names.
+        Field_001 = Field_001 & rst.Fields(intI).Name & ", "
+        'Field_001 = rst.Fields(1).Name
+    Next intI
+End Sub
