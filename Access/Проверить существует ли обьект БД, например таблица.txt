@@ -11,3 +11,5 @@ End Function
 
 2.
 Exists = IsObject(CurrentDb.TableDefs(tablename))
+
+3. if not isnull(dlookup("Name"  ,"MSysObjects","type in(1,6) and Name='Tablename'" )) then msgbox "Table Exist" 
