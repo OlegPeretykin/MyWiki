@@ -1,0 +1,35 @@
+Удаленный запуск ПО на Windows
+
+
+Изменяем значение ветки fDisabledAllowList на 1 в разделе HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TsAppAllowList.
+Далее создаем файл с расширением *.rdp со следующим содержимым:
+full address:s:W7EMB1 (тут ip/Host)
+remoteapplicationmode:i:1
+disableremoteappcapscheck:i:1
+alternate shell:s:rdpinit.exe
+prompt for credentials on client:i:1
+remoteapplicationname:s:AZAZAZAZA !!!!!
+remoteapplicationprogram:s: c:\totalcmd\Totalcmd.exe  (тут собственно любой исполняемый в удаленной системе файл. Или просто папку – откроется что то типа эксплорера)
+redirectclipboard:i:1
+redirectposdevices:i:0
+redirectprinters:i:1
+redirectcomports:i:1
+redirectsmartcards:i:1
+devicestoredirect:s:*
+drivestoredirect:s:*
+redirectdrives:i:1
+session bpp:i:32
+span monitors:i:1
+use multimon:i:1
+allow font smoothing:i:1
+username:s:ХХХХХХХХ (тут имя пользователя известное в удаленной системе)
+----------------------------------------------------------------------
+ip_address – ip удаленного компьютера или виртуальной машины
+program_name – Название программы
+path – Полный муть к exe файлу программы
+username – Имя пользователя удаленного компьютера или виртуальной машины
+Для подключения без пароля можно воспользоваться gencrypt
+Пример использования: gencrypt.exe /p: тут_наш_пароль /hash > passhash.txt 
+После выполнения в файле passhash.txt будет закодированный пароль, который необходимо добавить в файл *.rdp
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services] "fAllowUnlistedRemotePrograms"=dword:00000001
