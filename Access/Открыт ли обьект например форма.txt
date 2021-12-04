@@ -1,0 +1,6 @@
+AccessObject.IsLoaded property (Access)
+
+Syntax
+expression.IsLoaded
+
+expression A variable that represents an AccessObject object.
