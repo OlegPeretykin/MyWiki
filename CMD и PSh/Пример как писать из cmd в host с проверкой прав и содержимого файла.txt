@@ -1,0 +1,86 @@
+Пример как писать из cmd в host с проверкой прав и содержимого файла
+
+
+@ECHO OFF
+TITLE Блокировка адресов, ответственных за проверку лицензий MindManager
+
+ECHO Блокировка в файле hosts адресов, ответственных за проверку
+ECHO легитимности лицензий продуктов семейства MindManager
+ECHO _______________________________________________________________________
+ECHO.
+REN %WINDIR%\system32\drivers\etc\hosts hosts77 > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO Файл hosts заблокирован для редактирования.
+  ECHO.
+  ECHO Либо Вы запустили данный патч не от имени администратора,
+  ECHO либо внесение изменений блокирует установленный у Вас антивирус.
+  ECHO.
+  ECHO.
+  PAUSE
+  EXIT
+)
+REN %WINDIR%\system32\drivers\etc\hosts77 hosts > nul
+FIND /c /i "www.mindjet.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 www.mindjet.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес www.mindjet.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес www.mindjet.com уже имеется в файле hosts.
+)
+ECHO.
+FIND /c /i "mindjet.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 mindjet.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес mindjet.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес mindjet.com уже имеется в файле hosts.
+)
+ECHO.
+FIND /c /i "*.mindjet.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 *.mindjet.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес *.mindjet.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес *.mindjet.com уже имеется в файле hosts.
+)
+ECHO.
+FIND /c /i "ipm.corel.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 ipm.corel.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес ipm.corel.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес ipm.corel.com уже имеется в файле hosts.
+)
+ECHO.
+FIND /c /i "*pm.corel.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 *pm.corel.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес *pm.corel.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес *pm.corel.com уже имеется в файле hosts.
+)
+ECHO.
+FIND /c /i "*.*.corel.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 *pm.corel.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес *.*.corel.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес *.*.corel.com уже имеется в файле hosts.
+)
+ECHO.
+FIND /c /i "*.*.mindjet.com" %WINDIR%\system32\drivers\etc\hosts > nul
+IF %ERRORLEVEL% NEQ 0 (
+  ECHO ^127.0.0.1 *.*.mindjet.com >> %WINDIR%\system32\drivers\etc\hosts
+  ECHO Адрес *.*.mindjet.com успешно добавлен в файл hosts.
+) ELSE (
+  ECHO Адрес *.*.mindjet.com уже имеется в файле hosts.
+)
+ECHO.
+ipconfig /flushdns > nul
+ECHO Кэш сопоставителя DNS успешно очищен.
+ECHO _______________________________________________________________________
+ECHO.
+ECHO Все необходимые изменения успешно внесены!
+ECHO.
+ECHO.
+PAUSE
