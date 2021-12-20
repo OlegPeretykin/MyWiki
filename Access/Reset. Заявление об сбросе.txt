@@ -1,0 +1,28 @@
+Заявление об сбросе
+Статья
+11.06.2021
+Чтение занимает 2 мин
+
+Закрывает все дисковые файлы, открытые с помощью заявления Open.
+
+Синтаксис
+Reset
+
+Примечания
+Оператор Reset закрывает все активные файлы, открытые с помощью оператора Open, и записывает все содержимое файловых буферов на диск.
+
+Пример
+В этом примере оператор Reset используется для закрытия всех открытых файлов и записи содержимого их буферов на диск. Обратите внимание на использование переменной Variant как строки, так и числа.
+
+VB
+
+Копировать
+Dim FileNumber 
+For FileNumber = 1 To 5 ' Loop 5 times. 
+ ' Open file for output. FileNumber is concatenated into the string 
+ ' TEST for the file name, but is a number following a #. 
+ Open "TEST" & FileNumber For Output As #FileNumber 
+ Write #FileNumber, "Hello World" ' Write data to file. 
+Next FileNumber 
+Reset ' Close files and write contents 
+ ' to disk. 

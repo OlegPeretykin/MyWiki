@@ -1,0 +1,3 @@
+Select видит поле формы через Eval
+
+where myfield=eval("forms!myform!mycobo.column(1)")

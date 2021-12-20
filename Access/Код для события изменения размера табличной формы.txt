@@ -1,0 +1,15 @@
+Код для события изменения размера табличной формы
+
+For i = 1 To 7
+    Select Case i
+    Case 2
+    ffrm.Controls("F" & i).ColumnWidth = 3000
+        'Case 5, 7:   ffrm("F" & i).Format = "dd.mm.yyyy"
+        'Case 6, 8, 9:   ffrm("F" & i).TextAlign = 1
+        'Case 3:         ffrm("F3").Format = "0000-0000"
+    Case Else
+    ffrm.Controls("F" & i).ColumnWidth = -2
+    End Select
+
+w = w + ffrm.Controls("F" & i).ColumnWidth
+Next i
