@@ -1,0 +1,29 @@
+==Code============================================ =======
+
+' Form1 code module
+Private Sub Command1_Click()
+
+    ' used to convert inches to twips
+    Const twipsPerInch As Long = 1440
+
+    ' Open form you want to add control to
+    ' in design view and hide it.
+    DoCmd.OpenForm "Form2", acDesign, , , , acHidden
+
+    ' Add new control
+    With CreateControl( _
+             FormName:="Form2", _
+             ControlType:=acTextBox, _
+             Section:=acDetail, _
+             Left:=1 * twipsPerInch, _
+             Top:=1 * twipsPerInch, _
+             Height:=0.25 * twipsPerInch, _
+             Width:=1 * twipsPerInch)
+
+             ' set control properties
+             .Name = "txtTextBox"
+    End With
+
+    ' toggle form to Normal view
+    DoCmd.OpenForm "Form2"
+End Sub
