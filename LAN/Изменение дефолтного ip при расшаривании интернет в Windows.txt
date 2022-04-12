@@ -1,0 +1,6 @@
+Элементарно, запустить редактор реестра regedit перейти в [HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters]
+изменить дефолтные параметры на те, что нравятся
+"ScopeAddress"="192.168.137.1"
+"ScopeAddressBackup"="192.168.137.1"
+Теперь при расшаривании будет выдаваться тот IP, что указали
+
