@@ -1,0 +1,8 @@
+rstEmployees!LastName.Value = strName 
+rstEmployees!LastName = strName 
+rstEmployees![LastName] = strName 
+
+Таблицы, в которых находится объект Recordset , могут не разрешать изменять данные, даже несмотря на то, 
+что набор Recordset имеет тип dynaset или таблицу, которые обычно являются updatable. 
+Проверьте свойство Updatable в Наборе записей , чтобы определить, можно ли изменить его данные. 
+Если свойство true, объект Recordset может быть обновлен.
