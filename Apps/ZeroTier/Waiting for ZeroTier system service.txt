@@ -1,0 +1,3 @@
+Waiting for ZeroTier system service
+
+a permission problem. so what i did was : right click the zerotier folder in ProgramData and select properties in the Security tab, click on advanced and select “enable inheritance”. then i closed the ui and deleted the folder in appdata
