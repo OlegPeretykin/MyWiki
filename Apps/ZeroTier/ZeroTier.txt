@@ -1,0 +1,6 @@
+sudo apt install apt-transport-https ca-certificates
+sudo apt install gpg
+sudo curl -s https://install.zerotier.com | sudo bash
+
+cc7c9baafbd6eafb
+

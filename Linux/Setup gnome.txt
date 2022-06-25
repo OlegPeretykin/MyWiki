@@ -1,0 +1,7 @@
+apt-get install tasksel (exist in deb11)
+tasksel install gnome-desktop --new-install
+
+The root user does not have access to login to the Gnome GUI. Create a login user:
+adduser user
+
+sudo reboot
