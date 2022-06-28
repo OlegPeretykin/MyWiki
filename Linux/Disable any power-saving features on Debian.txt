@@ -1,0 +1,16 @@
+Иногда необходимо вовсе отключить на Debian любые энергосберегающие функции (сон, гибернация, гибридный сон и т.п.), тогда пригодится следующая команда.
+
+
+$ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+Чтобы включить обратно:
+
+$ sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+Если это ноутбук и нужно, чтобы он не засыпал при закрытии крышки, тогда добавить в /etc/systemd/logind.conf:
+
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchDocked=ignore
+Для применения параметров сделаем
+
+$ sudo systemctl restart systemd-logind.service
+
