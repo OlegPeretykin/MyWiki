@@ -2,5 +2,11 @@ sudo apt install apt-transport-https ca-certificates
 sudo apt install gpg
 sudo curl -s https://install.zerotier.com | sudo bash
 
+AlternativeAdm
 cc7c9baafbd6eafb
+
+Maestro
+cc7c9baafb0ada0d
+
+
 
