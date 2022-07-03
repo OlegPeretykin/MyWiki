@@ -1,0 +1,55 @@
+Как установить Docker в Debian
+Руководство по настройке Docker на Debian:
+
+1.
+Обновите пакеты:
+
+sudo apt update
+2.
+Установите пакеты, которые необходимы для работы пакетного менеджера apt по протоколу HTTPS:
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+3.
+Добавьте GPG-ключ репозитория Docker:
+
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+4.
+Добавьте репозиторий Docker:
+
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list  /dev/null
+5.
+Снова обновите пакеты:
+
+sudo apt update
+6.
+Переключитесь в репозиторий Docker, чтобы его установить:
+
+apt-cache policy docker-ce
+7.
+Установите Docker:
+
+sudo apt install docker-ce
+8.
+Проверьте работоспособность программы:
+
+sudo systemctl status docker
+В терминале должна появиться информация о том, что Docker активен:
+
+=982x152
+Docker Debian Install
+
+9.
+Чтобы использовать утилиту docker, нужно добавить ваше имя пользователя в группу Docker. Для этого введите в терминале команду:
+
+sudo usermod -aG docker ${user}
+Где user — имя пользователя.
+
+10.
+Введите:
+
+su - ${user}
+Где user — имя пользователя.
+
+11.
+Когда терминал запросит пароль, введите пароль пользователя.
+Готово, вы установили Docker в Дебиан. Теперь вы можете использовать утилиту.
