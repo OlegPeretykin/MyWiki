@@ -1,0 +1,261 @@
+Руководство по PostgreSQL
+PostgreSQL — это реляционная СУБД с открытым кодом и свободным распространением. База данных Postgre базируется на стандартном языке запросов SQL, а точнее, на его расширении — процедурном языке PL/pgSQL. PostgreSQL работает в системах Unix (FreeBSD и Linux: дистрибутивах Ubuntu, Debian, CentOS) и Windows.
+
+PostgreSQL
+
+В статье мы рассмотрим, как установить PostgreSQL на Ubuntu и выполнить настройку, а также как запустить PostgreSQL-сервер и использовать его с фреймворком Django.
+
+PostgreSQL: установка и настройка на Ubuntu
+Для установки PostgreSQL (install Ubuntu):
+
+1.
+Обновите список пакетов:
+
+sudo apt update
+2.
+Установите пакеты Postgres и contrib:
+
+sudo apt install postgresql postgresql-contrib
+Готово, вы установили PostgreSQL.
+
+Чтобы узнать версию PostgreSQL, введите команду:
+
+postgres -V
+PostgreSQL: как запустить сервер
+Настройка сервера и работа с ним происходит в консоли с помощью утилиты psql. При установке PostgreSQL автоматически создаётся суперпользователь postgres. Чтобы открыть консоль, введите команду:
+
+sudo -u postgres psql
+Где postgres — имя суперпользователя. Ниже мы покажем, как создать другого пользователя.
+
+Работа с PostgreSQL
+После того как произведён запуск PostgreSQL из командной строки Linux, вы можете работать с базами данных. Рассмотрим основные запросы PostgreSQL для начинающих. Обратите внимание, что после каждого запроса должна стоять точка с запятой.
+
+Как создать базу данных:
+CREATE DATABASE имя_БД;
+Как создать пользователя:
+CREATE USER имя_пользователя;
+Как установить пароль для пользователя при создании:
+CREATE USER имя_пользователя WITH LOGIN PASSWORD 'пароль';
+Как создать таблицу:
+CREATE TABLE имя_таблицы (
+ address varchar(80),
+ user_id int,        
+ order real,          
+ date date
+);
+Где:
+
+address, user_id, order, date — имена столбцов,
+
+varchar, int, real, date — типы данных, хранящихся в этих столбцах.
+
+Готово. Конфигурация не настроена для рабочей нагрузки по умолчанию, поэтому в будущем вам потребуется для PostgreSQL настройка производительности.
+
+Облачные серверы нового поколения
+
+Виртуализация KVM, почасовая оплата, резервные копии, готовые шаблоны, 10 доступных ОС на выбор!
+
+Выбрать тариф
+
+Как подключить PostgreSQL к Django
+Django — это фреймворк, который используется для создания приложений на языке программирования Python. По умолчанию в Django используется база данных SQLite. В этом руководстве мы покажем, как создать и настроить PostgreSQL для использования с Django.
+
+По умолчанию в Django используется база данных SQLite. В этом руководстве мы покажем, как создать и настроить в Django PostgreSQL.
+
+1.
+Подключитесь к VPS-серверу по SSH.
+2.
+Поочерёдно выполните команды:
+
+sudo apt update
+sudo apt upgrade
+3.
+Добавьте пакеты веб-сервера Nginx, PostgreSQL, Python — установка начнётся автоматически:
+
+sudo apt install postgresql postgresql-contrib python3-pip python3-dev libpq-dev nginx
+4.
+Подключитесь к PostgreSQL:
+
+sudo postgres psql
+5.
+Создайте базу данных для проекта на Django:
+
+CREATE DATABASE djangoproject;
+Вместо djangoproject укажите имя проекта.
+
+6.
+Создайте пользователя этой базы данных и укажите пароль:
+
+CREATE USER djangouser WITH PASSWORD 'password';
+Где:
+
+djangouser — имя пользователя,
+
+password — пароль.
+
+7.
+Задайте кодировку стандарта UTF-8:
+
+ALTER ROLE djangouser SET client_encoding TO 'utf8';
+8.
+Задайте схему изоляцию транзакции:
+
+ALTER ROLE djangouser SET default_transaction_isolation TO 'read committed';
+9.
+Установите стандарт времени UTC:
+
+ALTER ROLE djangouser SET timezone TO 'UTC';
+10.
+Разрешите пользователю доступ для управления базой данных:
+
+GRANT ALL PRIVILEGES ON DATABASE djangoproject TO djangouser;
+11.
+Закройте консоль PostgreSQL:
+
+\q
+12.
+Обновите pip:
+
+sudo -H pip install --upgrade pip
+13.
+Установите virtualenv:
+
+sudo -H pip install virtualenv
+14.
+Создайте директорию для файлов проекта:
+
+mkdir ~/djangoprojectdirectory
+Вместо djangoproject укажите имя директории для файлов проекта.
+
+15.
+Перейдите в созданную директорию:
+
+cd ~/djangoprojectdirectory
+16.
+Создайте виртуальное окружение:
+
+virtualenv djangoprojectenv
+Вместо djangoprojectenv укажите имя виртуального окружения.
+
+17.
+Активируйте виртуальное окружение:
+
+source djangoprojectenv/bin/activate
+18.
+Установите Django, gunicorn и psycopg:
+
+pip install django gunicorn psycopg2-binary
+19.
+Создайте проект Django:
+
+django-admin startproject djangoproject ~/djangoprojectdirectory
+20.
+Откройте текстовый файл с настройками проекта:
+
+nano ~/djangoprojectdirectory/djangoproject/settings.py
+21.
+Внесите изменения в файл. Найдите следующие строки и поставьте нужные параметры или добавьте строки, если они отсутствуют:
+
+import os
+from pathlib import Path
+ALLOWED_HOSTS = ['123.123.123.123', 'localhost']
+Вместо 123.123.123.123 — IP-адрес вашего сервера. IP-адрес сервера высылается на контактный email при подключении. Также вы можете увидеть его в панели управления услугой «Облачные серверы».
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'djangoproject',
+        'USER': 'djangouser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+Где:
+
+djangoproject — имя директории для файлов проекта,
+
+djangouser — имя пользователя,
+
+password — пароль.
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+22.
+Сохраните и закройте файл. Нажмите сочетание клавиш Ctrl+X, а затем Y.
+23.
+Перейдите в директорию с проектом:
+
+cd ~/djangoprojectdirectory
+24.
+Перенесите исходную схему базы данных в базу данных PostgreSQL:
+
+python manage.py makemigrations
+python manage.py migrate
+25.
+Создайте административного пользователя для проекта:
+
+python manage.py createsuperuser
+26.
+Откройте порт 8000:
+
+sudo ufw allow 8000
+27.
+Протестируйте проект. Запустите сервер Django:
+
+python manage.py runserver 0.0.0.0:8000
+28.
+Откройте любой веб-браузер. Перейдите по IP-адресу с указанием порта 8000:
+
+http://IP-адрес:8000
+Например:
+
+http://123.123.123.123:8000
+Должна появиться стартовая страница Django:
+
+Стартовая страница Django
+
+Готово, PostgreSQL установлена и настроена в качестве базы данных для проекта Django.
+
+Docker PostgreSQL: создание базы данных
+Инструмент Docker позволит применить все возможности данной СУБД в рамках локальной разработки, а также устранить связанные с ней проблемы. Развернуть контейнер с PostgreSQL удобнее всего с помощью файла со структурой yml.
+
+Перед тем как приступить к настройке PostgreSQL, установите и настройте Docker. В этом вам помогут инструкции Как установить Docker на Ubuntu, на Debian или на CentOS. Если приложение уже настроено, следуйте инструкции ниже:
+
+1.
+Установите Docker Compose.
+2.
+Создайте новый проект.
+3.
+Сохраните в файл docker-compose.yml следующий код:
+
+version: '3.1'
+volumes:
+  pg_project: 'project'
+services:
+  pg_db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=stage
+    volumes:
+      - pg_project:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432
+Где вместо:
+
+version: '3.1' — укажите вашу версию,
+pg_project: '*project*' — имя проекта,
+POSTGRES_PASSWORD=*secret* — пароль пользователя,
+POSTGRES_USER=*postgres* — имя пользователя,
+POSTGRES_DB=*stage* — имя базы данных.
+4.
+Затем выполните команду:
+
+docker-compose up -d
+Готово. Чтобы начать работу с базой данных, перейдите по IP-адресу 127.0.0.1:5432. Для подключения к базе данных используйте терминал или программу pgAdmin.
+
+Итак, в этой статье мы дали вводную по работе с PostgreSQL для чайников. С помощью инструкций вы сможете начать работу с Postgre.

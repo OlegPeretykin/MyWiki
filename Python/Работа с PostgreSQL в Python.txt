@@ -1,0 +1,115 @@
+Работа с PostgreSQL в Python
+
+17 Ноя. 2018, Python, How to Work with PostgreSQL in Python
+ 
+PostgreSQL, пожалуй, это самая продвинутая реляционная база данных в мире Open Source Software. По своим функциональным возможностям она не уступает коммерческой БД Oracle и на голову выше собрата MySQL.
+
+Если вы создаёте на Python веб-приложения, то вам не избежать работы с БД. В Python самой популярной библиотекой для работы с PostgreSQL является psycopg2. Эта библиотека написана на Си на основе libpq.
+
+Установка
+Тут всё просто, выполняем команду:
+
+pip install psycopg2
+Для тех, кто не хочет ставить пакет прямо в системный python, советую использовать pyenv для отдельного окружения. В Unix системах установка psycopg2 потребует наличия вспомогательных библиотек (libpq, libssl) и компилятора. Чтобы избежать сборки, используйте готовый билд:
+
+pip install psycopg2-binary
+Но для production среды разработчики библиотеки рекомендуют собирать библиотеку из исходников.
+
+Начало работы
+Для выполнения запроса к базе, необходимо с ней соединиться и получить курсор:
+
+import psycopg2
+conn = psycopg2.connect(dbname='database', user='db_user', 
+                        password='mypassword', host='localhost')
+cursor = conn.cursor()
+Через курсор происходит дальнейшее общение в базой.
+
+cursor.execute('SELECT * FROM airport LIMIT 10')
+records = cursor.fetchall()
+...
+cursor.close()
+conn.close()
+После выполнения запроса, получить результат можно несколькими способами:
+
+cursor.fetchone() — возвращает 1 строку
+cursor.fetchall() — возвращает список всех строк
+cursor.fetchmany(size=5) — возвращает заданное количество строк
+Также курсор является итерируемым объектом, поэтому можно так:
+
+for row in cursor:
+    print(row)
+Хорошей практикой при работе с БД является закрытие курсора и соединения. Чтобы не делать это самому, можно воспользоваться контекстным менеджером:
+
+
+from contextlib import closing
+
+with closing(psycopg2.connect(...)) as conn:
+    with conn.cursor() as cursor:
+        cursor.execute('SELECT * FROM airport LIMIT 5')
+        for row in cursor:
+            print(row)
+По умолчанию результат приходит в виде кортежа. Кортеж неудобен тем, что доступ происходит по индексу (изменить это можно, если использовать NamedTupleCursor). Если хотите работать со словарём, то при вызове .cursor передайте аргумент cursor_factory:
+
+from psycopg2.extras import DictCursor
+with psycopg2.connect(...) as conn:
+    with conn.cursor(cursor_factory=DictCursor) as cursor:
+        ...
+Формирование запросов
+Зачастую в БД выполняются запросы, сформированные динамически. Psycopg2 прекрасно справляется с этой работой, а также берёт на себя ответственность за безопасную обработку строк во избежание атак типа SQL Injection:
+
+cursor.execute('SELECT * FROM airport WHERE city_code = %s', ('ALA', ))
+for row in cursor:
+    print(row)
+Метод execute вторым аргументом принимает коллекцию (кортеж, список и т.д.) или словарь. При формировании запроса необходимо помнить, что:
+
+Плейсхолдеры в строке запроса должны быть %s, даже если тип передаваемого значения отличается от строки, всю работу берёт на себя psycopg2.
+Не нужно обрамлять строки в одинарные кавычки.
+Если в запросе присутствует знак %, то его необходимо писать как %%.
+Именованные аргументы можно писать так:
+
+>>> cursor.execute('SELECT * FROM engine_airport WHERE city_code = %(city_code)s',
+                   {'city_code': 'ALA'})
+...
+Модуль psycopg2.sql
+Начиная с версии 2.7, в psycopg2 появился модуль sql. Его цель — упростить и обезопасить работу при формировании динамических запросов. Например, метод execute курсора не позволяет динамически подставить название таблицы.
+
+>>> cursor.execute('SELECT * FROM %s WHERE city_code = %s', ('airport', 'ALA'))
+psycopg2.ProgrammingError: ОШИБКА:  ошибка синтаксиса (примерное положение: "'airport'")
+LINE 1: SELECT * FROM 'airport' WHERE city_code = 'ALA'
+Это можно обойти, если сформировать запрос без участия psycopg2, но есть высокая вероятность оставить брешь (привет, SQL Injection!). Чтобы обезопасить строку, воспользуйтесь функцией psycopg2.extensions.quote_ident, но и про неё легко забыть.
+
+from psycopg2 import sql
+...
+>>> with conn.cursor() as cursor:
+        columns = ('country_name_ru', 'airport_name_ru', 'city_code')
+        stmt = sql.SQL('SELECT {} FROM {} LIMIT 5').format(
+            sql.SQL(',').join(map(sql.Identifier, columns)),
+            sql.Identifier('airport')
+        )
+        cursor.execute(stmt)
+        for row in cursor:
+            print(row)
+('Французская Полинезия', 'Матайва', 'MVT')
+('Индонезия', 'Матак', 'MWK')
+('Сенегал', 'Матам', 'MAX')
+('Новая Зеландия', 'Матамата', 'MTA')
+('Мексика', 'Матаморос', 'MAM')
+Транзакции
+По умолчанию транзакция создаётся до выполнения первого запроса к БД, и все последующие запросы выполняются в контексте этой транзакции. Завершить транзакцию можно несколькими способами:
+
+закрыв соединение conn.close()
+удалив соединение del conn
+вызвав conn.commit() или conn.rollback()
+Старайтесь избегать длительных транзакций, ни к чему хорошему они не приводят. Для ситуаций, когда атомарные операции не нужны, существует свойство autocommit для connection класса. Когда значение равно True, каждый вызов execute будет моментально отражен на стороне БД (например, запись через INSERT).
+
+with conn.cursor() as cursor:
+    conn.autocommit = True
+    values = [
+        ('ALA', 'Almaty', 'Kazakhstan'),
+        ('TSE', 'Astana', 'Kazakhstan'),
+        ('PDX', 'Portland', 'USA'),
+    ]
+    insert = sql.SQL('INSERT INTO city (code, name, country_name) VALUES {}').format(
+        sql.SQL(',').join(map(sql.Literal, values))
+    )
+    cursor.execute(insert)
