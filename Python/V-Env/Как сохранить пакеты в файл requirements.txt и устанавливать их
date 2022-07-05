@@ -1,0 +1,7 @@
+Как сохранить пакеты в файл requirements.txt
+Pip может экспортировать список всех установленных пакетов и их версий с помощью freeze команды: 
+
+pip freeze > requirements.txt.
+
+Установить пакеты из файла requirements.txt
+pip install -r requirements.txt
