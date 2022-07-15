@@ -1,0 +1,67 @@
+Настройка перенаправлений (Nginx)
+В статье приведены примеры стандартных перенаправлений для веб-сервера Nginx (настройка редиректов для Apache описана в отдельной статье).
+
+Для настройки перенаправлений директивы нужно прописывать в файле конфигурации nginx.conf или, если у вас настроены виртуальные хосты, — в конфигурационном файле соответствующего виртуального хоста. Директиву с редиректом необходимо добавлять в блок server конфигурационного файла.
+
+#Перенаправление на другой домен
+В примере ниже выполняется редирект на www.new-domain.ru:
+
+server { 
+   #...
+      rewrite ^ $scheme://www.new-domain.ru; 
+   #... 
+}
+#Перенаправление c http на https
+server { 
+   #... 
+      if ($scheme = http){ 
+         return 301 https://$server_name$request_uri; 
+} 
+   #... 
+}
+#Перенаправление с https на http
+server { 
+   #... 
+      server_name  
+         example.ru www.example.ru; 
+         return 301 http://$server_name$request_uri; 
+   #... 
+}
+#Перенаправление домена без www на домен с www
+server { 
+   #... 
+      if ($host ~* ^[^.]+\.[^.]+$) { 
+         rewrite ^(.*)$ $scheme://www.$host$1 permanent; 
+} 
+   #... 
+}
+#Перенаправление домена с www на домен без www
+server { 
+   #... 
+      if ($host ~* www\.(.*)){ 
+         set $host_without_www $1; 
+         rewrite ^(.*)$ http://$host_without_www$1 permanent; 
+} 
+   #... 
+}
+#Перенаправление для одной страницы
+server 
+{ 
+   #... 
+      if ( $request_filename ~ example_old.html/ ) { 
+         rewrite ^ example_new.html permanent;
+} 
+   #... 
+}
+#Перенаправление на страницу со слэшем в конце
+server { 
+   #... 
+      rewrite ^(.*[^/])$ $1/ permanent; 
+   #... 
+}
+#Перенаправление на страницу без слэша в конце
+server { 
+   #... 
+      rewrite ^/(.*)/$ /$1 permanent; 
+   #... 
+}
