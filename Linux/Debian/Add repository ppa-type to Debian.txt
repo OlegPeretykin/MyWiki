@@ -1,0 +1,67 @@
+Как добавить ppa репозиторий в Debian
+Cyber-XАвтор: Cyber-X25.09.2019
+Так как Ubuntu это прямой родственник Debian, то есть возможность использовать репозитории Ubuntu в Debian. Ввиду того что в репозиториях Ubuntu программное обеспечение свежее. ну или бывает и так что в Debian нет нужного нам пакета, но он есть в ppa репозиториях для Ubuntu. Но сразу стоит оговориться, что не кто не гарантирует полной совместимости программного обеспечения и корректной работы установленных из ppa репозиториев пакетов в Debian. Да и сами разработчики Debian не рекомендуют подключать ppa репозитории. Но если возникла острая необходимость в данном пакете и он имеется в ppa репозиториях для Ubuntu, то можно и подключить, правда на свой страх и риск. Для того что бы можно было подключать ppa репозитории, нужно создать файл apt-add-repository в папке /usr/sbin. И так, приступим. Создаем файл в консоли:
+
+sudo nano /usr/sbin/apt-add-repository
+Debian ppa rep 1
+Добавляем в него следующий код:
+
+-------------------------------------------
+#!/bin/bash
+if [ $# -eq 1 ]
+NM=`uname -a && date`
+NAME=`echo $NM | md5sum | cut -f1 -d" "`
+then
+	ppa_name=`echo "$1" | cut -d":" -f2 -s`
+	if [ -z "$ppa_name" ]
+	then
+		echo "PPA name not found"
+		echo "Utility to add PPA repositories in your debian machine"
+		echo "$0 ppa:user/ppa-name"
+	else
+		echo "$ppa_name"
+		echo "deb http://ppa.launchpad.net/$ppa_name/ubuntu xenial main" >> /etc/apt/sources.list
+		apt-get update >> /dev/null 2> /tmp/${NAME}_apt_add_key.txt
+		key=`cat /tmp/${NAME}_apt_add_key.txt | cut -d":" -f6 | cut -d" " -f3`
+		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $key
+		рм -pa /tmp/${NAME}_apt_add_key.txt
+	fi
+else
+	echo "Utility to add PPA repositories in your debian machine"
+	echo "$0 ppa:user/ppa-name"
+fi 
+----------------------------------------------
+
+Debian ppa rep 2
+Сохраняем, даем этому файлу права root:
+
+sudo chown root:root /usr/sbin/apt-add-repository
+Debian ppa rep 3
+И делаем его исполняемым:
+
+sudo chmod o+x /usr/sbin/apt-add-repository
+Debian ppa rep 4
+Добавлять ppa репозиторий следующим образом:
+
+sudo apt-add-repository ppa:ppa-name
+А удалять:
+
+sudo apt-add-repository --remove ppa:ppa-name
+Приведу пример с добавлением репозитория редактора кода Brackets. Изначальный вариант выглядит следующим образом:
+
+sudo add-apt-repository ppa:webupd8team/brackets
+Для добавления в Debian нас интересует лишь эта часть:
+
+ppa:webupd8team/brackets
+Конечный вариант выглядит так:
+
+sudo apt-add-repository ppa:webupd8team/brackets
+Debian ppa rep 5
+А что бы удалить ppa репозиторий, то нужно ввести следующую команду:
+
+sudo apt-add-repository --remove
+Например, удалим только что добавленный репозиторий Brackets:
+
+sudo apt-add-repository --remove ppa:webupd8team/brackets
+Debian ppa rep 6
+Как видите, не чего сложного в добавлении ppa репозиториев нет. Но, напомню, что вы делаете это на свой страх и риск.

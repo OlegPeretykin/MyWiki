@@ -1,0 +1,49 @@
+/etc/samba/smb.conf
+
+You need to add the following settings under GLOBAL:
+client min protocol = CORE
+client max protocol = SMB3
+-----------------
+
+Вначале получаем список ресурсов:
+smbclient -L 192.168.1.5
+
+Если кодировка локали koi8-r, то монтируем такой командой
+smbmount "//192.168.1.5/DISK (C)" /mnt/net -o guest,iocharset=koi8-r,codepage=cp866
+
+где 
+DISK (C) - монтируемый ресурс
+/mnt/net - точка монтирования
+Или можно воспользоваться командой mount 
+mount -t smbfs -o username=dude,password=***,iocharset=cp1251,codepage=cp866 //root/exchange /mnt/Data
+
+Опции, которые позволяют обычному пользователю работать с файлами, а не только их читать.
+smbmount "//192.168.1.3/DOWNLOAD" /media/net -o iocharset=koi8-r,codepage=cp866,workgroup=WORKGROUP,rw,fmask=777,dmask=777
+---------------------------------
+
+mount -t cifs //10.1.5.43/documents /mnt/documents -o user=user1,password=pass123
+10.1.5.43	адрес шары
+/mnt/documents	точка монтирования
+user1	пользователь с доступом к шаре
+pass123	пароль пользователя
+Если получаете ошибку примерно такого содержания:
+
+mount: wrong fs type, bad option, bad superblock on //10.1.5.43/documents,
+missing codepage or helper program, or other error
+(for several filesystems (e.g. nfs, cifs) you might
+need a /sbin/mount.<type> helper program)
+
+In some cases useful info is found in syslog - try
+dmesg | tail or so.
+Установите пакет cifs-utils:
+
+Debian/Ubuntu	# apt-get install -y cifs-utils
+Centos/RHEL	# yum install -y cifs-utils
+После этого должно монтироваться нормально, если нет других ошибок.
+
+Чтобы подмонтировать виндовую шару навечно, надо отредактировать fstab:
+
+//10.1.5.43/documents /mnt/documents cifs user,uid=500,rw,suid,username=user1,password=pass123 0 0
+Вот и все, после перезагрузки шара будет автоматически монтироваться.
+
+

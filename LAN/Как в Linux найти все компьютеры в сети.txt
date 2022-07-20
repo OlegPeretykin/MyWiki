@@ -1,0 +1,44 @@
+Вариант 1. NMAP
+
+
+
+Допустим, есть сеть 10.153.0.0/24. Поиск активных хостов возможен через следующую команду NMAP:
+
+
+
+# nmap -sn 10.153.0.0/24
+
+Starting Nmap 5.51 ( http://nmap.org ) at 2017-07-18 09:19 MSK
+Nmap scan report for 10.153.168.1
+Host is up.
+Nmap scan report for 10.153.168.2
+Host is up (0.00047s latency).
+MAC Address: CC:46:D6:17:CA:1C (Unknown)
+Nmap scan report for 10.153.168.3
+Host is up (0.00013s latency).
+MAC Address: 00:E0:4C:A1:EB:D4 (Realtek Semiconductor)
+Nmap done: 65536 IP addresses (547 hosts up) scanned in 357.14 seconds
+
+
+Вариант 2. ARP
+
+Если есть возможность войти на консоль Linux-компьютера, накотором крутится DHCP-сервер, то можно посмотреть кеш активных обращений к нему через программу ARP:
+
+# arp -i eth1
+
+Address                  HWtype  HWaddress           Flags Mask            Iface
+10.106.175.18            ether   08:05:23:53:bf:c0   C                     eth1
+10.106.173.254           ether   cc:5d:41:fb:71:df   C                     eth1
+10.106.168.204           ether   60:e1:29:05:c1:c6   C                     eth1
+
+
+Вариант 3. Скрипт-однострочник
+Можно написать скрипт, который будет пинговать хосты из определенного диапазона, и в случае если ответ от хоста есть, выдавать информацию о нем. Скрипт выглядит так:
+
+$ echo 192.168.1.{1..254}|xargs -n1 -P0 ping -c1|grep "bytes from"
+
+Пример результата:
+
+64 bytes from 192.168.1.101: icmp_req=1 ttl=64 time=0.042 ms
+64 bytes from 192.168.1.1: icmp_req=1 ttl=64 time=37.4 ms
+64 bytes from 192.168.1.102: icmp_req=1 ttl=64 time=208 ms
