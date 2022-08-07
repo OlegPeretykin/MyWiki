@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 5. Программируемость и автоматизация - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch04.html" title="Глава 4. Массивно масштабируемое кэширование содержания"/>
+<link rel="next" href="Ch06.html" title="Глава 6. Аутентификация"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 5. Программируемость и автоматизация';
+PrevRef = 'Ch04.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch06.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 5. Программируемость и автоматизация
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch05.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html">Глава 5. Программируемость и автоматизация</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch05.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#02">API NGINX Plus</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#03">Хранилище ключ- значение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#04">Установка при помощи Puppet</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#05">Установка при помощи Chef</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#06">Установка при помощи Ansible</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#07">Установка при помощи SaltStack</a></span></dt>
+       <dt><span class="chapter"><a href="Ch05.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#08">Автоматизация настроек через шаблоны Consul</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>Программируемостью именуется возможность взаимодействовать с чем- то посредством программирования. API для NGINX Plus 
+   предоставляет именно это: способность общения с настройками и поведением NGINX Plus через интерфейс HTTP. Этот API 
+   предоставляет такую возможность для перенастройки NGINX Plus через добавление или удаление серверов восходящего потока 
+   посредством запросов HTTP. Имеющаяся в NGINX Plus функциональность хранилища ключ- значение делает возможной иной уровень 
+   динамической настройки - вы можете применять вызовы HTTP для встраивания информации, которую NGINX Plus может применять 
+   для маршрутизации или динамического контроля обмена. Данная глава будет изучать сам API NGINX Plus и выставляемый тем же 
+   самым API модуль хранилища ключ- значение.</p>
+   <p>Инструменты управления настройками автоматизируют процесс инсталляции и конфигурации серверов, и они являются бесценными 
+   утилитами в век облачных технологий. Инженерам веб- приложений большого масштаба больше не требуется настраивать серверы 
+   вручную; вместо этого они могут пользоваться одним из множества доступных инструментов настройки. С помощью этих инструментов 
+   инженеры могут написать один раз настройки и код для производства множества серверов с одной и той же конфигурацией неким 
+   повторяемым, проверяемым и модульным образом. Эта глава рассматривает несколько доступных наиболее популярных инструментов 
+   управления настройкой и как их применять для установки NGINX и шаблон некой базовой настройки. Эти примеры являются 
+   чрезвычайно базовыми, но показывают как получать запускаемым сервер NGINX для каждой из платформ.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>API NGINX Plus</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>У вас имеется некая динамичная среда и вам требуется перенастроить NGINX Plus на лету.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Настройте имеющийся API NGINX Plus для разрешения добавления или удаления серверов через вызовы API:</p>
+	   <pre class="screen"><code>
+upstream backend {
+    zone http_backend 64k;
+}
+server {
+    # ...
+    location /api {
+        api [write=on];
+        # Directives limiting access to the API
+        # See chapter 7
+    }
+
+    location = /dashboard.html {
+        root /usr/share/nginx/html;
+    }
+}
+ 	   </code></pre>
+   <p>Эта настройка NGINX Plus создаёт некий сервер восходящего потока с некой совместно применяемой зоной памяти, включает 
+   имеющийся API в своём блоке location <span class="term"><code>/api</code></span> и предоставляет некое местоположение 
+   для инструментальной панели NGINX Plus.</p>
+   <p>Вы можете применять этот API для добавления серверов когда они вступают в действие:</p>
+		<pre class="screen"><code><strong>
+$ curl -X POST -d '{"server":"172.17.0.3"}' \
+  'http://nginx.local/api/3/http/upstreams/backend/servers/'
+
+{
+  "id":0,
+  "server":"172.17.0.3:80",
+  "weight":1,
+  "max_conns":0,
+  "max_fails":1,
+  "fail_timeout":"10s",
+  "slow_start":"0s",
+  "route":"",
+  "backup":false,
+  "down":false
+}
+		</strong></code></pre>
+   <p>Этот вызов <span class="term"><code>curl</code></span> в данном примере выполняет некий запрос к NGINX Plus для 
+   добавления какого- то нового сервера в имеющуюся конфигурацию основы восходящего потока. Методом HTTP является POST, 
+   а в качестве его тела передаётся какой- то объект JSON. Сам API NGINX Plus является RESTful; по этой причине в типичной 
+   запросе URI имеются параметры. Формат такого URI следующий:</p>
+	   <pre class="screen"><code>
+/api/{version}/http/upstreams/{httpUpstreamName}/servers/
+ 	   </code></pre>
+   <p>Для вывода списка имеющихся серверов в нашем пуле восходящих примеров вы можете воспользоваться API NGINX Plus:</p>
+		<pre class="screen"><code><strong>
+$ curl 'http://nginx.local/api/3/http/upstreams/backend/servers/'
+[
+  {
+    "id":0,
+    "server":"172.17.0.3:80",
+    "weight":1,
+    "max_conns":0,
+    "max_fails":1,
+    "fail_timeout":"10s",
+    "slow_start":"0s",
+    "route":"",
+    "backup":false,
+    "down":false
+  }
+]
+		</strong></code></pre>
+   <p>Данный вызов <span class="term"><code>curl</code></span> в этом примере выполняет некий запрос к NGINX Plus для 
+   перечисления всех имеющихся серверов в пуле восходящего потока с названием backend. В настоящее время у нас есть 
+   только один сервер, который мы добавили в предыдущем вызове к API от <span class="term"><code>curl</code></span>. 
+   Этот запрос возвратит  некий объект сервера восходящего потока, который содержит все имеющиеся настроенными параметры 
+   для сервера.</p>
+   <p>Для высушивания подключений от некого сервера восходящего потока применяйте API NGINX Plus, готовя их для аккуратного 
+   удаления из общего пула восходящего потока. Подробности относительно осушения соединения вы можете обнаружить в рецепте
+   <a class="link" href="Ch02.html#09" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#09" target="_top">Осушение соединения</a>:</p>
+		<pre class="screen"><code><strong>
+$ curl -X PATCH -d '{"drain":true}' \
+  'http://nginx.local/api/3/http/upstreams/backend/servers/0'
+{
+  "id":0,
+  "server":"172.17.0.3:80",
+  "weight":1,
+  "max_conns":0,
+  "max_fails":1,
+  "fail_timeout":"10s",
+  "slow_start":"0s",
+  "route":"",
+  "backup":false,
+  "down":false,
+  "drain":true
+}
+		</strong></code></pre>
+   <p>В этом вызове <span class="term"><code>curl</code></span> мы определяем что методом данного запроса является 
+   <p>Данный вызов <span class="term"><code>PATCH</code></span>, мы передаём некое тело JSON, указывающее как выполнять 
+   осушение подключение для данного сервера и задаём значение идентификатора сервера добавляя его в конец своего URI. 
+   Мы выясняли значение идентификатора для этого сервера перечисляя все серверы в своём пуле восходящего потока в 
+   предыдущей команде <span class="term"><code>curl</code></span>.</p>
+   <p>NGINX Plus начнёт осушение указанных подключений. Это процесс может занять столько времени, сколько будут длиться 
+   сеансы данного приложения. Для проверки значения числа активных обслуживаемых конкретным сервером подключений, который 
+   нам придётся начинать осушать, воспользуйтесь следующим вызовом и отыскиваете значение атрибута 
+   <span class="term"><code>active</code></span> подлежащего осушению сервера.</p>
+		<pre class="screen"><code><strong>
+$ curl 'http://nginx.local/api/3/http/upstreams/backend'
+{
+  "zone" : "http_backend",
+  "keepalive" : 0,
+  "peers" : [
+    {
+      "backup" : false,
+      "id" : 0,
+      "unavail" : 0,
+      "name" : "172.17.0.3",
+      "requests" : 0,
+      "received" : 0,
+      "state" : "draining",
+      "server" : "172.17.0.3:80",
+      "active" : 0,
+      "weight" : 1,
+      "fails" : 0,
+      "sent" : 0,
+      "responses" : {
+      "4xx" : 0,
+      "total" : 0,
+      "3xx" : 0,
+      "5xx" : 0,
+      "2xx" : 0,
+      "1xx" : 0
+    },
+    "health_checks" : {
+      "checks" : 0,
+      "unhealthy" : 0,
+      "fails" : 0
+    },
+    "downtime" : 0
+  }
+  ],
+  "zombies" : 0
+}
+		</strong></code></pre>
+   <p>После осушения всех подключений воспользуйтесь соответствующим API NGINX Plus для удаления этого сервера из имеющегося 
+   пула восходящего потока целиком:</p>
+		<pre class="screen"><code><strong>
+$ curl -X DELETE \
+  'http://nginx.local/api/3/http/upstreams/backend/servers/0'
+[]
+		</strong></code></pre>
+   <p>Эта команда <span class="term"><code>curl</code></span> делает некий запрос метод <span class="term"><code>DELETE</code></span> 
+   в том же самом методе URI, который мы применяли для обновления значения состояния серверов. Этот метод 
+   <span class="term"><code>DELETE</code></span> инструктирует NGINX удалить данный сервер. Этот вызов API возвращает все те 
+   серверы и значения их идентификаторов, которые всё ещё остаются в нашем пуле. По той причине что мы начинали с некого 
+   пустого пула, добавили через свой API только один сервер, осушили его, а затем удалили его, теперь у нас вновь имеется 
+   пустой пул.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Имеющийся исключительно в NGINX Plus API делает возможным для динамических приложений серверов их собственное добавление 
+   и удаление в установленной конфигурации NGINX на лету. По мере того как серверы вступают в строй, они могут регистрировать 
+   себя в имеющемся пуле, а NGINX начнёт отправлять его для нагрузки. Когда требуется удалить некий сервер, этот сервер может 
+   запросить у NGINX Plus осушение себя в имеющемся пуле восходящего потока перед его остановом. Это делает возможной для 
+   такой инфраструктуры, посредством какой- никакой автоматизации уменьшать и увеличивать её масштаб без вмешательства 
+   персонала.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://demo.nginx.com/swagger-ui/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://demo.nginx.com/swagger-ui/%27" tppabs="https://demo.nginx.com/swagger-ui/" target="_top">NGINX Plus API Swagger Documentation</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Хранилище ключ- значение</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется заставить NGINX Plus принимать динамичные решения по управлению обменом на основе некого ввода от 
+   приложений.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Установите осведомлённое о кластере хранилище ключ- значение и API, а затем добавляйте ключи и значения:</p>
+	   <pre class="screen"><code>
+keyval_zone zone=blacklist:1M;
+keyval $remote_addr $num_failures zone=blacklist;
+
+server {
+    # ...
+        location / {
+        if ($num_failures) {
+            return 403 'Forbidden';
+        }
+        return 200 'OK';
+    }
+}
+server {
+    # ...
+    # Directives limiting access to the API
+    # See chapter 6
+    location /api {
+        api write=on;
+    }
+}
+ 	   </code></pre>
+   <p>Данная конфигурация NGINX Plus применяет каталог <span class="term"><code>keyval_zone</code></span> для сборки 
+   некой разделяемой зоны  памяти с названием <span class="term"><code>blacklist</code></span> и устанавливает предел 
+   памяти в 1 МБ. Затем соответствующая директива <span class="term"><code>keyval</code></span> устанавливает соответствие 
+   значения тому ключу, который сопоставлен идущему первым параметру <span class="term"><code>$remote_addr</code></span> 
+   для переменной с названием <span class="term"><code>$num_failures</code></span> из этой зоны. Эта новая переменная затем 
+   применяется для определения того должен ли NGINX Plus обслуживать этэт запрос или возвращать код 403 Forbidden.</p>
+   <p>После запуска этого сервера NGINX Plus с обсуждённой настройкой, вы можете <span class="term"><code>curl</code></span> 
+   эту локальную машину и ожидать получение отклика 200 OK.</p>
+		<pre class="screen"><code><strong>
+$ curl 'http://127.0.0.1/'
+OK
+		</strong></code></pre>
+   <p>Теперь добавьте значение IP локальной машины в полученное хранилище ключ- значение со значением 
+   <span class="term"><code>1</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ curl -X POST -d '{"127.0.0.1":"1"}' \
+  'http://127.0.0.1/api/3/http/keyvals/blacklist'
+		</strong></code></pre>
+   <p>Эта команда <span class="term"><code>curl</code></span> представляет некий запрос POST HTTP с каким- то содержащим 
+   объект ключ- значение объектом для его включения в зону совместной памяти blacklist. URI API данного хранилища 
+   ключ- значение имеет следующий формат:</p>
+	   <pre class="screen"><code>
+/api/{version}/http/keyvals/{httpKeyvalZoneName}
+ 	   </code></pre>
+   <p>Теперь в нашу зону ключ- значение с названием <span class="term"><code>blacklist</code></span> добавлен IP 
+   адрес локальной машины со значением <span class="term"><code>1</code></span>. В своём следующем запросе NGINX Plus 
+   отыскивает в своей зоне переменную <span class="term"><code>$remote_addr</code></span>, находит значение этой записи и
+   устанавливает соответствие полученного значения величине переменной <span class="term"><code>$num_failures</code></span>. 
+   Эта переменная затем вычисляется в необходимом операторе <span class="term"><code>if</code></span>. Когда данная 
+   переменная имеет некое значение, которое <span class="term"><code>if</code></span> вычисляет его как 
+   <span class="term"><code>True</code></span>, а NGINX Plus выдаёт код возврата 403 Forbidden:</p>
+		<pre class="screen"><code><strong>
+$ curl 'http://127.0.0.1/'
+Forbidden
+		</strong></code></pre>
+   <p>Вы можете обновлять или удалять этот ключ выполняя запрос метода <span class="term"><code>PATCH</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ curl -X PATCH -d '{"127.0.0.1":null}' \
+'http://127.0.0.1/api/3/http/keyvals/blacklist'
+		</strong></code></pre>
+   <p>NGINX Plus удаляет имеющийся ключ если значением установлен <span class="term"><code>null</code></span>, а запросы 
+   снова будут возвращать 200 OK.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Некая имеющаяся только в NGINX Plus функциональность ключ- значение позволяет приложениям вставлять информацию в NGINX Plus .
+   В данном предоставленном примере для создания какого- то динамичного чёрного списка используется наша переменная 
+   <span class="term"><code>$remote_addr</code></span>. Вы имеете возможность напонять своё хранилище ключ- значение любыми 
+   имеющимися в NGINX Plus в виде переменных ключами - куки сеанса, к примеру - и снабжать в NGINX Plus неким внешним 
+   значением. В в NGINX Plus  R16, имеющееся хранилище ключ- значение становится осведомлённым о сервере, что означает что 
+   вам приходится предоставлять своё обновление ключ- значение только одному серверу в NGINX Plus и все прочие получат эту 
+   информацию.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2qYPFII  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2qYPFII%27" tppabs="http://bit.ly/2qYPFII" target="_top">Dynamic Bandwidth Limits</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Установка при помощи Puppet</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить и настроить NGINX при помощи Puppet для управления конфигурациями NGINX в виде кода и 
+   согласования с остальной частью ваших настроек Puppet.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Создайте некий устанавливающий NGINX модуль, управляющий теми файлами которые вам требуются и обеспечивающим запуск 
+   NGINX:</p>
+	   <pre class="screen"><code>
+class nginx {
+    package {"nginx": ensure =&gt; 'installed',}
+    service {"nginx":
+        ensure =&gt; 'true',
+        hasrestart =&gt; 'true',
+        restart =&gt; '/etc/init.d/nginx reload',
+    }
+    file { "nginx.conf":
+        path =&gt; '/etc/nginx/nginx.conf',
+        require =&gt; Package['nginx'],
+        notify =&gt; Service['nginx'],
+        content =&gt; template('nginx/templates/nginx.conf.erb'),
+        user=&gt;'root',
+        group=&gt;'root',
+        mode='0644';
+    }
+}
+ 	   </code></pre>
+   <p>Для обеспечения установки пакета NGINX этот модуль применяет утилиту управления пакетом. Это также гарантирует запуск 
+   и включение NGINX во время загрузки. Данная конфигурация информирует Puppet что данная команда имеет некую команду 
+   перезапуска с соответствующей директивой <span class="term"><code>hasrestart</code></span> и мы можем переопределить 
+   имеющуюся команду <span class="term"><code>restart</code></span> с перезагрузкой NGINX. Это файл ресурса будет управлять 
+   и выполнять шаблон имеющегося файла <span class="term"><code><em>nginx.conf</em></code></span> с применением языка 
+   шаблонов ERB (Embedded Ruby). Построение шаблона данного файла происходит после установки самого пакета NGINX благодаря 
+   директиве <span class="term"><code>require</code></span>. Тем не менее, данный файл ресурса будет уведомлять службу NGINX 
+   о необходимости перезагрузки благодаря директиве <span class="term"><code>notify</code></span>. Сам файл шаблона не 
+   включён. Однако это может быть просто установка некого устанавливаемого по умолчанию файла настроек NGINX или очень сложный 
+   файл когда применяются циклы языка шаблонов ERB или EPP, либо подстановка переменной.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Puppet является инструментом управления настройками на основе языка программирования Ruby. Модули собираются на основе 
+   специфичного для области языка и вызываются через файл манифеста, который определяет необходимую конфигурацию для какого- то
+   заданного сервера. Puppet может исполняться в конфигурациях хозяин- подчинённый или без хозяина. С применением Puppet 
+   определённый манифест запускается в имеющемся хозяине и затем отправляется его подчинённому. Это важно, так как 
+   обеспечивает что такой подчинённый получает только предназначенную для него конфигурацию никакие прочие предназначенные 
+   для прочих серверов конфигурации. Имеется великое множество доступных для Puppet чрезвычайно развитых общедоступных 
+   модулей. Начало с таких модулей поможет вам вам дать прикурить вашим настройкам. Общедоступный модуль NGINX от 
+   voxpupuli в GitHub послужит вам шаблоном настроек NGINX.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://docs.puppet.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://docs.puppet.com/%27" tppabs="https://docs.puppet.com/" target="_top">Puppet Documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jfgpm4  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jfgpm4%27" tppabs="http://bit.ly/2jfgpm4" target="_top">Puppet Package Documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jMq2cx  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jMq2cx%27" tppabs="http://bit.ly/2jMq2cx" target="_top">Puppet Service Documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jMz4q3  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jMz4q3%27" tppabs="http://bit.ly/2jMz4q3" target="_top">Puppet File Documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2isqAlP  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2isqAlP%27" tppabs="http://bit.ly/2isqAlP" target="_top">Puppet Templating Documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jMspMn  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jMspMn%27" tppabs="http://bit.ly/2jMspMn" target="_top">Voxpupuli NGINX Module</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Установка при помощи Chef</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить и настроить NGINX при помощи Chef для управления конфигурациями NGINX в виде кода и 
+   согласования с остальной частью ваших настроек Chef.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Создайте некий кукбук с каким- то рецептом установки NGINX и настройки файлов конфигурации через шаблоны и обеспечьте 
+   перезагрузки NGINX после того как эта настройка помещена на своё место. Ниже приводится пример такого рецепта:</p>
+	   <pre class="screen"><code>
+package 'nginx' do
+  action :install
+end
+
+service 'nginx' do
+  supports :status =&gt; true, :restart =&gt; true, :reload =&gt; true
+  action   [ :start, :enable ]
+end
+
+template 'nginx.conf' do
+  path   "/etc/nginx.conf"
+  source "nginx.conf.erb"
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  notifies :reload, 'service[nginx]', :delayed
+end
+ 	   </code></pre>
+   <p>Первый блок <span class="term"><code>package</code></span> устанавливает NGINX. Следующий блок 
+   <span class="term"><code>service</code></span> обеспечивает что NGINX запущен и включён при загрузке, затем объявляет 
+   всему остальному Chef, что данная служба <span class="term"><code>nginx</code></span> будет поддерживаться для действий. 
+   Последний блок <span class="term"><code>template</code></span> устанавливает шаблон некого файла ERB и помещает его в 
+   <span class="term"><code><em>/etc/nginx.conf</em></code></span> с root в качестве владельца и группы. Данный блок 
+   <span class="term"><code>template</code></span> также настраивает значение <span class="term"><code>mode</code></span> 
+   в <span class="term"><code>644</code></span> и уведомляет саму службу <span class="term"><code>nginx</code></span> о 
+   необходимости <span class="term"><code>reload</code></span>, однако ожидает пока не будет достигнут конец исполнения данного 
+   Chef, определяемого оператором <span class="term"><code>:delayed</code></span>. Сам шаблон файла настроек не включён. 
+   Тем не менее, он  может быть таким же простым как установленный по умолчанию файл настроек NGINX либо очень сложным 
+   циклами языка шаблонов ERB и подстановкой переменных.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Chef является инструментом управления настройками на основе Ruby. Chef может исполняться в конфигурациях хозяин- 
+   подчинённый или без партнёров (solo), также именуемого как Chef Zero. Chef имеет очень большое сообщество с большим 
+   числом кубуков с названием Supermarket. Общедоступные кукбуки Supermarket может быть установлен и далее управляться 
+   через утилиту командной строки с названием Berkshelf. Chef чрезвычайно развит, а то что мы показали всего лишь небольшой 
+   пример. Имеющиеся в Supermarket кукбуки NGINX чрезвычайно гибкая и предоставляет возможности лёгкой установки NGINX 
+   из диспетчера пакетов или из исходного кода, а также общую возможность компилировать и устанавливать множество 
+   различных модулей и создавать шаблоны из имеющихся базовых конфигураций.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://docs.chef.io/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://docs.chef.io/%27" tppabs="https://docs.chef.io/" target="_top">Chef documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://docs.chef.io/resource_package.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://docs.chef.io/resource_package.html%27" tppabs="https://docs.chef.io/resource_package.html" target="_top">Chef Package</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://docs.chef.io/resource_service.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://docs.chef.io/resource_service.html%27" tppabs="https://docs.chef.io/resource_service.html" target="_top">Chef Service</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://docs.chef.io/resource_template.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://docs.chef.io/resource_template.html%27" tppabs="https://docs.chef.io/resource_template.html" target="_top">Chef Template</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://supermarket.chef.io/cookbooks/nginx  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://supermarket.chef.io/cookbooks/nginx%27" tppabs="https://supermarket.chef.io/cookbooks/nginx" target="_top">Chef Supermarket for NGINX</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Установка при помощи Ansible</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить и настроить NGINX при помощи Ansible для управления конфигурациями NGINX в виде кода и 
+   согласования с остальной частью ваших настроек Ansible.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Создайте некий плейбук Ansible для установки NGINX и управления имеющимся файлом <span class="term"><code><em>nginx.conf</em></code></span>.
+   Ниже приводится некий пример файла задач для того плейбука, который устанавливает NGINX. проверьте что он работает и 
+   создаёт шаблон необходимого файла конфигурации:</p>
+	   <pre class="screen"><code>
+- name: NGINX | Installing NGINX
+  package: name=nginx state=present
+
+- name: NGINX | Starting NGINX
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy nginx configuration in place.
+  template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/nginx.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload nginx
+ 	   </code></pre>
+   <p>Первый блок <span class="term"><code>package</code></span> устанавливает NGINX. Следующий блок 
+   <span class="term"><code>service</code></span> обеспечивает запуск и разрешение NGINX при загрузке. Последний блок 
+   <span class="term"><code>template</code></span> устанавливает некий файл шаблона <span class="term"><code><em>Jinja2</em></code></span> 
+   и размещает получаемый результат в <span class="term"><code><em>/etc/nginx.conf</em></code></span> с root в качестве владельца 
+   и группы. Данный блок <span class="term"><code>template</code></span> также устанавливает значение <span class="term"><code>mode</code></span>
+   в <span class="term"><code>644</code></span> и уведомляет <span class="term"><code>nginx</code></span> о необходимости 
+   <span class="term"><code>reload</code></span>. Шаблонный файл настроек не включён. Тем не менее, он может настолько же простым 
+   как некий устанавливаемый по умолчанию файл настроек NGINX,так и очень сложным с циклами и подстановкой переменных языка 
+   шаблонов <span class="term"><code>Jinja2</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Ansible является широко распространённым и мощным инструментом управления настройками на основе Python. Все задачи 
+   настройки представляются в YAML, а также для файлов шаблонов вы применяете язык шаблонов Jinja2. Ansible предоставляет 
+   некого хозяина с названием Ansible Tower в модели с подпиской. Тем не менее, широко распространено пр использовании в 
+   локальных машинах или для построения серверов напрямую применять клиента или модель без хозяина. Ansible отправляет пакеты SSH 
+   в свои серверы и запускает эти конфигурации. Во многом также как и для прочих инструментов настройки конфигураций, 
+   существует большое сообщество общедоступных ролей. Ansible именует его Ansible Galaxy. Вы можете отыскать очень 
+   искушённые роли для использования в своих плейбуках.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://docs.ansible.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://docs.ansible.com/%27" tppabs="http://docs.ansible.com/" target="_top">Ansible documentation</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jfiwGv  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jfiwGv%27" tppabs="http://bit.ly/2jfiwGv" target="_top">Ansible Package</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jMGF7E  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jMGF7E%27" tppabs="http://bit.ly/2jMGF7E" target="_top">Ansible Service</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2j8j526  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2j8j526%27" tppabs="http://bit.ly/2j8j526" target="_top">Ansible Template</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://galaxy.ansible.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://galaxy.ansible.com/%27" tppabs="http://galaxy.ansible.com/" target="_top">Ansible Galaxy</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/MasteringAnsible.3ed/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/MasteringAnsible.3ed/content/index.html%27" tppabs="http://onreader.mdl.ru/MasteringAnsible.3ed/content/index.html" target="_top">Полное руководство Ansible</a>, 
+   3 изд.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Установка при помощи SaltStack</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить и настроить NGINX при помощи SaltStack для управления конфигурациями NGINX в виде кода и 
+   согласования с остальной частью ваших настроек SaltStack.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Установите NGINX посредством своего модуля управления пакетами и управляйте по своему желанию необходимыми файлами 
+   настройки. Ниже приводится образец файла состояния (<span class="term"><code><em>sls</em></code></span>), который 
+   установит требуемый пакет <span class="term"><code>nginx</code></span> и обеспечит запуск его службы, причём разрешаемую 
+   при загрузке, а также перезагружающий её в случае внесения изменений в имеющемся файле настроек:</p>
+	   <pre class="screen"><code>
+nginx:
+  pkg:
+    - installed
+  service:
+    - name: nginx
+    - running
+    - enable: True
+    - reload: True
+    - watch:
+      - file: /etc/nginx/nginx.conf
+
+/etc/nginx/nginx.conf:
+  file:
+    - managed
+    - source: salt://path/to/nginx.conf
+    - user: root
+    - group: root
+    - template: jinja
+    - mode: 644
+    - require:
+      - pkg: nginx
+ 	   </code></pre>
+   <p>Это некий базовый пример установки NGINX через утилиту упралвения пакетами и управления имеющимся файлом 
+   <span class="term"><code><em>nginx.conf</em></code></span>. Устанавливается сам пакет NGINX, а его служба запускается и 
+   разрешается при загрузке. С помощью SaltStack вы можете определить некий управляемый Salt файл, который показан в данном 
+   примере и шаблоны на множестве различных языков шаблонов. Файл шаблонных настроек не представлен. Тем не менее,
+   он может быть настолько же простым как и файл настроек NGINX по умолчанию, так и чрезвычайно сложным с циклами и подстановкой 
+   переменных языка шаблонов Jinja2. Данная конфигурация также определяет, что NGINX следует установить до управления данным 
+   файлом благодаря имеющемуся оператору <span class="term"><code>require</code></span>. После помещения данного файла на 
+   его место, NGINX перезагружается благодаря установленной в его службе директиве <span class="term"><code>watch</code></span> 
+   и перезагружается, а не перезапускается, так как значение директивы <span class="term"><code>reload</code></span> 
+   установлено в <span class="term"><code>True</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>SaltStack является мощным инструментом управления настройками, который задаёт состояния сервера в YAML. Модули для 
+   SaltStack могут быть написаны на Python. Salt выставляет для состояний, как и для файлов, язык шаблонов Jinja2. Тем не 
+   менее, для файлов также имеется множество прочих вариантов, как то: Mako, Python сам по себе и ряд иных. Salt работает 
+   как в конфигурации хозяин- подчинённый, так и без хозяина. Подчинённые именуются миньонами (minions, фаворитами). 
+   Транспорт взаимодействия хозяин- подчинённый, однако, отличается от прочих, выставляя SaltStack особняком. Для передачи 
+   в имеющийся агент Salt у вас имеется возможность выбора из ZeroMQ, TCP или Reliable Asynchronous Event Transport (RAET); 
+   либо вы можете не применять агента, а вместо этого мастер может осуществлять SSH. Благодаря тому что имеющийся 
+   транспортный уровень по умолчанию является асинхронным, SaltStack построен быть способным доставлять свои сообщения 
+   большому числу миньонов при низкой нагрузке на сам сервер хозяина.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://docs.saltstack.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://docs.saltstack.com/%27" tppabs="https://docs.saltstack.com/" target="_top">SaltStack</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jfxTyx  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jfxTyx%27" tppabs="http://bit.ly/2jfxTyx" target="_top">Installed Packages</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2ist5EN  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2ist5EN%27" tppabs="http://bit.ly/2ist5EN" target="_top">Managed Files</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jrQfcM  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jrQfcM%27" tppabs="http://bit.ly/2jrQfcM" target="_top">Templating with Jinja</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="08"> </a>Автоматизация настроек через шаблоны Consul</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется автоматизировать свою настройку NGINX для отклика на изменения в вашей среде посредством применения 
+   Consul.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь демоном <span class="term"><code>consul-template</code></span> и неким файлом шаблона для построения по 
+   вашему выбору шаблона необходимого файла конфигурации NGINX:</p>
+	   <pre class="screen"><code>
+upstream backend { {{range service "app.backend"}}
+    server {{.Address}};{{end}}
+}
+ 	   </code></pre>
+   <p>Этот пример является неким файлом Consul Template, который представляет шаблон восходящего блока настроек. Этот 
+   шаблон обойдёт в цикле все узлы в Cinsul с идентификатором <span class="term"><code>app.backend</code></span>. Для 
+   каждого узла в Consul этот шаблон произведёт некую директиву <span class="term"><code>server</code></span> с IP адресом 
+   этого узла.</p>
+   <p>Имеющийся демон <span class="term"><code>consul-template</code></span> запускается из командной строки и может 
+   применяться для перезагрузки NGINX при каждом изменении установленного шаблона файла настройки:</p>
+	   <pre class="screen"><code>
+# consul-template -consul consul.example.internal -template \
+ template:/etc/nginx/conf.d/upstream.conf:"nginx -s reload"
+ 	   </code></pre>
+   <p>Данная команда инструктирует демон <span class="term"><code>consul-template</code></span> подключиться к некому 
+   кластеру Consul в <span class="term"><code>consul.example.internal</code></span> и применять файл с названием 
+   <span class="term"><code><em>template</em></code></span> в текущем рабочем каталоге для выработки необходимого файла 
+   шаблона и вывода его сгенерированного содержимого в <span class="term"><code><em>/etc/nginx/conf.d/upstream.conf</em></code></span> 
+   с последующей перезагрузкой NGINX при каждом изменении данного файла шаблона. Значение флага 
+   <span class="term"><code>-template</code></span> принимает некую строку названия файла шаблона, значение местоположения вывода 
+   и ту команду, которую запускать после наличия процесса выработки шаблона; эти три переменные разделяются двоеточием. 
+   В случае наличия пробелов в подлежащей исполнению строке убедитесь что она заключена в двойные кавычки. Значение флага 
+   <span class="term"><code>-consul</code></span> сообщает данному демону к какому кластеру Consul ему следует подключаться.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Consul является мощным инструментом обнаружения служб и хранения конфигураций. Consul хранит информацию об узлах, а также пары 
+   ключ- значение в некой структуре наподобие каталога и допускает API взаимодействия restful. Consul также предоставляет 
+   каждому клиенту взаимодействие DNS, которое позволяет выполнять поиск названия домена подключённых к данному кластеру 
+   узлов. Неким обособленным проектом который применяет кластеры Consul является демон <span class="term"><code>consul-template</code></span>; 
+   этот инструмент вырабатывает шаблоны файлов в ответ на изменения в узлах, службах или парах ключ- значение Consul. Это 
+   превращает Consul в очень мощную альтернативу для автоматизации NGINX. При помощи <span class="term"><code>consul-template</code></span> 
+   вы имеете возможность инструктировать запущенный демон выполнять некую команду после того как имеет место некое изменение 
+   в отслеживаемом шаблоне. При помощи этого мы можем перезагружать установленную конфигурацию NGINX, что позволяет вашей 
+   настройке NGINX вступать в действие по всей вашей среде. Применяя Consul вы способны настраивать проверки жизнеспособности 
+   каждого клиента для выяснения степени живучести предназначенной ему службы. Применяя такое выявление отказов вы способны 
+   снабжать шаблонами свои конфигурации NGINX надлежащим образом отправляя обмен только в жизнеспособные хосты.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://www.consul.io/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://www.consul.io/%27" tppabs="https://www.consul.io/" target="_top">Consul Home Page</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2iosmkV  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2iosmkV%27" tppabs="http://bit.ly/2iosmkV" target="_top">Introduction to Consul Template</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://github.com/hashicorp/consul-template  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://github.com/hashicorp/consul-template%27" tppabs="http://github.com/hashicorp/consul-template" target="_top">Consul Template GitHub</a></p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

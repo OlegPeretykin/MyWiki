@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 12. Режимы развёртывания высокой доступности - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch11.html" title="Глава 11. Контейнеры/ Микрослужбы"/>
+<link rel="next" href="Ch13.html" title="Глава 13. Современный активный мониторинг"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 12. Режимы развёртывания высокой доступности';
+PrevRef = 'Ch11.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch13.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch13.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 12. Режимы развёртывания высокой доступности
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch12.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html">Глава 12. Режимы развёртывания высокой доступности</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch12.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch12.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#02">Режим HA NGINX</a></span></dt>
+       <dt><span class="chapter"><a href="Ch12.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#03">Балансировка нагрузки балансировщиками с помощью DNS</a></span></dt>
+       <dt><span class="chapter"><a href="Ch12.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#04">Балансировка нагрузки в EC2</a></span></dt>
+       <dt><span class="chapter"><a href="Ch12.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#05">Настройка синхронизации</a></span></dt>
+       <dt><span class="chapter"><a href="Ch12.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#06">Совместное использование состояния при помощи Zone Sync</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>Архитектура с восстановлением после отказа разделяет системы на идентичные, независимые стеки. Подобные NGINX 
+   балансировщики нагрузки применяются для распределения нагрузки, гарантирую применение того что предоставлено. Самой 
+   сердцевиной понятия высокой доступности является балансировка по множеству активных узлов или некая отработка отказа активный- 
+   пассивный. Приложения с высокой доступностью не имеют единых точек отказа; все компоненты обязаны применять одну из 
+   указанных концепций, включая и сам балансировщик нагрузки. Для нас это означает NGINX. NGINX разработан для работы в 
+   одной из настроек: множество активных или отработки отказа активный- пассивный. Данная глава подробно описывает технологию 
+   того как запускать множество серверов NGINX для обеспечения высокой доступности на уровне вашей балансировки нагрузки.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Режим HA NGINX</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется решение балансировки нагрузки с высокой доступностью.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь режимом высокой доступности (HA, highly available) NGINX Plus с поддержкой активности устанавливая 
+   пакет <span class="term"><code>nginx-ha-keepalived</code></span> из репозитория NGINX Plus.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Предлагаемый пакет пакет <span class="term"><code>nginx-ha-keepalived</code></span> основывается на поддержке 
+   активности и управляет неким виртуальным адресом IP, выставляемым его клиенту. На самом сервере NGINX запущен другой 
+   процесс, который предоставляет гарантию работы этого NGINX Plus и самого процесса поддержки активности. Процессом 
+   поддержки активности является процесс, который применяет протокол VRRP (Virtual Router Redundancy Protocol), часто 
+   отправляя небольшие сообщения, именуемые сердцебиениями, в соответствующий сервер основы. Если такой сервер не получает 
+   такое сердцебиение на протяжении трёх последовательных периодов, такой сервер основы инициирует свою отработку отказа, 
+   перемещая имеющийся виртуальный адрес IP себе и превращаясь в хозяина (master). Имеющиеся возможности отработки отказа 
+   пакет <span class="term"><code>nginx-ha-keepalived</code></span> могут настраиваться для указания индивидуальных 
+   ситуаций отказа.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Балансировка нагрузки балансировщиками с помощью DNS</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходимо распределить нагрузку между двумя или более серверами NGINX.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь карусельным методом (round robin) DNS по серверам NGINX добавляя множество IP адресов в некую запись A 
+   DNS.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>При исполнении множества балансировщиков нагрузки вы можете распределять нагрузку через DNS. Запись A позволяет перечислять под 
+   одним полностью определённым именем домена (FQDN, fully qualified domain name) множество адресов IP. DNS будет автоматически 
+   прокручивать все IP адреса каруселью. DNS также предлагает взвешенный карусели с записями весов, которые работают точно 
+   так же как и описанные в <a class="link" href="Ch01.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html" target="_top">Главе 1</a> карусели NGINX с весами. Эти технологии 
+   прекрасно работают. Тем не менее, некой ловушкой может оказаться удаление конкретной записи в том случае, когда некий 
+   сервер NGINX испытал отказ. Имеются поставщики DNS - Amazon Route53 для одних, и Dyn DNS для иных - которые предлагают 
+   проверки жизнеспособности и отработку отказов вместе со своими предложениями DNS, которые облегчают данные проблемы. 
+   Когда вы применяете DNS для балансировки нагрузки по NGINX, в том случае когда некий сервер NGINX помечается как 
+   подлежащий удалению, наилучшей практикой является следование тому же самому протоколу, которым NGINX исключается в качестве 
+   сервера восходящего потока. Для начала прекратите отправку к нему новых подключений удалив его IP из имеющейся записи 
+   DNS, затем включите осушение подключений перед остановкой или отключением его службы.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Балансировка нагрузки в EC2</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы применяете NGINX в AWS, причём ваш NGINX Plus HA не поддерживает IP Amazon.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Поместите NGINX позади некого NLB AWS настроив некую группу с Автоматическим масштабированием из серверов NGINX и 
+   связав эту группу Автоматического масштабирования к целевой группе, а затем подключив эту целевую группу к соответствующему 
+   NLB. В качестве альтернативы вы можете помещать серверы NGINX в такую целевую группу вручную при помощи консоли AWS, 
+   интерфейса командно строки или API.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Основанное на поддержке активности (keepaliving) решение HA от NGINX Plus не будет работать в AWS, поскольку он не 
+   поддерживает плавающие виртуальные IP адреса, ибо IP адреса EC2 работают совершенно иначе. Это вовсе не означает что NGINX 
+   лишён возможностей HA в облачном решении AWS; на самом деле, верно совершенно обратное. Amazon предлагает продукт AWS NLB, 
+   который будет естественным образом выполнять балансировку нагрузки по множеству физически раздельных центров обработки данных, 
+   именуемых <span class="emphasis"><em>зонами доступности</em></span> (AZ, availability zones), снабжёнными активными 
+   проверками жизнеспособности, а также некой оконечной точкой DNS CNAME. Неким общепринятым решением для HA NGINX в AWS 
+   является размещение уровня NGINX позади имеющегося NLB. Серверы NGINX могут по мере необходимости автоматически добавляться 
+   в его целевую группу и удаляться из неё. Такой NLB не выступает заменой NGINX; имеется множество предлагаемых NGINX вещей, 
+   которых нет в NLB, например, множество методов балансировки нагрузки, ограничение по частоте, кэширование, а также 
+   маршрутизация 7 уровня. AWS ALB выполняет балансировку нагрузки 7 уровня на основе пути URI и заголовка хоста, но он сам по 
+   себе не предлагает выполнения таких функций NGINX как кэширование WAF, ограничение полосы пропускания, активную доставку HTTP/2 
+   и многое иное. В случае когда предоставляемый NLB не удовлетворяет вашим потребностям, имеется множество иных вариантов. 
+   Одним из вариантов является решение DNS, Route53. Данный продукт DNS от AWS предлагает проверки жизнеспособности и 
+   отработку отказов.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Настройка синхронизации</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы работаете на неком уровне HA NGINX Plus и вам требуется синхронизация конфигураций серверов.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь предоставляемой исключительно NGINX Plus функциональностью синхронизации конфигураций. Для настройки этой 
+   функциональности следуйте таким этапам:</p>
+   <p>Из репозитория пакетов NGINX Plus установите необходимый пакет <span class="term"><code>nginx-sync</code></span>.</p>
+   <p>Для RHEL или CentOS:</p>
+		<pre class="screen"><code><strong>
+$ sudo yum install nginx-sync
+		</strong></code></pre>
+   <p>Для Ubuntu или Debian:</p>
+		<pre class="screen"><code><strong>
+$ sudo apt-get install nginx-sync
+		</strong></code></pre>
+   <p>Предоставьте своей машине хозяина SSH доступ от имени root ко всем одноранговым машинам.</p>
+   <p>Выработайте некую пару ключей аутентификации SSH для root и отыщите полученный общедоступный ключ:</p>
+		<pre class="screen"><code><strong>
+$ sudo ssh-keygen -t rsa -b 2048
+$ sudo cat /root/.ssh/id_rsa.pub
+ssh-rsa AAAAB3Nz4rFgt...vgaD root@node1
+		</strong></code></pre>
+   <p>Получите установленный для вашего узла хозяина IP адрес:</p>
+		<pre class="screen"><code><strong>
+$ ip addr
+1: lo: mtu 65536 qdisc noqueue state UNKNOWN group default
+  link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+  inet 127.0.0.1/8 scope host lo
+    valid_lft forever preferred_lft forever
+  inet6 ::1/128 scope host
+    valid_lft forever preferred_lft forever
+2: eth0: mtu 1500 qdisc pfifo_fast state UP group default qlen \
+    1000
+  link/ether 52:54:00:34:6c:35 brd ff:ff:ff:ff:ff:ff
+  inet 192.168.1.2/24 brd 192.168.1.255 scope global eth0
+    valid_lft forever preferred_lft forever
+  inet6 fe80::5054:ff:fe34:6c35/64 scope link
+    valid_lft forever preferred_lft forever
+		</strong></code></pre>
+   <p>Выполненная команда <span class="term"><code>ip addr</code></span> выводит дамп информации относительно интерфейсов 
+   вашей машины. Игнорируйте интерфейс петли (loopback), который обычно идёт первым. отыщите тот IP адрес, который следует 
+   за <span class="term"><code>inet</code></span> для самого первого интерфейса. В данном примере таким IP адресам 
+   является <span class="term"><code>192.168.1.2</code></span>.</p>
+   <p>Распространите свой общедоступный ключ для файла <span class="term"><code>authorized_keys</code></span> пользователя 
+   root во всех узлах своей одноранговой сети и задайте авторизацию только с IP адреса своего хозяина:
+   </p>
+		<pre class="screen"><code><strong>
+$ sudo echo ‘from=”192.168.1.2" ssh-rsa AAAAB3Nz4rFgt...vgaD \
+    root@node1' &gt;&gt; /root/.ssh/authorized_keys
+		</strong></code></pre>
+   <p>Добавьте в <span class="term"><code><em>/etc/ssh/sshd_confg</em></code></span> приводимую ниже строку и выполните 
+   перезагрузку <span class="term"><code>sshd</code></span> на всех узлах:</p>
+		<pre class="screen"><code><strong>
+$ sudo echo 'PermitRootLogin without-password' &gt;&gt; \
+/etc/ssh/sshd_config
+$ sudo service sshd reload
+		</strong></code></pre>
+   <p>Убедитесь что ваш пользователь root способен выполнять <span class="term"><code>ssh</code></span> для всех 
+   узлов вашей одноранговой сети без пароля:</p>
+		<pre class="screen"><code><strong>
+$ sudo ssh root@node2.example.com
+		</strong></code></pre>
+   <p>в своей мащине хозяина создайте файл настроек <span class="term"><code><em>/etc/nginx-sync.conf</em></code></span> 
+   со следующей конфигурацией:</p>
+		<pre class="screen"><code>
+NODES="node2.example.com node3.example.com node4.example.com"
+CONFPATHS="/etc/nginx/nginx.conf /etc/nginx/conf.d"
+EXCLUDE="default.conf"
+		</code></pre>
+   <p>Данный пример конфигурации демонстрирует три распространённых параметра для данной функциональности: 
+   <span class="term"><code>NODES</code></span>, <span class="term"><code>CONFIGPATHS</code></span> и
+   <span class="term"><code>EXCLUDE</code></span>. первый параметр <span class="term"><code>NODES</code></span> 
+   устанавливается некой строкой имён хостов или IP адресов, разделяемых пробелами; это все узлы одноранговой сети 
+   (peer), для которых ваш хозяин должен выполнять активную доставку своих изменений настроек. Значение параметра 
+   <span class="term"><code>CONFIGPATHS</code></span> определяет какие файлы или каталоги следует синхронизировать. 
+   Наконец, вы можете применять параметр <span class="term"><code>EXCLUDE</code></span> для исключения из синхронизации 
+   файлов конфигурации. В нашем примере хозяин выполняет активную доставку изменений настроек в сам основной файл настроек 
+   NGINX, а также включает каталоги <span class="term"><code><em>/etc/nginx/nginx.conf</em></code></span> и 
+   <span class="term"><code><em>/etc/nginx/conf.d</em></code></span> для узов одноранговой сети с названиями 
+   <span class="term"><code>node2.example.com</code></span>, <span class="term"><code>node3.example.com</code></span> и 
+   <span class="term"><code>node4.example.com</code></span>. Если ваш процесс синхронизации обнаруживает некий файл с 
+   названием <span class="term"><code><em>default.conf</em></code></span>, для него не будет выполняться активная доставка 
+   в этой одноранговой сети, так как он настроен в качестве <span class="term"><code>EXCLUDE</code></span>.</p>
+   <p>Для настройки имеющегося местоположения исполняемых файлов NGINX, RSYNC, SSH, diff, а также расположения lockfile и 
+   каталога backup имеются дополнительные параметры. Существует также некий параметр, который применяет 
+   <span class="term"><code>sed</code></span> для выработки шаблона заданных файлов. Для получения дополнительных сведений 
+   относительно расширенных параметров, ознакомьтесь с <a class="link" href="javascript:if(confirm(%27http://bit.ly/2DR4aqt  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2DR4aqt%27" tppabs="http://bit.ly/2DR4aqt" target="_top">Configuration 
+   Sharing</a>.</p>
+   <p>Проверьте свою конфигурацию:</p>
+		<pre class="screen"><code><strong>
+$ nginx-sync.sh -h # display usage info
+$ nginx-sync.sh -c node2.example.com # compare config to node2
+$ nginx-sync.sh -C # compare master config to all peers
+$ nginx-sync.sh # sync the config & reload NGINX on peers
+		</strong></code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Эта имеющаяся только в NGINX Plus функциональность позволяет вам управлять множеством серверов NGINX Plus 
+   в конфигурации с высокой доступностью через обновление только узла хозяина и выполнения синхронизации со всеми 
+   прочими узлами одноранговой сети узлов. Выполняя синхронизацию в автоматическом режиме вы ограничиваете риск ошибок при 
+   передаче настроек. Приложение <span class="term"><code>nginx-sync.sh</code></span> предоставляет некие меры предосторожности 
+   для предотвращения отправки по одноранговой сети плохих конфигураций. Они содержат проверку выполненных настроек в самом 
+   хозяине, создание резервных копий имеющейся для одноранговой сети конфигурации и удостоверение полученной в одноранговой 
+   сети конфигурации перед перезагрузкой. Хотя более предпочтительной является синхронизация вашей конфигурации при 
+   помощи инструментов управления конфигурацией или Docker, функциональность синхронизации конфигурации NGINX Plus имеет 
+   ценность когда вам ещё только предстоит выполнить такой большой скачок к управлению средами таким образом.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Совместное использование состояния при помощи Zone Sync</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется чтобы NGINX Plus выполнил синхронизацию своих зон разделяемой памяти по флотилии серверов высокой 
+   доступности.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь параметром <span class="term"><code>sync</code></span> при настройке совместно используемой зоны 
+   памяти NGINX Plus:</p>
+	   <pre class="screen"><code>
+stream {
+    resolver 10.0.0.2 valid=20s;
+
+    server {
+        listen 9000;
+        zone_sync;
+        zone_sync_server nginx-cluster.example.com:9000 resolve;
+        # ... Security measures
+    }
+}
+http {
+    upstream my_backend {
+        zone my_backend 64k;
+        server backends.example.com resolve;
+        sticky learn zone=sessions:1m
+                     create=$upstream_cookie_session
+                     lookup=$cookie_session
+                     sync;
+    }
+
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://my_backend;
+        }
+    }
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Рассматриваемый модуль <span class="term"><code>zone sync</code></span> является исключительным свойством NGINX Plus, 
+   которое в реальности превращает NGINX Plus в кластер. Как показано в приведённой конфигурации, вам следует установить 
+   некий сервер <span class="term"><code>stream</code></span>, настроенный в качестве <span class="term"><code>zone_sync</code></span>. 
+   В дпнном примере это сервер, выполняющий ожидание по порту <span class="term"><code>9000</code></span>. NGINX Plus 
+   взаимодействует со всеми оставшимися своими среврами, которые определены в директиве 
+   <span class="term"><code>zone_sync_server</code></span>. Для динамических кластеров вы можете настраивать эту директиву на 
+   некое доменное имя, которое разрешается множеством IP адресов, либо же статически определять некую последовательность 
+   директив <span class="term"><code>zone_sync_server</code></span>. Вам следует ограничить доступ к своей зоне синхронизации 
+   сервера; имеются особые SSL/ TLS директивы для данного модуля в целях выполнения аутентификации машин. Основным преимуществом 
+   настройки NGINX Plus в какой- то кластер состоит в том, что вы имеете возможность синхронизации зон разделяемой памяти для 
+   ограничения частот, сеансов <span class="term"><code>sticky learn</code></span>, а также хранилища ключ- значение. Данный 
+   пример предоставляет демонстрацию применения параметра <span class="term"><code>sync</code></span>, прикрепляемого в самый 
+   конец директивы <span class="term"><code>sticky learn</code></span>. В этом примере некий пользователь ограничивается 
+   каким- то сервером восходящего потока на основе куки с названием <span class="term"><code>session</code></span>. При отсутствии 
+   рассматриваемого модуля синхронизации зоны, когда некий пользователь выполняет какой- то запрос к другому серверу NGINX Plus, 
+   он может утратить свой сеанс. В случае наличия модуля синхронизации зоны все имеющиеся серверы NGINX Plus осведомлены о 
+   таком сеансе и том, с каким именно сервером восходящего потока он связан.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 12. Установка Proxmox промышленного уровня - Proxmox. Полное руководство. 3е изд.</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="MasteringProxmox3ed"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Proxmox. Полное руководство. 3е изд."/>
+<link rel="up" href="index.html" title="Proxmox. Полное руководство. 3е изд."/>
+<link rel="prev" href="Ch11.html" title="Глава 11. Мониторинг кластера Proxmox"/>
+<link rel="next" href="Ch13.html" title="Глава 13. Резервное копирование и восстановление ВМ"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "mastering-proxmox-3ed";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/MasteringProxmox3ed/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 12. Установка Proxmox промышленного уровня';
+PrevRef = 'Ch11.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch11.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/index.html*/;
+NextRef = 'Ch13.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch13.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 12. Установка Proxmox промышленного уровня
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch12.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html">Глава 12. Установка Proxmox промышленного уровня</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch12.html#01" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#01">Определение промышленного уровня</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch12.html#0101" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0101">Ключевые компоненты</a></span></dt>
+         <dd><dl>
+           <dt><span class="chapter"><a href="Ch12.html#010101" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010101">Надёжное и масштабируемое оборудование</a></span></dt>
+           <dt><span class="chapter"><a href="Ch12.html#010102" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010102">Избыточность</a></span></dt>
+           <dd><dl>
+             <dt><span class="chapter"><a href="Ch12.html#01010201" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#01010201">Уровень узла</a></span></dt>
+             <dt><span class="chapter"><a href="Ch12.html#01010202" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#01010202">Уровень утилит</a></span></dt>
+             <dt><span class="chapter"><a href="Ch12.html#01010203" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#01010203">Уровень сетевой среды</a></span></dt>
+             <dt><span class="chapter"><a href="Ch12.html#01010204" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#01010204">Уровень HVAC</a></span></dt>
+             <dt><span class="chapter"><a href="Ch12.html#01010205" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#01010205">Уровень хранилища</a></span></dt>
+       </dl></dd>
+           <dt><span class="chapter"><a href="Ch12.html#010103" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010103">Сопоставление текущей нагрузки с ростом в будущем</a></span></dt>
+           <dt><span class="chapter"><a href="Ch12.html#010104" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010104">Бюджет</a></span></dt>
+           <dt><span class="chapter"><a href="Ch12.html#010105" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010105">Простота</a></span></dt>
+           <dt><span class="chapter"><a href="Ch12.html#010106" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010106">Отслеживание перечня оборудования</a></span></dt>
+           <dt><span class="chapter"><a href="Ch12.html#010107" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#010107">Выбор аппаратных средств</a></span></dt>
+         </dl></dd>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch12.html#02" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#02">Установка размера ЦПУ и памяти</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch12.html#0201" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0201">Сопоставление одного сокета со множеством</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0202" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0202">Hyper-threading - разрешить или запретить</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0203" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0203">Начните с малого при выборе ресурсов ВМ</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0204" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0204">Балансировка ресурсов узла</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch12.html#03" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#03">Промышленный кластер Ceph</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch12.html#0301" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0301">Забудьте об аппаратных RAID</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0302" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0302">SSD для журнала Ceph</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0303" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0303">Пропускная способность сети</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch12.html#04" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#04">Жидкостное охлаждение</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch12.html#0401" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0401">Полное погружение в масло</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0402" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0402">Полное погружение в 3M Novec</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0403" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0403">Жидкостное охлаждение непосредственным контактом</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch12.html#05" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#05">Реальные сценарии Proxmox</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch12.html#0501" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0501">Сценарий 1 - академический институт</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0502" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0502">Сценарий 2 - кластер многоуровневого хранения в кластере Proxmox</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0503" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0503">Сценарий 3 - виртуальная инфраструктура для поставщика служб с множеством арендаторов</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0504" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0504">Сценарий 4 - встроенная виртуальная среда для компании разработчика ПО</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0505" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0505">Сценарий 5 - виртуальная инфраструктура для общественной библиотеки</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0506" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0506">Сценарий 6 - виртуальная инфраструктура многоэтажного офиса с виртуальными рабочими местами</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0507" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0507">Сценарий 7 - виртуальная инфраструктура для гостиничного хозяйства</a></span></dt>
+         <dt><span class="chapter"><a href="Ch12.html#0508" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#0508">Сценарий 8 - виртуальная инфраструктура для организации геологических изысканий</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch12.html#06" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch12.html#06">Выводы</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+   <p></p>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Определение промышленного уровня</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0101"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Ключевые компоненты</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <a id="010101"> </a>
+   <p class="title"><strong>Надёжное и масштабируемое оборудование</strong></p>
+   <p></p>
+
+   <a id="010102"> </a>
+   <p class="title"><strong>Избыточность</strong></p>
+   <p></p>
+
+   <a id="01010201"> </a>
+   <p class="title"><strong>Уровень узла</strong></p>
+   <p></p>
+
+   <a id="01010202"> </a>
+   <p class="title"><strong>Уровень утилит</strong></p>
+   <p></p>
+
+   <a id="01010203"> </a>
+   <p class="title"><strong>Уровень сетевой среды</strong></p>
+   <p></p>
+
+   <a id="01010204"> </a>
+   <p class="title"><strong>Уровень HVAC</strong></p>
+   <p></p>
+
+   <a id="01010205"> </a>
+   <p class="title"><strong>Уровень хранилища</strong></p>
+   <p></p>
+
+   <a id="010103"> </a>
+   <p class="title"><strong>Сопоставление текущей нагрузки с ростом в будущем</strong></p>
+   <p></p>
+
+   <a id="010104"> </a>
+   <p class="title"><strong>Бюджет</strong></p>
+   <p></p>
+
+   <a id="010105"> </a>
+   <p class="title"><strong>Простота</strong></p>
+   <p></p>
+
+   <a id="010106"> </a>
+   <p class="title"><strong>Отслеживание перечня оборудования</strong></p>
+   <p></p>
+
+   <a id="010107"> </a>
+   <p class="title"><strong>Выбор аппаратных средств</strong></p>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Установка размера ЦПУ и памяти</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0201"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сопоставление одного сокета со множеством</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0202"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Hyper-threading - разрешить или запретить</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0203"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Начните с малого при выборе ресурсов ВМ</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0204"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Балансировка ресурсов узла</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Промышленный кластер Ceph</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0301"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Забудьте об аппаратных RAID</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0302"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">SSD для журнала Ceph</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0303"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Пропускная способность сети</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Жидкостное охлаждение</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0401"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Полное погружение в масло</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0402"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Полное погружение в 3M Novec</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0403"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Жидкостное охлаждение непосредственным контактом</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Реальные сценарии Proxmox</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0501"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 1 - академический институт</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0502"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 2 - кластер многоуровневого хранения в кластере Proxmox</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0503"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 3 - виртуальная инфраструктура для поставщика служб с множеством арендаторов</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0504"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 4 - встроенная виртуальная среда для компании разработчика ПО</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0505"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 5 - виртуальная инфраструктура для общественной библиотеки</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0506"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 6 - виртуальная инфраструктура многоэтажного офиса с виртуальными рабочими местами</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0507"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 7 - виртуальная инфраструктура для гостиничного хозяйства</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0508"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Сценарий 8 - виртуальная инфраструктура для организации геологических изысканий</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Выводы</h3>
+   </div></div></div>
+   <p></p>
+  </div>
+
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

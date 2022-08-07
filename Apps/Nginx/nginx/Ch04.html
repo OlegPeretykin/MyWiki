@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 4. Массивно масштабируемое кэширование содержания - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch03.html" title="Глава 3. Управление обменом"/>
+<link rel="next" href="Ch05.html" title="Глава 5. Программируемость и автоматизация"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 4. Массивно масштабируемое кэширование содержания';
+PrevRef = 'Ch03.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch05.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 4. Массивно масштабируемое кэширование содержания
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch04.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html">Глава 4. Массивно масштабируемое кэширование содержания</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch04.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#02">Зоны кэширования</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#03">Хэш ключи кэширования</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#04">Обход кэширования</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#05">Производительность кэширования</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#06">Продувка</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#07">Расслоение кэширования</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>Кэширование ускоряет обслуживание содержимого сохраняя отклики запросов для обслуживания ими в последующем. Кэширование 
+   содержимого снижает нагрузку на серверы восходящего потока, сохраняя в кэше весь отклик целиком вместо того чтобы проводить 
+   вычисления и запросы вновь для в точности такого же запроса. Кэширование увеличивает производительность и снижает 
+   нагрузку, что означает что вы способны выполнять обслуживание быстрее, причём меньшими ресурсами. Масштабирование и 
+   распределение серверов кэширования в стратегических местоположениях может оказывать впечатляющее воздействие на практику 
+   пользователей. Для достижения наилучшей производительности оптимальным является размещение содержимого как можно ближе к 
+   самому потребителю. Вы также можете выполнять кэширование поближе к всоим пользователям. Именно это и является основным 
+   шаблоном для сетевых сред доставки содержимого, или CDN (content delivery networks). При помощи NGINX у вас есть 
+   возможность кэшировать ваше содержимое всякий раз когда вы можете поместить некий сервер NGINX, что действенным образом 
+   позволяет вам создавать свою собственную CDN. При помощи кэширования NGINX вы также имеете возможность осуществлять пассивное 
+   кэширование и обслуживать отклики кэширования в случае отказа восходящего потока.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Зоны кэширования</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется кэшировать содержимое и необходимо определить где хранить получаемый кэш.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь директивой <span class="term"><code> proxy_cache_path</code></span> для определения разделяемой памяти 
+   зон кэширования и местоположения для их содержимого:</p>
+	   <pre class="screen"><code>
+proxy_cache_path /var/nginx/cache
+                 keys_zone=CACHE:60m
+                 levels=1:2
+                 inactive=3h
+                 max_size=20g;
+                 proxy_cache CACHE;
+ 	   </code></pre>
+   <p>Данный пример определения кэширования создаёт некий каталог для кэшируемых откликов в вашей файловой системе по адресу 
+   <span class="term"><code><em>/var/nginx/cache</em></code></span> и создаёт некое пространство совместно используемой памяти 
+   с названием <span class="term"><code>CACHE</code></span> и объёмом в <span class="term"><code>60</code></span> Мегабайт. 
+   Этот пример устанавливает уровни структуры даннго каталога, определяет значение высвобождения кэшированных откликов после 
+   того как они были запрошены в <span class="term"><code>3</code></span> часа и задаёт максимальный размер этого кэша в 
+   20 Гигабайт. имеющаяся директива <span class="term"><code>proxy_cache</code></span> информирует некий определённый контекст 
+   для применения в данной зоне кэширования. Директива <span class="term"><code>proxy_cache_path</code></span> допустима в 
+   контексте HTTP, а директива <span class="term"><code>proxy_cache</code></span> допустима в контекстах HTTP? server и location.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Для настройки кэширования в NGINX необходимо объявить для применения некие путь и зону. Зона кэширования в NGINX создаётся 
+   при помощи соответствующей директивы <span class="term"><code> proxy_cache_path</code></span>. Эта директива 
+   <span class="term"><code> proxy_cache_path</code></span> назначает некое местоположение для хранения всей кэшируемой информации и 
+   некое пространство совместно используемой памяти для хранения активных ключей и метаданных отклика. Необязательные параметры 
+   для данной директивы предоставляют дополнительный контроль над тем как данный кэш сопровождается и как к нему осуществляется 
+   доступ. Значение параметра <span class="term"><code> levels</code></span> определяет как создаётся необходимая файловая структура. 
+   Его значение представляется разделяемыми двоеточиями величинами, которые определяют значение длины названий подкаталогов при
+   максимальном значении в три уровня. NGINX выполняет кэширование на основе значения ключа кэширования, который является неким 
+   хэшируемым значением. Затем NGINX сохраняет полученный результат в производимой файловой структуре при помощи полученного 
+   ключа хэша в качестве некого пути файла и рабивает каталоги на основе установленного значения <span class="term"><code> levels</code></span>. 
+   Значение параметра <span class="term"><code> inactive</code></span> позоляет упралять продолжительностью времени некого 
+   кэшированного элемента, которое он будет размещаться после своего последнего использования. Значение размера самого кэша 
+   также настраивается при помощи величины параметра <span class="term"><code> max_size</code></span>. Прочие параметры относятся 
+   к процессу загрузки кэша, который загружает ключи кэша в зону общей памяти из кэшированных на диске файлов.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Хэш ключи кэширования</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется контролировать тем как ваше содержимое кэшируется и отыскивается.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь директивой <span class="term"><code>proxy_cache_key</code></span> совместно с переменными для определения 
+   того на чём основывается кэширование, на попадании или на промахе:</p>
+	   <pre class="screen"><code>
+proxy_cache_key "$host$request_uri $cookie_user";
+ 	   </code></pre>
+   <p>Этот ключ хэша кэширования будет указывать NGINX на потребность в кэшировании страниц на основе значения хоста и 
+   запрашиваемого URI, а также некого куки, который определяет данного пользователя. При помощи этого у вас есть возможность 
+   кэшировать динамические страницы без обслуживания содержимого которое было выработано для некого другого пользователя.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Устанавливаемым по умолчанию значением <span class="term"><code>proxy_cache_key</code></span>, которое удовлетворяет 
+   большинству вариантов применения, является <span class="term"><code>&quot;$scheme$proxy_host$request_uri&quot;</code></span>. 
+   Эти используемые переменные содержат значения схемы, HTTP или HTTPS, значение <span class="term"><code>proxy_host</code></span>, 
+   куда отправляется данный запрос и сам URI запроса. Всё это вместе отражает тот URL, на который NGINX отправляет данный 
+   запрос. Вы можете обнаружить, что существует множество прочих сторон, которые определяют некую идентичность запроса для 
+   приложения, например, параметры, заголовки, идентификаторы сеанса запроса и тому подобное, для которых вы бы хотели создавать 
+   свой собственный ключ хэша. (В виде некого ключа хэша могут быть использованы любые комбинации текста или выставляемых в 
+   NGINX переменных. Перечень переменных <a class="link" href=" javascript:if(confirm(%27http://nginx.org/en/docs/varindex.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://nginx.org/en/docs/varindex.html%27" tppabs="http://nginx.org/en/docs/varindex.html" target="_top">доступен 
+   в NGINX</a>).</p>
+   <p>Выбор хорошего ключа хэша очень важен и должен приниматься на основе понимания самого приложения. Выбор некого ключа 
+   кэширования статического содержимого обычно достаточно прямолинеен; вполне достаточно применение значения имени хоста и URIю 
+   Выбор ключа кэширования для должным образом динамичного содержимого такого как страницы некого приложения инструментальной 
+   панели требует больших знаний о том как пользователи взаимодействуют с самим приложением и значение степени вариативности между 
+   практиками пользователей. Исходя из соображений безопасности вы можете пожелать не представлять кэшированные для одного 
+   из пользователей данные другому без полного понимания их содержания. Данная директива <span class="term"><code>proxy_cache_key</code></span> 
+   настраивает значение строки, выступающей в виде хэша для ключа кэширования. Значение <span class="term"><code>proxy_cache_key</code></span> 
+   может быть настроено в контексте блоков HTTP, server и location, предоставляя гибкое управление над тем как выполняется 
+   кэширование запросов.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Обход кэширования</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходима возможность обхода имеющегося кэширования.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь директивой <span class="term"><code>proxy_cache_bypass</code></span> с не пустым или не нулевым значением. 
+   Одним из способов сделать это состоит в установке некой переменной в пределах блоков location, которые вы не желаете 
+   кэшировать равными <span class="term"><code>1</code></span>:</p>
+	   <pre class="screen"><code>
+proxy_cache_bypass $http_cache_bypass;
+ 	   </code></pre>
+   <p>Данная конфигурация сообщает NGINX обходить имеющийся кэш если значение заголовка в запросе HTTP с названием
+   <span class="term"><code>cache_bypass</code></span> установлено в любое отличное от 
+   <span class="term"><code>0</code></span> значение.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Существует целый ряд сценариев, которые требуют чтобы из запрос не кэшировался. Для этого NGINX выставляет директиву 
+   <span class="term"><code>proxy_cache_bypass</code></span> с тем, чтобы когда устанавливаемое значение не пустое или не 
+   нулевое, этот запрос отправлялся бы в восходящий сервер вместо того чтобы выводить его из имеющегося кэша. Потребность 
+   обхода кэширования может диктоваться различными потребностями и сценариями применения ваших приложений. Технологии для 
+   обхода кэширования могут быть настолько же простыми как применение заголовка некого запроса или отклика, либо настолько 
+   запутанными как множество совместно работающих блоков соответствия.</p>
+   <p>По множеству причин вы можете пожелать обходить установленное кэширование. Одной из важнейших является выявление 
+   неисправности и отладка. Повторение проблем может быть тяжёлой задачей если вы непрерывно доставляете кэшированные 
+   страницы или если ваши ключи кэша являются особыми для идентификатора пользователя. Имея возможность обхода установленного 
+   кэширования жизненно важно. Варианты этого включают в себя, обход кэша при установленных определённых куки, заголовках или 
+   параметрах запроса, но не ограничены ими. Вы также имеете возможность отключать полностьб кэширование для заданного 
+   контекста, например блока location устанавливая <span class="term"><code>roxy_cache off;</code></span>.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Производительность кэширования</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходимо увеличить производительность кэширования на имеющейся стороне клиента.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Применяйте заголовки управления кэшированием стороны клиента:</p>
+	   <pre class="screen"><code>
+location ~* \.(css|js)$ {
+  expires 1y;
+  add_header Cache-Control &quot;public&quot;;
+}
+ 	   </code></pre>
+   <p>данный блок location определяет что его клиент может кэшировать получаемое содержимое файлов CSS и JavaScript. 
+   Установленная директива <span class="term"><code>expires</code></span> указывает такому клиенту что его ресурс кэширования 
+   будет иметь допустимой длительность не более одного года. Директивва <span class="term"><code>add_header</code></span> 
+   добавляет в свой отклик значение заголовка отклика HTTP <span class="term"><code>Cache-Control</code></span> с неким 
+   значением <span class="term"><code>public</code></span>, которое позволяет любому выполняющему кэширование серверу по 
+   его пути осуществлять кэширование данного ресурса. Если предписывается <span class="term"><code>pri‐vate</code></span>, 
+   кэшировать это значение разрешается только самому клиенту.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Производительность кэширования имеет множество сторон, причём скорость диска пребывает в верхней части этого перечня. 
+   Внутри настроек NGINX имеется множество вещей, которые вы способны выполнить для содействия производительности кэширования. 
+   Одним из вариантов является установка заголовков самих откликов таким образом, чтобы сам клиент на практике выполнял 
+   кэширование получаемого отклика и не выполнял запросы к NGINX вовсе, а просто получал их из своего собственного 
+   кэша.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Продувка</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходимо отменить действие кэширования для некого объекта.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь свойством продувки (purge) NGINX Plus, а именно директивой <span class="term"><code>proxy_cache_purge</code></span>,
+   с не пустой или не нулевой переменной:</p>
+	   <pre class="screen"><code>
+map $request_method $purge_method {
+    PURGE 1;
+    default 0;
+}
+server {
+    ...
+    location / {
+        ...
+        proxy_cache_purge $purge_method;
+    }
+}
+ 	   </code></pre>
+   <p>В данном примере значение кэша для некого определённого объекта будет продуто если он запрашивается с методом 
+   <span class="term"><code>PURGE</code></span>. Ниже приводится образец некого <span class="term"><code>curl</code></span> 
+   для продувки значения кэша файла с названием <span class="term"><code>main.js</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ curl -XPURGE localhost/main.js
+		</strong></code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Распространённым способом обработки статических файлов является помещение некого хэша такого файла со значением имени 
+   файла. Это гарантирует вам что когда вы раскрутите новый код и содержимое, ваш CDN распознает его как новый файл по причине 
+   изменения значения URI. Однако это не обязательно работает для динамического содержимого, для которого вы настроили ключи 
+   кэширования и которые на удовлетворяют такой модели. NGINX Plus предоставил простой метод продувки кэшированных откликов
+   Его директива <span class="term"><code>proxy_cache_purge</code></span>, будучи установленной в не пустое или не нулевое 
+   значение, продует те кэшированные значения, которые соответствуют данному запросу. Неким простейшим способом продувки 
+   является установленный в соответствие данному запросу метод для <span class="term"><code>PURGE</code></span>.
+   Однако вы можете пожелать применять его совместно с установленным модулем <span class="term"><code>geo_ip</code></span>, 
+   либо просто выполнять аутентификацию чтобы гарантировать что ни кто угодно может продувать ваши предварительно кэшированные 
+   элементы. NGINX также допускает применение <span class="term"><code>*</code></span>, что выполнит продувку всех элементов 
+   кэширования, которые соответствуют некому общему префиксу URI. Для использования групповых символов вам понадобится настроить 
+   свою директиву <span class="term"><code>proxy_cache_path</code></span> соответствующим параметром 
+   <span class="term"><code>purger=on</code></span>.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Расслоение кэширования</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходимо увеличить эффективность кэширования через сегментирование определённого файла на фрагменты.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь директивой <span class="term"><code>slice</code></span> и её встроенными переменными для разделения 
+   получаемого результата кэширования на фрагменты:</p>
+   	   <pre class="screen"><code>
+proxy_cache_path /tmp/mycache keys_zone=mycache:10m;
+server {
+    ...
+    proxy_cache mycache;
+    slice 1m;
+    proxy_cache_key $host$uri$is_args$args$slice_range;
+    proxy_set_header Range $slice_range;
+    proxy_http_version 1.1;
+    proxy_cache_valid 200 206 1h;
+
+    location / {
+        proxy_pass http://origin:80;
+    }
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Данная настройка определяет некую зону кэширования и разрешает её для данного сервера. Хатем применяется установленная 
+   директива <span class="term"><code>slice</code></span> чтобы указать NGINX на необходимость расщепления получаемого 
+   отклика на сегменты файла по <span class="term"><code>1</code></span> МБ. Эти файлы кэша сохраняются в соответствии с 
+   имеющейся директивой <span class="term"><code>proxy_cache_key</code></span>. Обратите внимание на применение встроенной 
+   переменной с названием <span class="term"><code>slice_range</code></span>. Та же самая переменная применяется в качестве 
+   некого заголовка при выполнении запроса к его первоисточнику и версия этого запроса обновляется до HTTP/1.1, так как 1.0
+   не поддерживает запросы с диапазоном в байтах. Значение срока действия кэширования устанавливается на один час для кодов 
+   отклика <span class="term"><code>200</code></span> или <span class="term"><code>206</code></span>, а затем определяются 
+   местоположение и происхождение.</p>
+   <p>Модуль Cache Slice был разработан для доставки видео HTML5, которое использует запросы диапазона в байтах для содержимого 
+   псевдопотока к своему браузеру. По умолчанию NGINX способен обслуживать из своего кэша запросы с диапазоном в байтах. 
+   Если некий запрос для диапазона в байтах выполнен для не кэшированного содержимого, NGINX запрашивает этот файл целиком 
+   у первоисточника. Когда вы применяете обсуждаемый модуль Cache Slice, NGINX запрашивает у этого первоисточника только 
+   необходимые ему сегменты. Запросы диапазона превышающие установленный размер нарезки, в том числе весь файл целиком, 
+   включают подзапросы для каждого требующегося сегмента, а затем эти сегменты кэшируются. После того как кэшированы все 
+   сегменты, данный запрос собирается и отправляется своему клиенту, что позволяет NGINX более действенно кэшировать и 
+   обслуживать запрашиваемое содержимое диапазонами. Данный модуль Cache Slice следует применять только для больших файлов, 
+   которые не изменяются. NGINX проверяет значение ETag всякий раз когда он получает от своего первоисточника некий фрагмент. 
+   Если значение ETag от его первоисточника изменено, NGINX прерывает весь обмен, так как имеющийся кэш более не верен. 
+   Если изменилось само содержимое и данный файл меньше, либо ваш первоисточник способен обрабатывать всплески активности 
+   в процессе наполнения кэша, будет лучше применять тот модуль Cache Lock, который описывается в блоге, приводимом в следующем 
+   разделе Также ознакомьтесь.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2DxGo1M  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2DxGo1M%27" tppabs="http://bit.ly/2DxGo1M" target="_top">Smart and Efficient Byte-Range Caching with NGINX &amp; 
+   NGINX Plus</a></p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

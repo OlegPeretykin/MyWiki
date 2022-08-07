@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 6. Аутентификация - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch05.html" title="Глава 5. Программируемость и автоматизация"/>
+<link rel="next" href="Ch07.html" title="Глава 7. Управления безопасностью"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 6. Аутентификация';
+PrevRef = 'Ch05.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch07.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 6. Аутентификация
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch06.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html">Глава 6. Аутентификация</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch06.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch06.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#02">Базовая аутентификация HTTP</a></span></dt>
+       <dt><span class="chapter"><a href="Ch06.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#03">Подзапросы аутентификации</a></span></dt>
+       <dt><span class="chapter"><a href="Ch06.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#04">JWT подтверждение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch06.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#05">Создание веб ключей JSON</a></span></dt>
+       <dt><span class="chapter"><a href="Ch06.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#06">Аутентификация пользователей посредством имеющегося OpenID Connect SSO</a></span></dt>
+       <dt><span class="chapter"><a href="Ch06.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#07">Получение значения веб ключей JSON из Google</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>NGINX обладает возможностью выполнять аутентификацию клиентов. Запросы аутентификации клиента при помощи NGINX 
+   разгружает работу и предоставляет возможность прекращать попадание на ваши серверы запросов без аутентификации. Доступные 
+   для NGINX с открытым исходным кодом модули включают базовую аутентификацию и подзапросы аутентификации. Имеющийся исключительно 
+   в NGINX Plus модуль проверки JWT (JSON Web Tokens) делает возможной интеграцию со сторонними производителями аутентификации, 
+   которые применяют стандарт OpenID Connect.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Базовая аутентификация HTTP</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется сделать безопасным ваше приложение или содержимое посредством базовой аутентификации HTTP.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Создайте некий файл с приводимым ниже форматом, в котором пароль зашифрован или хэширован в одном из допустимых 
+   форматов:</p>
+	   <pre class="screen"><code>
+# comment
+name1:password1
+name2:password2:comment
+name3:password3
+ 	   </code></pre>
+   <p>Значением имени пользователя является самое первое поле, в качетсве пароля выступает второе поле, а разделителем 
+   является двоеточие. Существует необязательный третий параметр, который вы можете применять в качестве комментария для 
+   каждого пользователя. NGINX способен понимать несколько различных форматов для паролей, причём один из них состоит в том
+   зашифрован ли пароль при помощи функции C <span class="term"><code>crypt()</code></span>. Эта функция выставляется в 
+   командной строке через соотвествующую команду <span class="term"><code>openssl passwd</code></span>ю Когда установлен 
+   <span class="term"><code>openssl</code></span>, вы можете создавать строки зашифрованных паролей с использованием такой 
+   команды:</p>
+	   <pre class="screen"><code>
+$ openssl passwd MyPassword1234
+ 	   </code></pre>
+   <p>Её выводом будет некая трока, которую NGINX способен применять в вашем файле паролей.</p>
+   <p>Для включения базовой аутентификации в рамках своей конфигурации NGINX применяйте имеющиеся директивы 
+   <span class="term"><code>auth_basic</code></span> и <span class="term"><code>auth_basic_user_file</code></span>:</p>
+	   <pre class="screen"><code>
+location / {
+    auth_basic "Private site";
+    auth_basic_user_file conf.d/passwd;
+}
+ 	   </code></pre>
+   <p>Вы можете применять директивы <span class="term"><code>auth_basic</code></span> в контекстах HTTP, server, location. 
+   Эта директива <span class="term"><code>auth_basic</code></span> получает некий строковый параметр, который отображается 
+   в базовом всплывающем окне аутентификации при появлении пользователя без аутентификации. Значение 
+   <span class="term"><code>auth_basic_user_file</code></span> определяет путь к надлежащему файлу пользователей.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Вы можете вырабатывать пароли базовой аутентификации несколькими способами в ряде различных форматов с отличающимися 
+   степенями безопасности. Для выработки паролей также может применяться и команда 
+   <span class="term"><code>htpasswd</code></span> из Apache. И команда <span class="term"><code>openssl</code></span>, и команда 
+   <span class="term"><code>htpasswd</code></span> способны вырабатывать пароли с применением алгоритма <span class="term"><code>apr1</code></span>, 
+   который также способен понимать и NGINX. Этот пароль также может быть в формате <a class="link" href="javascript:if(confirm(%27https://ru.wikipedia.org/wiki/Соль_(криптография)  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://ru.wikipedia.org/wiki/Соль_(криптография)%27" tppabs="https://ru.wikipedia.org/wiki/Соль_(криптография)" 
+   target="_top">Соли</a> SHA-1, который применяется в LDAP (Lightweight Directory Access Protocol) и Dovecot. NGINX поддерживает
+   дополнительные форматы и алгоритмы хэширования; однако многие из них рассматриваются как не безопасные, так как они запросто 
+   могут быть побеждены силовой атакой в  лоб.</p>
+   <p>Вы можете применять базовую аутентификацию для защиты своего содержимого всего хоста NGINX целиком, определённых 
+   виртуальных серверов или даже конкретных блоков location. Базовая аутентификация на заменяет аутентификацию пользователя 
+   для веб- приложения, но она способствует поддержанию безопасности частной информации.</p>
+   <p>Под своим капотом базовая аутентификация выполняется путём возврата самим сервером некого кода HTTP 401 unauthorized 
+   с заголовком отклика <span class="term"><code>WWW-Authenticate</code></span>. Этот заголовок будет иметь некое значение
+   <span class="term"><code>Basic realm=&quot;<em>your string</em>&quot;</code></span>. Такой отклик вызывает у браузера 
+   приглашение на ввод имени пользователя и пароля. Значения имени пользователя соединяются при помощи разделителя двоеточием, 
+   после этого кодируются в base64 и затем отправляются в неком заголовке запроса с названием 
+   <span class="term"><code>Authorization</code></span>. Этот заголовок запроса <span class="term"><code>Authorization</code></span>
+    определит <span class="term"><code>Basic</code></span> и зашифрованную строку <span class="term"><code>user:password</code></span>. 
+	Сам сервер расшифровывает полученный заголовок и проверяет его по предоставленному файлу 
+   <span class="term"><code>auth_basic_user_file</code></span>. По той причине, что строки имени пользователя и пароля шифруются 
+   лишь base64, рекомендуется для базовой аутентификации использовать HTTPS.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Подзапросы аутентификации</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>У вас имеется система аутентификации стороннего производителя для которой вы бы и желали выполнять запросы на 
+   аутентификацию.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для осуществления запросов к внешней службе аутентификации на предмет проверки подлинности перед обслуживанием 
+   полученного запроса воспользуйтесь модулем <span class="term"><code>http_auth_request_module</code></span>:</p>
+	   <pre class="screen"><code>
+location /private/ {
+    auth_request /auth;
+    auth_request_set $auth_status $upstream_status;
+}
+
+location = /auth {
+    internal;
+    proxy_pass http://auth-server;
+    proxy_pass_request_body off;
+    proxy_set_header Content-Length "";
+    proxy_set_header X-Original-URI $request_uri;
+}
+ 	   </code></pre>
+   <p>Первая директива <span class="term"><code>auth_request</code></span> получает некий параметр URI, который обязан быть 
+   неким локальным внутренним location. Следующая директива <span class="term"><code>auth_request_set</code></span> 
+   позволяет вам устанавливать переменные из последующего подзапроса аутентиыфикации.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Обсуждаемый <span class="term"><code>http_auth_request_module</code></span> делает возможной аутентификацию всех 
+   обрабатываемых вашим сервером NGINX запросов. Этот модуль выполняет некий подзапрос прежде чем обслуживать первоисточник
+   для выяснения того имеет ли этот запрос доступ к запрашиваемому ресурсу. Весь первоначальный запрос целиком выставляется 
+   в посредник (прокси) в location такого подзапроса. Имеющийся location аутентификации действует как типичный посредник для 
+   получаемого подзапроса и отправляет сам первоначальный запрос, включая полученное тело первоначального запроса и заголовки.
+   Получаемое значение кода состояния HTTP данного подзапроса является тем, что определяет будет ли предоставлен доступ или 
+   нет. Если этот подзапрос возвращает некий код состояния HTTP 200, данный процесс аутентификации успешен и сам запрос 
+   выполняется. Если же наш подзапрос возвращает HTTP 401 или 403, это же значение будет возвращено в сам первоначальный 
+   запрос.</p>
+   <p>Когда ваша служба аутентификации не запрашивает поступившее тело запроса, вы можете откинуть такое тело запроса 
+   с помощью отражённой в примере директивы<span class="term"><code>proxy_pass_request_body</code></span>. Такая практика 
+   снизит размер и время запроса аутентификации. Так как само тело отклика отбрасывается, его заголовок 
+   <span class="term"><code>Content-Length </code></span> должен быть снабжён пустой строкой. Если ваша служба аутентификации 
+   нуждается в знании того URI, который запрашивается данным запросом, вы пожелаете помещать это значение в неком 
+   индивидуальном заголовке который будет проверять и подтверждать ваша служба аутентификации. Если имеются некие 
+   моменты, которые вы бы хотели оставлять в своём подзапросе к службе аутентификации, например заголовки отклика или прочая 
+   информация, вы можете воспользоваться директивой <span class="term"><code>auth_request_set</code></span> для создания 
+   новых переменных из данных отклика.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>JWT подтверждение</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется удостовериться в неком JWT прежде чем данный запрос обрабатывается при помощи NGINX Plus.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для проверки допустимости соответствующей подписи маркера (token) и встроенных заявок и заголовков JWT в качестве 
+   переменных NGINX воспользуйтесь модулем аутентификации HTTP JWT NGINX Plus:</p>
+	   <pre class="screen"><code>
+location /api/ {
+    auth_jwt          "api";
+    auth_jwt_key_file conf/keys.json;
+}
+ 	   </code></pre>
+   <p>Данная конфигурация делает возможной проверку допустимости JWT для данного location. Сама директива 
+   <span class="term"><code>auth_jwt</code></span> передаётся в качестве строки, которая применяется в качестве сферы 
+   аутентификации. Данная <span class="term"><code>auth_jwt</code></span> получает некий необязательный параметр 
+   маркера (token) какой- то переменной, которая содержит требуемый JWT. По умолчанию для стандартного JWT применяется 
+   соответствующий заголовок <span class="term"><code>Authentication</code></span>. Сама директива 
+   <span class="term"><code>auth_jwt</code></span> также может применяться для прекращения имеющихся действий запрашиваемой 
+   аутентификации наследуемых конфигураций. Для переключения <span class="term"><code>off</code></span> аутентификации 
+   передайте само ключевое слово в необходимой директиве <span class="term"><code>auth_jwt</code></span> без сопровождения 
+   чего бы то ни было. Для прекращения унаследованных требований аутентификации передайте само ключевое слово 
+   <span class="term"><code>off</code></span> в соответствующей директиве <span class="term"><code>auth_jwt</code></span> 
+   и ничего более. Директива <span class="term"><code>auth_jwt_key_file</code></span> получает единственный параметр. Этим 
+   параметром является значение пути к файлу ключей в стандартном формате JSON Web Key.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>NGINX Plus обладает способностью подтверждения виды маркеров (token) веб подписи JSON в отличие от типа веб шифрования 
+   JSON, когда зашифрован весь маркер. NGINX Plus имеет возможность удостоверять сигнатуры, которые подписываются алгоритмами 
+   HS256, RS256 и ES256. Наличие для валидации маркеров NGINX Plus может сберегать значительное время и ресурсы, требуемые 
+   для выполнения подзапросов к некой службе аутентификации. NGINX Plus дешифрует получаемые заголовок и полезную нашрузку 
+   JWT и подставляет значения стандартных заголовков и заявок во встроенные переменные для их применения вами.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://tools.ietf.org/html/rfc7515  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://tools.ietf.org/html/rfc7515%27" tppabs="https://tools.ietf.org/html/rfc7515" target="_top">RFC Standard Documentation of JSON Web Signature</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://tools.ietf.org/html/rfc7518  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://tools.ietf.org/html/rfc7518%27" tppabs="https://tools.ietf.org/html/rfc7518" target="_top">RFC Standard Documentation of JSON Web Algorithms</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://tools.ietf.org/html/rfc7519  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://tools.ietf.org/html/rfc7519%27" tppabs="https://tools.ietf.org/html/rfc7519" target="_top">RFC Standard Documentation of JSON Web Token</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2fucAac  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2fucAac%27" tppabs="http://bit.ly/2fucAac" target="_top">NGINX Embedded Variables</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2f0Mjj0  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2f0Mjj0%27" tppabs="http://bit.ly/2f0Mjj0" target="_top">Detailed NGINX Blog</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Создание веб ключей JSON</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Для применения в NGINX Plus вам требуется веб ключ JSON.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>NGINX Plus применяется определённый в соответствующем RFC стандарте формат значения JWK (JSON Web Key). Этот стандарт 
+   допускает внутри такого файла JWK некий массив объектов ключей.</p>
+   <p>Ниже приводится некий образец того как может выглядеть подобный файл ключей:</p>
+	   <pre class="screen"><code>
+{"keys":
+  [
+    {
+        "kty":"oct",
+        "kid":"0001",
+        "k":"OctetSequenceKeyValue"
+    },
+    {
+        "kty":"EC",
+        "kid":"0002"
+        "crv":"P-256",
+        "x": "XCoordinateValue",
+        "y": "YCoordinateValue",
+        "d": "PrivateExponent",
+        "use": "sig"
+    },
+    {
+        "kty":"RSA",
+        "kid":"0003"
+        "n": "Modulus",
+        "e": "Exponent",
+        "d": "PrivateExponent"
+    }
+  ]
+}
+ 	   </code></pre>
+   <p>Приведённый файл JWK демонстрирует определённое дерево изначальных типов ключей, упомянутых в самом стандарте 
+   RFC. Описание формата этих ключей также является частью указанного стандарта RFC. Значением атрибута 
+   <span class="term"><code>kty</code></span> тип ключа. Данный файл отображает три типа ключей: Последовательность 
+   октетов (<span class="term"><code>oct</code></span>, Octet Sequence), координаты Эллиптической кривой
+   (<span class="term"><code>EC</code></span>, EllipticCurve) и значение типа <span class="term"><code>RSA</code></span>. 
+   Значением атрибута <span class="term"><code>kid</code></span> является идентификатор ключа. Для получения дополнительных 
+   сведений относительно этих стандартов обращайтесь к соответствующей документации RFC.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Для генерации необходимого веб ключа JSON существует множество доступных во многих разнообразных языках 
+   программирования библиотек. Рекомендуется создать некую службу ключа, которая выступает центом авторизации JWK для 
+   создания и ротации ваших JWK через систематические интервалы. Для дополнительной безопасности рекомендуется делать ваши 
+   JWK настолько же безопасными, как и ваши сертификаты SSL/ TLS. Обезопасьте свой файл ключей соответствующими полномочиями 
+   пользователя и группы. Наилучшей практикой будет удержание их в оперативной памяти. Вы можете делать это создавая некую 
+   файловую систему в памяти, подобную ramfs. Ротация ключей через систематические интервалы также важно; в качестве варианта 
+   вы можете создать некую службу ключей, которая создаёт общедоступные и частные ключи и предлагает их имеющимся 
+   приложениям и NGINX через некий API.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://tools.ietf.org/html/rfc7517  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://tools.ietf.org/html/rfc7517%27" tppabs="https://tools.ietf.org/html/rfc7517" target="_top">RFC standardization documentation of JSON Web Key</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Аутентификация пользователей посредством имеющегося OpenID Connect SSO</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы желаете разгрузить для NGINX Plus удостоверения аутентификации OpenID Connect.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для безопасности location или server, а также указания директиве <span class="term"><code>auth_jwt</code></span> 
+   применять в качестве маркера (token) <span class="term"><code>$cookie_auth_token</code></span> для удостоверения применяйте 
+   модуль JWT, который поставляется совместно с NGINX Plus:</p>
+	   <pre class="screen"><code>
+location /private/ {
+    auth_jwt "Google Oauth" token=$cookie_auth_token;
+    auth_jwt_key_file /etc/nginx/google_certs.jwk;
+}
+ 	   </code></pre>
+   <p>Данная конфигурация направляет NGINX Plus защищать свой путь URI <span class="term"><code><em>/private/</em></code></span>
+   при помощи удостоверения через JWT. Google OAuth 2.0 OpenID Connect применяет значение ключа 
+   <span class="term"><code>auth_token</code></span> вместо установленного по умолчанию однонаправленного маркера. 
+   Таким образом вы должны указать NGINX о необходимости поиска значения данного маркера (token) в данном куки вместо 
+   использования установленного по умолчанию в самом NGINX Plus location. Местоположение 
+   <span class="term"><code>auth_jwt_key_file</code></span> настраивается на некий произвольный путь, что является неким 
+   этапом, который мы обсуждаем в рецепте 
+   <a class="link" href="Ch06.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#07" target="_top">Получение значения веб ключей JSON из Google</a>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Данная конфигурация демонстрирует как вы можете выполнять удостоверение Google OAuth 2.0 OpenID Connect JSON Web 
+   Token через NGINX Plus. Обсуждаемый модуль аутентификации JWT NGINX Plus для HTTP способен выполнять удостоверение 
+   любого JWT, который следует указаниям спецификации RFC for JSON Web Signature, что незамедлительно делает возможными 
+   любые полномочия SSO которые применяют JSON Web Tokens для удостоверения на уровне NGINX Plus. Сам протокол OpenID 1.0 
+   является неким уровнем поверх протокола аутентификации OAuth 2.0, который добавляет идентификацию, позволяя такое применение 
+   JWT для доказательства необходимой идентификации определённого пользователя отправляя соответствующий запрос. 
+   Имея подпись конкретного маркера NGINX Plus способен удостоверить что такой маркер не был изменён так как он был подписан. 
+   Тем самым Google применяет некий асинхронный метод подписи и позволяет распространять общедоступные JWK отслеживая их 
+   частные ключи безопасности JWK.</p>
+   <p>NGINX Plus способен также контролировать для OpenID Connect 1.0 Поток кода авторизации, включая NGINX Plus в качестве 
+   ретранслятора для OpenID Connect. Такая возможность делает возможной интеграцию с большей частью поставщиков идентификации,
+   включая CA Single Sign On (ранее SiteMinder), ForgeRock OpenAM, Keycloak, Okta, OneLogin и Ping Identity. Для получения 
+   дополнительных сведений о реализации NGINX Plus в качестве ретранслятора аутентификации OpenID Connect обратитесь к 
+   <a class="link" href="javascript:if(confirm(%27http://bit.ly/2Q8aTlv  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2Q8aTlv%27" tppabs="http://bit.ly/2Q8aTlv" target="_top">NGINX Inc OpenID Connect GitHub Repository</a>
+   </p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2fB704l  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2fB704l%27" tppabs="http://bit.ly/2fB704l" target="_top">Detailed NGINX Blog on OpenID Connect</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://openid.net/connect/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://openid.net/connect/%27" tppabs="http://openid.net/connect/" target="_top">OpenID Connect</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Получение значения веб ключей JSON из Google</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется получать значение Веб ключа JSON из Google для применения при удостоверении маркеров (token) OpenID Connect 
+   в NGINX Plus.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для постоянного обеспечения современности ваших ключей каждый час применяйте Cron для запросов свежего набора ключей:</p>
+		<pre class="screen"><code>
+0 * * * * root wget https://www.googleapis.com/oauth2/v3/ \
+  certs-O /etc/nginx/google_certs.jwk
+		</code></pre>
+   <p>Данный фрагмент кода является некой строкой из файла crontab. Подобные Unix системы имеют множество вариантов того 
+   где могут обитать файлы crontab. Всякий пользователь будет иметь некий особый для пользователя crontab, а также множество 
+   файлов и каталогов в своём каталоге <span class="term"><code><em>/etc/</em></code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Cron является распространённым способом выполнения задач по расписанию в подобных Unix системах. Веб ключи JSON 
+   обязаны ротироваться на систематической основе для обеспечения безопасности своим ключам и в конечном счёте безопасности 
+   вашей системы. Для гарантии того что у вас всегда самый последний ключ от Google, вы захотите проверять через 
+   систематические промежутки времени наличие новых JWK. Одним из вариантов этого является данное решение Cron.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://linux.die.net/man/8/cron  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://linux.die.net/man/8/cron%27" tppabs="https://linux.die.net/man/8/cron" target="_top">Cron</a></p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

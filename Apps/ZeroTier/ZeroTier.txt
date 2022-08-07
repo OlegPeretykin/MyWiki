@@ -1,5 +1,7 @@
-sudo apt install apt-transport-https ca-certificates
-sudo apt install gpg
+apt update -y && apt full-upgrade -y && apt autoremove -y
+
+sudo apt install apt-transport-https ca-certificates gpg curl
+
 sudo curl -s https://install.zerotier.com | sudo bash
 
 AlternativeAdm
@@ -7,6 +9,24 @@ cc7c9baafbd6eafb
 
 Maestro
 cc7c9baafb0ada0d
+----------------------------------------------------
 
+OpenVPN in LXC
+
+# nano /etc/pve/lxc/123.conf
+Add the following lines at the end (if you're using PVE < 7.0, change `cgroup2` with `cgroup`)
+
+ lxc.cgroup2.devices.allow: c 10:200 rwm
+ lxc.mount.entry: /dev/net dev/net none bind,create=dir
+Press Ctrl-X and answer "Y" for saving and press Enter.
+
+For your unprivileged container to be able to access the /dev/net/tun from your host, you need to set the owner by running:
+
+ # chown 100000:100000 /dev/net/tun
+Check the permissions are set correctly:
+
+ # ls -l /dev/net/tun
+ crw-rw-rw- 1 100000 100000 10, 200 Dec 22 13:26 /dev/net/tun
+Finally start the container:
 
 

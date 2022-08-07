@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 3. Управление обменом - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch02.html" title="Глава 2. Высоко производительная балансировка нагрузки"/>
+<link rel="next" href="Ch04.html" title="Глава 4. Массивно масштабируемое кэширование содержания"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 3. Управление обменом';
+PrevRef = 'Ch02.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch04.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 3. Управление обменом
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch03.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html">Глава 3. Управление обменом</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch03.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#02">Тестирование A/B</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#03">Применение модуля GeoIP и базы данных</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#04">Ограничение доступа на основе страны</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#05">Поиск первичного клиента</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#06">Ограничение подключений</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#07">Ограничение скорости</a></span></dt>
+       <dt><span class="chapter"><a href="Ch03.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#08">Ограничение полосы пропускания</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>NGINX и NGINX Plus также относятся и к контроллерам веб обмена. Вы можете применять NGINX для умной маршрутизации 
+   обмена и контролировать поток основываясь на большом числе параметров. Данная глава рассматривает возможность NGINX
+   расщеплять запросы клиентов на базе процентных соотношений, применения географического местоположения клиентов, а 
+   также управления самим потоком обмена в виде ограничений скорости, подключений и полосы пропускания. Знакомясь с данной 
+   главой имейте в виду что у вас есть возможность смешивать и устанавливать соответствия этих функций для допуска 
+   разнообразных вариантов.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Тестирование A/B</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется расщеплять клиентов между двумя или более версиями некого файла или приложения для проверки 
+   приемлемости.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь модулем <span class="term"><code>split_clients</code></span> для предписания процентного соотношения 
+   вашим клиентам на различные восходящие пулы:</p>
+	   <pre class="screen"><code>
+split_clients "${remote_addr}AAA" $variant {
+    20.0% "backendv2";
+    * "backendv1";
+}
+ 	   </code></pre>
+   <p>Эта директива <span class="term"><code>split_clients</code></span> хэширует значение передаваемого вами первым параметром 
+   строки и проводит деление этого хэша в заданном процентном соотношении для установления соответствия со значением 
+   второго параметра. Значением третьего параметра является некий содержащий пару ключ- значение объект, в котором ключ 
+   выступает процентным весом, а его значение это назначаемое значение. Значением ключа может быть либо процентное соотношение, 
+   либо сивмол звёздочки. Передаваемая звёздочка означает что передаётся вся остающаяся после всех процентных соотношений часть. 
+   Задаваемым значением для нашей переменной <span class="term"><code>$variant</code></span> будет 
+   <span class="term"><code>backendv2</code></span> для 20% адресов клиентов, а для остающихся 80% остаётся 
+   <span class="term"><code>backendv1</code></span>.</p>
+   <p>В нашем примере <span class="term"><code>backendv1</code></span> и <span class="term"><code>backendv2</code></span> 
+   представляют пулы серверов восходящего потока и могут применяться с директивой
+   <span class="term"><code>proxy_pass</code></span>, подобной следующей:</p>
+	   <pre class="screen"><code>
+location / {
+    proxy_pass http://$variant
+}
+ 	   </code></pre>
+   <p>При помощи переменной <span class="term"><code>$variant</code></span> наш обмен будет расщепляться на два различных 
+   пула серверов.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Данный вид проверки A/B полезен при тестировании различных видов свойств торговли и интерфейса для пересмотра соотношений 
+   в сайтах электронной коммерции. Для прикладных задач распространено применение типа разработки с названием канареечного 
+   выпуска. При таком типе разработки обмен слегка отключается для данной новой версии. Расщепление ваших клиентов между 
+   различными версиями вашего приложения может оказаться полезным при раскрутке новой версии кода для для ограничения 
+   радиуса поражения в случае некой ошибки. Всякий раз когда возникает причина для разделения клиентов между двумя различными 
+   наборами приложений NGINX запросто делает это при помощи рассмотренного модуля 
+   <span class="term"><code>split_clients</code></span>.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2jsdkw4  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2jsdkw4%27" tppabs="http://bit.ly/2jsdkw4" target="_top">split_client Documentation</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Применение модуля GeoIP и базы данных</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить базу данных GeoIP и разрешить её встроенные переменные внутри NGINX для регистрации и 
+   определения в вашем приложении значения местоположения ваших клиентов.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Официальный репозиторий пакета Открытого исходного кода NGINX, который вы настраивали при установке NGINX в <a class="link" 
+   href="Ch01.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html" target="_top">Главе 1</a>, предоставляет пакет с названием 
+   <span class="term"><code>nginx-module-geoip</code></span>. При применении репозитория пакетов NGINX Plus, такой пакет 
+   именуется <span class="term"><code>nginx-plus-module-geoip</code></span>. Эти пактеы устанавливают имеющуюся динамическую 
+   версию модуля GeoIP.</p>
+   <p>Открытый исходный код NGINX RHEL/ CentOS:</p>
+		<pre class="screen"><code><strong>
+# yum install nginx-module-geoip
+		</strong></code></pre>
+   <p>Открытый исходный код NGINX Debian/ Ubuntu:</p>
+		<pre class="screen"><code><strong>
+# apt-get install nginx-module-geoip
+		</strong></code></pre>
+   <p>Открытый исходный код NGINX Plus RHEL/ CentOS:</p>
+		<pre class="screen"><code><strong>
+# yum install nginx-plus-module-geoip
+		</strong></code></pre>
+   <p>Открытый исходный код NGINX Plus Debian/ Ubuntu:</p>
+		<pre class="screen"><code><strong>
+# apt-get install nginx-plus-module-geoip
+		</strong></code></pre>
+   <p>Выгрузите базу данных стран и городов GeoIP и разархивируйте её:</p>
+		<pre class="screen"><code><strong>
+# mkdir /etc/nginx/geoip
+# cd /etc/nginx/geoip
+# wget "http://geolite.maxmind.com/\
+download/geoip/database/GeoLiteCountry/GeoIP.dat.gz"
+# gunzip GeoIP.dat.gz
+# wget "http://geolite.maxmind.com/\
+download/geoip/database/GeoLiteCity.dat.gz"
+# gunzip GeoLiteCity.dat.gz
+		</strong></code></pre>
+   <p>Этот набор команд создаёт некий каталог <span class="term"><code><em>geoip</em></code></span> в уже имеющемся каталоге 
+   <span class="term"><code><em>/etc/nginx</em></code></span>, переходит в этот новый каталог, а таже выгружает необходимые 
+   пакеты и выполняет их разархивацию.</p>
+   <p>Имея на своём локальном диске базу данных GeoIP для стран и городов вы теперь можете выдать инструкции для модуля 
+   GeoIP NGINX на её применение для выставления встроенных переменных на основе получаемого адреса IP клиента:</p>
+	   <pre class="screen"><code>
+load_module "/usr/lib64/nginx/modules/ngx_http_geoip_module.so";
+
+http {
+    geoip_country /etc/nginx/geoip/GeoIP.dat;
+    geoip_city /etc/nginx/geoip/GeoLiteCity.dat;
+...
+}
+ 	   </code></pre>
+   <p>Указанная директива <span class="term"><code>load_module</code></span> динамически загружает передаваемый ей модуль из 
+   пути вашей файловой системы. Данная директива <span class="term"><code>load_module</code></span> допустима только в 
+   основном контексте. Следующая директива <span class="term"><code>geoip_country</code></span> получает некий путь к файлу 
+   <span class="term"><code><em>GeoIP.dat</em></code></span>, который содержит значения соответствий IP адресов базы данных 
+   кодам стран и допустима лишь в контексте обозначенного HTTP.</p>
+   <p>
+   </p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Рассматриваемые директивы <span class="term"><code>geoip_country</code></span> и 
+   <span class="term"><code>geoip_city</code></span> выставляют ряд доступных в этом модуле встроенных переменных. Первая 
+   директива <span class="term"><code>geoip_country</code></span> включает переменные, которые позволяют вам отличать 
+   значение страны происхождения вашего клиента. Эти переменные содержат в своём составе <span class="term"><code>$geoip_country_code</code></span>, 
+   <span class="term"><code>$geoip_country_code3</code></span> и <span class="term"><code>$geoip_country_name</code></span>. 
+   Первая переменная кода страны возвращает значение двухбуквенного кода страны, а переменная с 
+   <span class="term"><code>3</code></span> в конце возвращает значение трёхбуквенного кода страны. Переменная названия 
+   страны возвращает полное название страны.</p>
+   <p>Директива <span class="term"><code>geoip_city</code></span> возвращает приличное число переменных. Эта директива 
+   <span class="term"><code>geoip_city</code></span> возвращает аналогичные директиве 
+   <span class="term"><code>$geoip_country</code></span> переменные со слегка иными названиями, такие как 
+   <span class="term"><code>$geoip_city_country_code</code></span>, 
+   <span class="term"><code>$geoip_city_country_code3</code></span> и
+   <span class="term"><code>$geoip_city_country_name</code></span>. Прочие переменные включают в свой состав 
+   <span class="term"><code>$geoip_city</code></span>, <span class="term"><code>$geoip_city_continent_code</code></span>, 
+   <span class="term"><code>$geoip_latitude</code></span>, <span class="term"><code>$geoip_longitude</code></span> и 
+   <span class="term"><code>$geoip_postal_code</code></span>, которые имеют достаточно описательные названия для возвращаемых ими 
+   значений. <span class="term"><code>$geoip_region</code></span> и <span class="term"><code>$geoip_region_name</code></span> 
+   описывают значения региона, территории, штата, провинции, федеральной земли и им подобное. Регион является двухбуквенным кодом, 
+   в то время как назавние региона представляет его полное название. <span class="term"><code>$geoip_area_code</code></span>, 
+   которая допустима лишь в пределах US, возвращает значение из трёх цифр для телефонного кода области.</p>
+   <p>Обладая данными переменными вы имеете возможность регистрации информации о своём клиенте. В качестве опции вы также можете
+   передавать эту информацию в своё приложение в качестве некого заголовка или переменной, либо применять NGINX для маршрутизации
+   своего обмена определёнными путями.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://github.com/maxmind/geoipupdate  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/maxmind/geoipupdate%27" tppabs="https://github.com/maxmind/geoipupdate" target="_top">GeoIP Update</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Ограничение доступа на основе страны</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется ограничить доступ для определённых стран в соответствии с требованиями контрактов или приложения.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Установите соответствие тем странам, которые вы намерены блокировать:</p>
+	   <pre class="screen"><code>
+load_module
+  "/usr/lib64/nginx/modules/ngx_http_geoip_module.so";
+http {
+    map $geoip_country_code $country_access {
+        "US" 0;
+        "RU" 0;
+        default 1;
+    }
+    ...
+}
+ 	   </code></pre>
+   <p>Это соответствие устанавливает некую переменную <span class="term"><code>$country_access</code></span> в значение
+   <span class="term"><code>1</code></span> или <span class="term"><code>0</code></span>. Если полученный IP адрес 
+   имеет местом происходжения США или Россию, значение переменной будет установлено в 
+   <span class="term"><code>0</code></span>. Для всех прочих стран значение этой переменной устанавливается равным 
+   <span class="term"><code>1</code></span>.</p>
+   <p>Теперь внутри своего блока <span class="term"><code>server</code></span> мы будем применять оператор 
+   <span class="term"><code>if</code></span> для запрета всем тем, кто имеет местом происхождения США или Россию:</p>
+	   <pre class="screen"><code>
+server {
+    if ($country_access = '1') {
+      return 403;
+    }
+    ...
+}
+ 	   </code></pre>
+   <p>Данный оператор <span class="term"><code>if</code></span> будет вычислять <span class="term"><code>True</code></span>
+   когда значение переменной <span class="term"><code>$country_access</code></span> установлено в 
+   <span class="term"><code>1</code></span>. В случае <span class="term"><code>True</code></span> наш сервер будет 
+   возвращать 403 без авторизации. В противном случае все операции нашего сервера будут обычными. Тем самым данный блок 
+   <span class="term"><code>if</code></span> присутствует только для запрета тех людей, которые происходят из США или 
+   России.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Это короткий, но простой пример того как разрешать доступ всего из пары стран. Даный образец может быть расширен с 
+   тем, чтобы соответствовать вашим потребностям. Вы можете применять те же самые приёмы чтобы выполнять разрешения или 
+   блокировки на основе любых встроенных переменных, которые вам предоставляет описанный модуль GeoIP.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Поиск первичного клиента</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется выяснить IP адрес первоначального клиента, поскольку перед самим сервером NGINX имеется ряд 
+   посредников (прокси).</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь директивой <span class="term"><code>geoip_proxy</code></span> для выявления диапазона IP адреса вашего 
+   посредника и соответствующей директивой <span class="term"><code>geoip_proxy_recursive</code></span> для поиска значения
+   первоначального IP:</p>
+	   <pre class="screen"><code>
+load_module "/usr/lib64/nginx/modules/ngx_http_geoip_module.so";
+  
+http {
+    geoip_country /etc/nginx/geoip/GeoIP.dat;
+    geoip_city /etc/nginx/geoip/GeoLiteCity.dat;
+    geoip_proxy 10.0.16.0/26;
+    geoip_proxy_recursive on;
+...
+}
+ 	   </code></pre>
+   <p>Директива <span class="term"><code>geoip_proxy</code></span> определяет некий диапазон CIDR, в котором обитают наши 
+   серверы посредников и указывают NGINX на необходимость применять для поиска требуемых адресов своего клиента заголовка
+   <span class="term"><code>X-Forwarded-For</code></span>. Последняя директива <span class="term"><code>geoip_proxy_recursive</code></span> 
+   иструктирует NGINX о необходимости рекурсивного поиска через все заголовки <span class="term"><code>X-Forwarded-For</code></span>
+   на предмет самого последнего известного IP клиента.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Вы можете обнаружить, что когда вы применяете перед NGINX некого посредника (прокси), NGINX будет подхватывать вместо 
+   IP адреса такого клиента адрес применяемого посредника. По этой причине вы можете применять директиву 
+   <span class="term"><code>geoip_proxy</code></span> для того чтобы указывать NGINX на применение имеющегося заголовка 
+   <span class="term"><code>X-Forwarded-For</code></span> когда подключения открываются из заданного диапазона. Эта директива
+   <span class="term"><code>geoip_proxy</code></span> принимает некий адрес либо диапазон CIDR. Когда перед NGINX присутствует 
+   множество передающих обмен посредников, вы можете применять для рекурсивного поиска через адреса 
+   <span class="term"><code>X-Forwarded-For</code></span> необходимого клиента директиву
+   <span class="term"><code>geoip_proxy_recursive</code></span>. Вы можете пожелать применять нечто подобное этому при 
+   использовании перед NGINX такого балансировщика нагрузки, как AWS ELB, балансировщик нагрузки Google или Azure.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Ограничение подключений</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется ограничить общее число подключений на основе некого предварительно заданного ключа , такого как значение 
+   IP адреса клиента.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для удержания замеров подключений постройте некую зону совместной памяти и воспользуйтесь директивой 
+   <span class="term"><code>limit_conn</code></span> для ограничения открытых подключений:</p>
+	   <pre class="screen"><code>
+http {
+    limit_conn_zone $binary_remote_addr zone=limitbyaddr:10m;
+    limit_conn_status 429;
+    ...
+    server {
+        ...
+        limit_conn limitbyaddr 40;
+        ...
+    }
+}
+ 	   </code></pre>
+   <p>Эта конфигурация создаёт некую зону совместной памяти с названием <span class="term"><code>limitbyaddr</code></span>.
+   Применяемым предварительно определённым ключом является значение IP адреса клиента в двичной форме. Величина размера 
+   зоны совместной памяти установлена в значение 10 Мегабайт. Последняя директива <span class="term"><code>limit_conn</code></span> 
+   получает два параметра: некое название <span class="term"><code>limit_conn_zone</code></span> и общее число допускаемых 
+   подключений. Параметр <span class="term"><code>limit_conn_status</code></span> устанавливает значение отклика при достижении
+   предела имеющихся подключений в состояние 429, что указывает на слишком большое число подключений. Обсуждаемые директивы 
+   <span class="term"><code>limit_conn</code></span> и <span class="term"><code>limit_conn_status</code></span> допустимы 
+   в соотвествующих контекстах HTTP, сервера и местоположения.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Ограничение общего числа подключений основывается на неком ключе, который может применяться для определения злоупотреблений 
+   и разделения ваших ресурсов справедливым образом по всем вашим клиентам. Важно быть осмотрительным в выборе вашего предварительно
+   заданного ключа. Может быть опасным применение некого IP адреса, как мы это длали в своём предыдущем примере, когда многие 
+   пользователи применяют одну и ту же сетевую среду, которая происходит из одного и того же IP, например когда они расположены 
+   за <span class="emphasis"><em>Network Address Translation</em></span> (NAT). Мы способны ограничить определённую группу 
+   клиентов целиком. Директива <span class="term"><code>limit_conn_zone</code></span> допустима лишь в соответствующем контексте 
+   HTTP. Вы можете применять любое число доступных NGINX переменных внутри своего контекста HTTP для определения конкретного 
+   пользователя на уровне своего приложения , например куки сеанса, может быть более чётким решением в зависимости от варианта 
+   применения. Значением по умолчанию для <span class="term"><code>limit_conn_status</code></span> является 503, то есть 
+   данная служба недоступна, а отклик уровня 500 указывает на ошибку сервера, в то время как отклики уровня 400 
+   указывают на ошибку клиента.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Ограничение скорости</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется ограничить значение скорости запросов по некому предварительно заданному ключу, такому как значение IP 
+   адреса клиента.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для ограничения скорости запросов воспользуйтесь модулем ограничения скорости:</p>
+	   <pre class="screen"><code>
+http {
+    limit_req_zone $binary_remote_addr
+        zone=limitbyaddr:10m rate=1r/s;
+    limit_req_status 429;
+    ...
+    server {
+        ...
+        limit_req zone=limitbyaddr burst=10 nodelay;
+        ...
+    }
+}
+ 	   </code></pre>
+   <p>Данный пример настройки создаёт некую зону совместной памяти с названием <span class="term"><code>limitbyaddr</code></span>. 
+   Применяемым значением заранее определённого ключа является значение IP адреса клиента в двоичном виде. Величина размера 
+   совместной зоны памяти установлена в 10 Мегабайт. Данная зона устанавливает значение скорости при помощи некого аргумента 
+   ключевого слова. Приведённая директива <span class="term"><code>limit_req</code></span> получает два необязательных аргумента 
+   с ключевым словом: <span class="term"><code>zone</code></span> и <span class="term"><code>burst</code></span>. 
+   <span class="term"><code>zone</code></span> требуется для указания данной директиве какую именно применять зону предела 
+   запросов совместной памяти. Когда исчерпана скорость запросов для данной зоны, запросы откладываются пока не будет достигнуто 
+   их максимальный размер <span class="term"><code>burst</code></span>, обозначенный в аргументе ключевого слова
+   <span class="term"><code>burst</code></span>. Значением по умолчанию для ключевого слова <span class="term"><code>burst</code></span>
+   является ноль. <span class="term"><code>limit_req</code></span> также получает некий третий необязательный параметр с 
+   ключевым словом <span class="term"><code>nodelay</code></span>. Этот параметр позволяет конкретному клиенту применять его 
+   <span class="term"><code>burst</code></span> без задержки прежде чем получить ограничение. 
+   <span class="term"><code>limit_req_status</code></span> устанавливает значение состояния, возвращаемого определённому клиенту 
+   неким индивидуальным кодом состояния HTTP; по умолчанию он равен 503. <span class="term"><code>limit_req_status</code></span> 
+   и <span class="term"><code>limit_req</code></span> допустимы в контексте HTTP, сервера и местоположения. 
+   <span class="term"><code>limit_req_zone</code></span> допустим лишь в контексте HTTP. В NGINX Plus ограничение скорости 
+   осведомлено о кластере, что является новинкой в R16.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Обсуждаемый модуль ограничения скорости является очень мощным для защиты против злоупотребления частотой запросов 
+   и в то же самое время предоставляет всем некий уровень качества услуг. Имеется множество причин для ограничения скорости 
+   запросов, причём одной из них является безопасность. Вы можете препятствовать силовым атакам помещая на свою страницу 
+   регистрации очень строгое ограничение. Вы можете установить некий санитарный предел для всех запросов, тем самым запрещая 
+   соответствующие планы злонамерненным пользователям, которые могут пытаться запретить обслуживание вашего приложения или 
+   впустую тратить ваши ресурсы. Настройка модуля ограничения скорости во многом аналогична предыдущему описанному в 
+   <a class="link" href="Ch03.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#06" target="_top">рецепте</a> модуле ограничения подключений. Вы можете определить 
+   значение скорости в их числе в секунду или в минуту, которой ограничены запросы в обращениях. При достижении установленного 
+   предела скорости это происшествие регистрируется. Также имеется отсутствующая в нашем примере директива 
+   <span class="term"><code>limit_req_log_level</code></span>, которая по умолчанию установлена в значение error, но также 
+   может быть установлена в info, notice или warn. Что является новым в NGINX Plus с версии R16, так это то, что ограничение 
+   скорости теперь осведомлено о кластере (обратитесь к  соответствующему <a class="link" href="Ch12.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#06" 
+   target="_top">рецепту</a> за получением примера синхронизации зон).</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="08"> </a>Ограничение полосы пропускания</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходимо ограничить полосу пропускания выгрузки для клиента к вашим ресурсам.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для ограничения частоты откликов к клиенту воспользуйтесь директивами 
+   <span class="term"><code>limit_rate</code></span> и <span class="term"><code>limit_rate_after</code></span>:</p>
+	   <pre class="screen"><code>
+location /download/ {
+    limit_rate_after 10m;
+    limit_rate 1m;
+}
+ 	   </code></pre>
+   <p>Приведённые настройки данного блока местоположения определяет что для URI со значением префикса 
+   <span class="term"><code><em>download</em></code></span> значение частоты с которой этот отклик будет обслуживаться для 
+   данного клиента будет ограничено после 10 Мегабайт до скорости 1 Мегабайт в секунду. Значение предела полосы пропускания 
+   устанавливается для каждого подключения, а следовательно вы можете пожелать установить некий предел подключений а также 
+   какой- то предел полосы пропускания, где это приемлемо.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Ограничивая значение полосы пропускания для определённых подключений позволяет NGINX разделять его полосу пропускания 
+   по всем своим клиентам тем образом как вы его определяете. Всё это делают две директивы: <span class="term"><code>limit_rate</code></span>
+   и <span class="term"><code>limit_rate_after</code></span>. Первая директива <span class="term"><code>limit_rate_after</code></span> 
+   может быть установлена практически во всех контекстах: HTTP, сервера, местоположения и <span class="term"><code>if</code></span>
+   когда <span class="term"><code>if</code></span> расположен внутри местоположения. Следующая директива <span class="term"><code>limit_rate</code></span>
+   применяется в тех же самых контекстах, что и <span class="term"><code>limit_rate_after</code></span>; тем не менее 
+   она может быть альтернативно настроена установкой некой переменной с именем <span class="term"><code>$limit_rate</code></span>.
+   Эта директива <span class="term"><code>limit_rate_after</code></span> указывает что данное подключение не должно быть ограничено в 
+   скорости до тех пока не будет передан определённый объём данных. Данная директива <span class="term"><code>limit_rate</code></span>
+   определяет значение ограничения скорости для данного контекста по умолчанию в байтах в секунду. Однако вы можете 
+   определять <span class="term"><code>m</code></span> для Мегабайт или <span class="term"><code>g</code></span>
+   для Гигабайт. Обе директивы имеют по умолчанию значение 0. Значение величины 0 подразумевает что предела для скоростей 
+   выгрузки нет вовсе. Данный модуль позволяет вам программируемым образом изменять значение ограничения скорости клиентов.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

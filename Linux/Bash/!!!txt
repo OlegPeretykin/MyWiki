@@ -1,0 +1,22 @@
+'cd -' - return in previous directory
+
+Ctrl-L псевдо очистка экрана, поднимает вывлд в крайне верхнюю позицию
+reset - full reset Bash session
+
+history - command history
+HISTTIMEFORMAT="%Y-%m-%d %T "  - можно поместить в ~/.bashrc и так будет всегда
+
+!<index number> - repeat command from history used index nuber
+Ctrl-r - searching in history
+hstr - history browser
+
+!! - repeat last command, for example: 'sudo !!'
+
+pushd
+popd
+
+Ctrl-Z - переходит из открытого окна например nano или top в терминал
+fg - возврат обратно
+
+which <***> - показывает где находится исполняемый файл
+

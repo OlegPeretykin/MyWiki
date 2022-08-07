@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="Keywords" content="Proxmox, FreeNAS, NAS4Free, Nexenta, napp-it, TrueNAS, TurnKey, VirtIO, NUMA, noVNC, ZFS, Gluster, GlusterFS, Ceph, CephFS, CRUSH, RADOS, RBD, OSD, Placement Group, LXC, Linux Container, OpenVZ, UBC, KVM-based, pfSense, VZdump, Zabbix, pmxcfs, Infiniband, Suricata">
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<link type="text/css" rel="stylesheet" href="shCoreDefault.css" tppabs="http://onreader.mdl.ru/common/styles/shCoreDefault.css"/>
+<script type="text/javascript" src="shCore.js" tppabs="http://onreader.mdl.ru/common/scripts/shCore.js"><!----></script>
+<script type="text/javascript">
+               SyntaxHighlighter.config.space = ' ';
+               SyntaxHighlighter.all();
+</script>
+<title>Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="mavenArtifactId" content="DockerRailsDevelopersApplicationsEverywhere"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<meta name="description" content="Современные рецепты для высоко производительная балансировка нагрузки"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ix01.html" title="Указатель"/>
+<link rel="next" href="Ch01.html" title="Глава 1. Новый мир храбрых"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+            
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Книга рецептов NGINX';
+PrevRef = 'Ix01.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ix01.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch01.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html*/;//-->
+</script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+<div class="book">
+<div xmlns="" class="titlepage">
+ <div>
+ <div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+  Книга рецептов NGINX</h1>
+ </div>
+ <div>
+  <div xmlns="http://www.w3.org/1999/xhtml" class="author"><h3 class="author"><span class="firstname"/> <span class="surname"/></h3>
+   <div class="affiliation"><span class="orgname">Дерек ДеДжонге</span>
+   </div>
+  </div>
+ </div>
+<div class="section">
+    <div xmlns="" class="titlepage"><div><div>
+     <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="Copyright"> </a> </h3>
+    </div></div></div>
+   <p xmlns="http://www.w3.org/1999/xhtml" class="copyright">Copyright © 2019 O’Reilly Media Inc.</p>
+ <div>
+  <div xmlns="http://www.w3.org/1999/xhtml" class="legalnotice">
+   <a id="d9e16"/>
+   <table frame="void" id="d9e17"><col width="10%"/><col width="90%"/><tbody><tr><td>
+   <a class="link" href="javascript:if(confirm(%27https://www.packtpub.com/books/info/packt/terms-and-conditions  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://www.packtpub.com/books/info/packt/terms-and-conditions%27" tppabs="https://www.packtpub.com/books/info/packt/terms-and-conditions" alt="Постановления и условия" target="_top">
+   <div class="informalfigure">
+    <div class="mediaobject" align="center">
+	 <img src="by.png" tppabs="http://onreader.mdl.ru/common/images/cc/by.png" align="middle"/>
+    </div>
+   </div></a></td><td>
+   <p>Данный документ предоставляется по лицензии
+   <a class="link" href="javascript:if(confirm(%27http://creativecommons.org/licenses/by/3.0/legalcode  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://creativecommons.org/licenses/by/3.0/legalcode%27" tppabs="http://creativecommons.org/licenses/by/3.0/legalcode" target="_top"><span class="bold"><strong>
+   Creative Commons Attribution 3.0 License</strong></span>, 
+   за исключением разделов со специальными оговорками. </a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://creativecommons.org/licenses/by/3.0/legalcode  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://creativecommons.org/licenses/by/3.0/legalcode%27" tppabs="http://creativecommons.org/licenses/by/3.0/legalcode" target="_top">
+   http://creativecommons.org/licenses/by/3.0/legalcode</a></p></td></tr></tbody></table>
+  </div>
+</div>
+  <p>Первая публикация на английском языке: Март 2017</p>
+  <p>История изданий первой редакции:</p>
+  <p>2017-05-26: Первый выпуск</p>
+  <p>2018-11-21: Второй выпуск</p>
+<p></p>
+<p>Опубликовано O’Reilly Media Inc.</p>
+<p>1005 Gravenstein Highway North,</p>
+<p>Sebastopol, CA 95472</p>
+<p>USA</p>
+<p>ISBN 978-1-491-96893-2</p>
+<p><a class="link" href="javascript:if(confirm(%27http://oreilly.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://oreilly.com/%27" tppabs="http://oreilly.com/" target="_top">oreilly.com</a></p>
+<p xmlns="http://www.w3.org/1999/xhtml" class="pubdate">2019-03-26</p>
+</div>
+
+<div class="section">
+ <div xmlns="" class="titlepage"><div><div>
+  <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="Credits"> </a>Состав исполнителей</h3>
+   Издания на английском языке
+ </div></div></div>
+ <dl><dt><strong>Автор</strong></dt>
+  <dd><dl>
+   <dt>Дерек ДеДжонге</dt>  
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Редактор по развитию</strong></dt>
+  <dd><dl>
+   <dt>Вирджиния Уилсон</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Редактор приобретений</strong></dt>
+  <dd><dl>
+   <dt>Брайан Андерсон</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Старший редактор</strong></dt>
+  <dd><dl>
+   <dt>Сьюзан Коунант</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Редактор производства</strong></dt>
+  <dd><dl>
+   <dt>Юстин Биллинг</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Редактор текста</strong></dt>
+  <dd><dl>
+   <dt>Octal Publishing, LLC</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Корректор</strong></dt>
+  <dd><dl>
+   <dt>Крис Эдвардс</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Дизайнер внутреннего оформления</strong></dt>
+  <dd><dl>
+   <dt>Дэвид Футэйто</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Дизайнер обложки</strong></dt>
+  <dd><dl>
+   <dt>Кэйрин Монтгомери</dt>
+  </dl></dd>
+ </dl>
+ <dl><dt><strong>Художник- иллюстратор</strong></dt>
+  <dd><dl>
+   <dt>Ребекка Димэйрист</dt>
+  </dl></dd>
+ </dl>
+</div>
+
+<div class="section">
+ <div xmlns="" class="titlepage"><div><div>
+  <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="Foreword"> </a>Вступление</h3>
+ </div></div></div> 
+ <p></p>
+ <p></p>
+</div>
+
+<div class="section">
+ <div xmlns="" class="titlepage"><div><div>
+  <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="Preface"> </a>Введение</h3>
+ </div></div></div>
+ <p></p>
+</div>
+ 
+<div class="toc"><p><strong><a id="ToC"> </a>Содержание</strong></p>
+ <dd><dl>
+   <dt><span class="chapter"><a href="index.html#Preface" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/index.html#Preface">Предисловие</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="index.html#Foreword" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/index.html#Foreword">Вступление</a></span></dt>
+     <dt><span class="chapter"><a href="index.html#Preface" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/index.html#Preface">Введение</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch01.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html">Глава 1. Основы</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch01.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#02">Установка в Debian/Ubuntu</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#03">Установка в RedHat/CentOS</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#04">Установка NGINX Plus</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#05">Проверка вашей установки</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#06">Ключевые файлы, команды и каталоги</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#07">Обслуживание статического содержания</a></span></dt>
+     <dt><span class="chapter"><a href="Ch01.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#08">Аккуратная перезагрузка</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch02.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html">Глава 2. Высоко производительная балансировка нагрузки</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch02.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#02">Балансировка нагрузки HTTP</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#03">Балансировка нагрузки TCP</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#04">Балансировка нагрузки UDP</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#05">Методы балансировки нагрузки</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#06">Клейкие куки</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#07">Обучения наклейкам</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#08">Наклейки маршрутов</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#09" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#09">Осушение соединения</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#10" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#10">Пассивные проверки жизнеспособности</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#11" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#11">Активные проверки жизнеспособности</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#12" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#12">Медленный запуск</a></span></dt>
+     <dt><span class="chapter"><a href="Ch02.html#13" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#13">Проверки жизнеспособности TCP</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch03.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html">Глава 3. Управление обменом</dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch03.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#02">Тестирование A/B</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#03">Применение модуля GeoIP и базы данных</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#04">Ограничение доступа на основе страны</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#05">Поиск первичного клиента</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#06">Ограничение подключений</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#07">Ограничение скорости</a></span></dt>
+     <dt><span class="chapter"><a href="Ch03.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html#08">Ограничение полосы пропускания</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch04.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html">Глава 4. Массивно масштабируемое кэширование содержания</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch04.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch04.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#02">Зоны кэширования</a></span></dt>
+     <dt><span class="chapter"><a href="Ch04.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#03">Хэш ключи кэширования</a></span></dt>
+     <dt><span class="chapter"><a href="Ch04.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#04">Обход кэширования</a></span></dt>
+     <dt><span class="chapter"><a href="Ch04.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#05">Производительность кэширования</a></span></dt>
+     <dt><span class="chapter"><a href="Ch04.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#06">Продувка</a></span></dt>
+     <dt><span class="chapter"><a href="Ch04.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch04.html#07">Расслоение кэширования</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch05.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html">Глава 5. Программируемость и автоматизация</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch05.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#02">API NGINX Plus</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#03">Хранилище ключ- значение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#04">Установка при помощи Puppet</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#05">Установка при помощи Chef</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#06">Установка при помощи Ansible</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#07">Установка при помощи SaltStack</a></span></dt>
+     <dt><span class="chapter"><a href="Ch05.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html#08">Автоматизация настроек через шаблоны Consul</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch06.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html">Глава 6. Аутентификация</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch06.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch06.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#02">Базовая аутентификация HTTP</a></span></dt>
+     <dt><span class="chapter"><a href="Ch06.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#03">Подзапросы аутентификации</a></span></dt>
+     <dt><span class="chapter"><a href="Ch06.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#04">JWT подтверждение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch06.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#05">Создание веб ключей JSON</a></span></dt>
+     <dt><span class="chapter"><a href="Ch06.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#06">Аутентификация пользователей посредством имеющегося OpenID Connect SSO</a></span></dt>
+     <dt><span class="chapter"><a href="Ch06.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#07">Получение значения веб ключей JSON из Google</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch07.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html">Глава 7. Управления безопасностью</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch07.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#02">Основанный на IP доступ</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#03">Разрешение обмена ресурсами между источниками</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#04">Шифрование стороны клиента</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#05">Восходящее шифрование</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#06">Безопасность местоположения</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#07">Генерация безопасного соединения при помощи ключа безопасности</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#08">Безопасность местоположения при помощи ограниченной даты</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#09" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#09">Генерация ссылки с ограниченным сроком</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#10" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#10">Перенаправление HTTPS</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#11" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#11">Перенаправление на HTTPS когда SSL/ TLS прекращается до NGINX</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#12" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#12">Строгая безопасность доставки HTTP</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#13" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#13">Удовлетворение любого числа методов безопасности</a></span></dt>
+     <dt><span class="chapter"><a href="Ch07.html#14" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#14">Динамичное ослабление DDoS</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch08.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html">Глава 8. HTTP/2</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch08.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch08.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#02">Базовая настройка</a></span></dt>
+     <dt><span class="chapter"><a href="Ch08.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#03">gRPC</a></span></dt>
+     <dt><span class="chapter"><a href="Ch08.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#04">Сервер активной доставки HTTP/2</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch09.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html">Глава 9. Управление сложными потоками медиа</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch09.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch09.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html#02">Обслуживание MP4 и FLV</a></span></dt>
+     <dt><span class="chapter"><a href="Ch09.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html#03">Организация потоков с помощью HLS</a></span></dt>
+     <dt><span class="chapter"><a href="Ch09.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html#04">Организация потоков с помощью HDS</a></span></dt>
+     <dt><span class="chapter"><a href="Ch09.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html#05">Пределы полосы пропускания</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch10.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html">Глава 10. Развёртывание в облачных решениях</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch10.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#02">Автоматическое предоставление в AWS</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#03">Маршрутизация в узлы NGINX без AWS ELB</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#04">Сандвич NLB</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#05">Развёртывание из AWS Marketplace</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#06">Создание некого образа ВМ NGINX в Azure</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#07">Балансировка нагрузки поверх наборов масштаба NGINX в Azure</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#08">Развёртывание через Azure Marketplace</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#09" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#09">Развёртывание в GCE</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#10" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#10">Создание вычислительного образа Google</a></span></dt>
+     <dt><span class="chapter"><a href="Ch10.html#11" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html#11">Создание механизма посредника приложения Google</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch11.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html">Глава 11. Контейнеры/ Микрослужбы</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch11.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#02">Записи DNS SRV</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#03">Применение официального образа NGINX</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#04">Создание Dockerfile NGINX</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#05">Сборка NGINX Plus</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#06">Применение переменных среды NGINX</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#07">Контроллер Ingress Kubernetes</a></span></dt>
+     <dt><span class="chapter"><a href="Ch11.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#08">Маршрутизатор OpenShift</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch12.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html">Глава 12. Режимы развёртывания высокой доступности</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch12.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch12.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#02">Режим HA NGINX</a></span></dt>
+     <dt><span class="chapter"><a href="Ch12.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#03">Балансировка нагрузки балансировщиками с помощью DNS</a></span></dt>
+     <dt><span class="chapter"><a href="Ch12.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#04">Балансировка нагрузки в EC2</a></span></dt>
+     <dt><span class="chapter"><a href="Ch12.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#05">Настройка синхронизации</a></span></dt>
+     <dt><span class="chapter"><a href="Ch12.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html#06">Совместное использование состояния при помощи Zone Sync</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch13.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch13.html">Глава 13. Современный активный мониторинг</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch13.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch13.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch13.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch13.html#02">Включение Stub Status NGINX с открытым исходным кодом</a></span></dt>
+     <dt><span class="chapter"><a href="Ch13.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch13.html#03">Включение Инструментальной панели мониторинга NGINX Plus</a></span></dt>
+     <dt><span class="chapter"><a href="Ch13.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch13.html#04">Сбор измерений при помощи API NGINX Plus</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch14.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch14.html">Глава 14. Отладка и устранение неисправностей с помощью журналов доступа, журналов ошибок и трассировки запроса</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch14.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch14.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch14.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch14.html#02">Настройка регистраций доступа</a></span></dt>
+     <dt><span class="chapter"><a href="Ch14.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch14.html#03">Настройка регистраций ошибок</a></span></dt>
+     <dt><span class="chapter"><a href="Ch14.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch14.html#04">Перенаправление в Syslog</a></span></dt>
+     <dt><span class="chapter"><a href="Ch14.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch14.html#05">Трассировка запросов</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch15.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html">Глава 15. Настройка производительности</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch15.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch15.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#02">Автоматические проверки с помощью загружаемых драйверов</a></span></dt>
+     <dt><span class="chapter"><a href="Ch15.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#03">Сохранение соединений открытыми для клиентов</a></span></dt>
+     <dt><span class="chapter"><a href="Ch15.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#04">Сохранение соединений открытого восходящего потока</a></span></dt>
+     <dt><span class="chapter"><a href="Ch15.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#05">Буферизация откликов</a></span></dt>
+     <dt><span class="chapter"><a href="Ch15.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#06">Буферизация регистраций доступа</a></span></dt>
+     <dt><span class="chapter"><a href="Ch15.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch15.html#07">Настройки ОС</a></span></dt>
+   </dl></dd>
+   <dt><span class="chapter"><a href="Ch16.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch16.html">Глава 16. Практические советы Ops и заключение</a></span></dt>
+   <dd><dl>
+     <dt><span class="chapter"><a href="Ch16.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch16.html#01">Введение</a></span></dt>
+     <dt><span class="chapter"><a href="Ch16.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch16.html#02">Применение вложений для ясности настроек</a></span></dt>
+     <dt><span class="chapter"><a href="Ch16.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch16.html#03">Отладка настроек</a></span></dt>
+     <dt><span class="chapter"><a href="Ch16.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch16.html#04">Заключение</a></span></dt>
+   </dl></dd>
+  <dt><span class="chapter"><a href="Ix01.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ix01.html">Указатель</a></span></dt>
+ </dl></dd>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar); //-->
+</script>
+
+</body></html>

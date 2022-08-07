@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 11. Контейнеры/ Микрослужбы - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch10.html" title="Глава 10. Развёртывание в облачных решениях"/>
+<link rel="next" href="Ch12.html" title="Глава 12. Режимы развёртывания высокой доступности"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 11. Контейнеры/ Микрослужбы';
+PrevRef = 'Ch10.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch10.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch12.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch12.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 11. Контейнеры/ Микрослужбы
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch11.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html">Глава 11. Контейнеры/ Микрослужбы</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch11.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#02">Записи DNS SRV</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#03">Применение официального образа NGINX</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#04">Создание Dockerfile NGINX</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#05">Сборка NGINX Plus</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#06">Применение переменных среды NGINX</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#07">Контроллер Ingress Kubernetes</a></span></dt>
+       <dt><span class="chapter"><a href="Ch11.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch11.html#08">Маршрутизатор OpenShift</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>Контейнеры предлагают некий уровень абстракции на прикладном уровне, сдвигая необходимый процесс установки пакетов 
+   и зависимостей с процесса развёртывания в процесс сборки. Это важно по той причине, что инженеры теперь снаряжают 
+   элементы кода, которые исполняются и снабжаются неким единообразным способом вне зависимости от имеющейся среды. 
+   Предложение контейнеров как исполняемых элементов снижает значение риска путаницы зависимостей и настроек между средами.
+   Принимая это во внимание, это придаёт организациям большой импульс для развёртывания своих приложений в платформах 
+   контейнеров. При запуске приложения в некоторой платформе контейнера, является широкой практикой размещать в контейнерах 
+   всё что позволяет имеющийся стек, включая вашего посредника и балансировщика нагрузки. NGINX и NGINX Plus запросто 
+   помещаются в контейнер и доставляются ими. Они также содержат множество функций, которые превращают доставку приложений 
+   в контейнерах более подвижной. Данная глава сосредоточена на сборке образов контейнеров NGINX и NGINX Plus, свойства, 
+   которые делают более простой работу в средах с контейнерами, а также развёртывание ваших образов в Kubernetes и 
+   OpenShift.</p>
+  </div>
+  
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Записи DNS SRV</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы бы хотели применять свою имеющуюся реализацию записей DNS SRV в качестве своего источника для серверов 
+   восходящего потока с помощью NGINX Plus.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Определите соответствующую директиву службы со значением <span class="term"><code>http</code></span> некого 
+   сервера восходящего потока чтобы указать NGINX на необходимость применения имеющихся записей SRV в качестве некого 
+   пула балансировки нагрузки:</p>
+	   <pre class="screen"><code>
+http {
+    resolver 10.0.0.2;
+
+    upstream backend {
+        zone backends 64k;
+        server api.example.internal service=http resolve;
+    }
+}
+ 	   </code></pre>
+   <p>Данная функциональность присутствует исключительно в NGINX Plus. Данная настройка инструктирует NGINX Plus выполнять 
+   разрешение DNS с некого сервера DNS <span class="term"><code>10.0.0.2</code></span> и настраивать некий пул 
+   серверов восходящего потока в отдельной директиве <span class="term"><code>server</code></span>. Эта директива 
+   <span class="term"><code>server</code></span> определяется с параметром <span class="term"><code>resolve</code></span>
+   и указывает на необходимости периодического повторного разрешения данного имени домена. Сам параметр
+   <span class="term"><code>service=http</code></span> и значение сообщают NGINX что это некая запись SRV, которая содержит 
+   список IP и портов и балансировку нагрузки по ним если они были настроены при помощи директивы 
+   <span class="term"><code>server</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Динамичная инфраструктура становится всё более популярной благодаря спросу и внедрению инфраструктур на облачной 
+   основе. Среды с автоматическим шкалированием масштабируются горизонтально, увеличивая или уменьшая общее число 
+   серверов в имеющемся пуле для соответствия текущей нагрузке. Горизонтальное масштабирование требует некой балансировки 
+   нагрузки, которая способна добавлять или удалять ресурсы из имеющегося пула. Обладая некой записью SRV вы снимаете с 
+   себя ответственность за отслеживание текущего списка серверов и передаёте её DNS. Такой тип настройки чрезвычайно 
+   заманчив для сред с контейнерами, так как вы можете иметь контейнеры с изменяемыми номерами портов, причём возможно 
+   даже с одним и тем же адресом IP. Важно также отметить, что полезная нагрузка записи UDP DNS ограничена примерно 512
+   байтами.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Применение официального образа NGINX</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется быстро поднять и запустить образ NGINX из Docker Hub.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь имеющимся в Docker Hub образом NGINX. Этот образ содержит некие установленные по умолчанию настройки.
+   Вам необходимо либо смонтировать некий локальный каталог настроек, либо создать какой- то Dockerfile и 
+   <span class="term"><code>ADD</code></span> в своих настройках для сборки требуемого образа с изменённой конфигурацией. 
+   В нашем случае мы монтируем некий том, в котором настройки по умолчанию NGINX обслуживают статическое модерживое 
+   чтобы продемонстрировать его возможности при помощи некой отдельной команды:</p>
+		<pre class="screen"><code><strong>
+$ docker run --name my-nginx -p 80:80 \
+    -v /path/to/content:/usr/share/nginx/html:ro -d nginx
+		</strong></code></pre>
+   <p>Данная команда <span class="term"><code>docker</code></span> вытаскивает необходимый образ 
+   <span class="term"><code>nginx:latest</code></span> с Docker Hub если не обнаруживает его локально. Эта команда затем 
+   запускает данный образ NGINX как некий контейнер Docker, устанавливая соответствие 
+   <span class="term"><code>localhost:80</code></span> порту <span class="term"><code>80</code></span> самого контейнера 
+   NGINX. Она также монтирует имеющийся локальный каталог <span class="term"><code><em>/path/to/content/</em></code></span> 
+   в качестве некого тома контейнера в <span class="term"><code><em>/usr/share/nginx/html/ </em></code></span> с доступом 
+   только для чтения. Установленная по умолчанию конфигурация NGINX будет обслуживать этот каталог в качестве статического 
+   содержимого. При определении соответствия от вашей локальной машины в некий контейнер, первым идёт значение порта 
+   или каталога локальной машины, а порт или каталог самого контейнера идут вторыми.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>NGINX сделал некий официальный образ Docker, доступный через Docker Hub. Этот официальный образ Docker превращает в 
+   очень быструю процедуру получения и запуска NGINX в Docker для предпочитаемой вами платформы. В данном разделе мы 
+   имели возможность заполучить поднятым и запущенным NGINX в контейнере при помощи одной единственной команды! 
+   Официальная основная линия образа Docker NGINX, которой мы и воспользовались в данном примере состоит в построении 
+   образа Docker Debian Jessie. Однако вы можете также выбирать официальные образы, собранные на Alpine Linux. 
+   Dockerfile и исходные коды для этих официальных образов доступны в GitHub. Вы можете расширить данный официальный образ 
+   построив свой собственный Dockerfile и определив свой официальный образ в соответствующей команде
+   <span class="term"><code>FROM</code></span>.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p><a class="link" href="javascript:if(confirm(%27https://hub.docker.com/_/nginx  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://hub.docker.com/_/nginx%27" tppabs="https://hub.docker.com/_/nginx" target="_top">Official NGINX Docker image, NGINX</a></p>
+	 </li><li class="listitem">
+	 <p><a class="link" href="javascript:if(confirm(%27https://github.com/nginxinc/docker-nginx/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/nginxinc/docker-nginx/%27" tppabs="https://github.com/nginxinc/docker-nginx/" target="_top">Docker repo on GitHub</a></p>
+	 </li><li class="listitem">
+	 <p>{<span class="emphasis"><em>Прим. пер.: наш перевод вышедшей в феврале 2019 книги <a class="link" 
+	 href="javascript:if(confirm(%27http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/index.html%27" tppabs="http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/index.html" 
+	 target="_top">Docker для разработчиков Rails</a> Роба Айзенберга. Вас не должен смущать Rails, даже если вы с ним не 
+	 знакомы. Он скорее служит наполнителем для предмета книги с целью демонстрации приёмов и методов работы с типичным 
+	 стеком приложений Docker.</em></span>}</p>
+	 </li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Создание Dockerfile NGINX</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Для сборки некого образа Docker вам требуется создать некий Dockerfile NGINX.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Начните с <span class="term"><code>FROM</code></span> для предпочитаемого вами дистрибутива образа Docker. 
+   Для установки NGINX воспользуйтесь командой <span class="term"><code>RUN</code></span>. Для добавления своих файлов 
+   настроек примените команду <span class="term"><code>ADD</code></span>. Чтобы указать Docker выставить заданные порты 
+   прибегните к помощи команды <span class="term"><code>EXPOSE</code></span> или сделайте это вручную при запуске своего 
+   образа в качестве контейнера. После того как ваш образ создаст экземпляр контейнера, для запуска NGINX воспользуйтесь 
+   <span class="term"><code>CMD</code></span>. Вам требуется запустить NGINX в фоновом режиме. Для этого вам понадобится 
+   запустить NGINX при помощи <span class="term"><code>-g &quot;daemon off;&quot;</code></span> или 
+   <span class="term"><code>daemon off;</code></span> в ваших настройках. Данный пример будет позднее использовать 
+   <span class="term"><code>daemon off;</code></span> в соответствующем файле настроек внутри своего основного контекста. 
+   Вы также пожелаете изменить свои настройки NGINX чтобы выполнять регистрацию для доступа к журналу в  
+   <span class="term"><code><em>/dev/stdout</em></code></span> и на <span class="term"><code><em>/dev/stderr</em></code></span> 
+   для журнала ошибок; сделав это вы поместите свои журналы в руки самого демона Docker, что сделает их более доступными 
+   для вас на основе драйвера журналов, который вы выбрали при помощи Docker:</p>
+	   <pre class="screen"><code>
+Dockerfile:
+FROM centos:7
+
+# Install epel repo to get nginx and install nginx
+RUN yum -y install epel-release && \
+    yum -y install nginx
+
+# add local configuration files into the image
+ADD /nginx-conf /etc/nginx
+
+EXPOSE 80 443
+
+CMD ["nginx"]
+ 	   </code></pre>
+   <p>Получаемая структура каталогов выглядит так:</p>
+	   <pre class="screen"><code>
+.
+├── Dockerfile
+└── nginx-conf
+    ├── conf.d
+    │   └── default.conf
+    ├── fastcgi.conf
+    ├── fastcgi_params
+    ├── koi-utf
+    ├── koi-win
+    ├── mime.types
+    ├── nginx.conf
+    ├── scgi_params
+    ├── uwsgi_params
+    └── win-utf
+ 	   </code></pre>
+   <p>Я выбираю размещение настроек NGINX целиком внутри данного каталога Docker для простоты доступа ко всем его 
+   настройкам при помощи всего одной строки в соответствующем Dockerfile чтобы добавлять все свои настройки NGINX.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Вы можете найти полезным создание своего собственного Dockerfile когда вам требуется полный контроль над необходимыми 
+   установкой пакетов и их обновлением. Распространено поддержание своего собственного репозитория образов с тем, чтобы 
+   вы знали что ваш базовый образ надёжен и проверен вашей командой прежде чем запуксать его в промышленное применение.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Сборка NGINX Plus</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется собрать некий образ Docker NGINX Plus для запуска NGINX Plus в среде с контейнерами.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для построения образа Docker NGINX Plus воспользуйтесь этим Dockerfile. Вам потребуется выгрузить свои сертификаты 
+   репозитория NGINX Plus и держать их в том же каталоге, что и данный Dockerfile под именами 
+   <span class="term"><code><em>nginx-repo.crt</em></code></span> и 
+   <span class="term"><code><em>nginx-repo.key</em></code></span>, соответственно. 
+   С их помощью данный Dockerfile выполнит всю остающуюся работу по установке для вас NGINX Plus применяя и присоединяя 
+   журналы регистрации доступа и ошибок NGINX в имеющемся коллекторе журналов Docker.</p>
+	   <pre class="screen"><code>
+FROM debian:stretch-slim
+
+LABEL maintainer="NGINX &lt;docker-maint@nginx.com&gt;"
+
+# Download certificate and key from the customer portal
+# (https://cs.nginx.com) and copy to the build context
+
+COPY nginx-repo.crt /etc/ssl/nginx/
+COPY nginx-repo.key /etc/ssl/nginx/
+
+# Install NGINX Plus
+RUN set -x \
+  &amp;&amp; APT_PKG="Acquire::https::plus-pkgs.nginx.com::" \
+  &amp;&amp; REPO_URL="https://plus-pkgs.nginx.com/debian" \
+  &amp;&amp; apt-get update &amp;&amp; apt-get upgrade -y \
+  &amp;&amp; apt-get install \
+    --no-install-recommends --no-install-suggests\
+    -y apt-transport-https ca-certificates gnupg1 \
+  &amp;&amp; \
+  NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62;\
+  found=''; \
+  for server in \
+    ha.pool.sks-keyservers.net \
+    hkp://keyserver.ubuntu.com:80 \
+    hkp://p80.pool.sks-keyservers.net:80 \
+    pgp.mit.edu \
+  ; do \
+    echo "Fetching GPG key $NGINX_GPGKEY from $server"; \
+    apt-key adv --keyserver "$server" --keyserver-options \
+      timeout=10 --recv-keys "$NGINX_GPGKEY" \
+    &amp;&amp; found=yes \
+    &amp;&amp; break;\
+  done;\
+  test -z "$found" &amp;&amp; echo &gt;&amp;2 \
+    "error: failed to fetch GPG key $NGINX_GPGKEY" &amp;&amp; exit 1; \
+  echo "${APT_PKG}Verify-Peer "true";"\
+    &gt;&gt; /etc/apt/apt.conf.d/90nginx \
+  &amp;&amp; echo \
+    "${APT_PKG}Verify-Host "true";"&gt;&gt;\
+    /etc/apt/apt.conf.d/90nginx \
+  &amp;&amp; echo "${APT_PKG}SslCert \
+    "/etc/ssl/nginx/nginx-repo.crt";" &gt;&gt; \
+    /etc/apt/apt.conf.d/90nginx \
+  &amp;&amp; echo "${APT_PKG}SslKey \
+    "/etc/ssl/nginx/nginx-repo.key";" &gt;&gt; \
+      /etc/apt/apt.conf.d/90nginx \
+  &amp;&amp; printf \
+    "deb ${REPO_URL} stretch nginx-plus" \
+    &gt; /etc/apt/sources.list.d/nginx-plus.list \
+  &amp;&amp; apt-get update &amp;&amp; apt-get install -y nginx-plus \
+  &amp;&amp; apt-get remove --purge --auto-remove -y gnupg1 \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Forward request logs to Docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+  &amp;&amp; ln -sf /dev/stderr /var/log/nginx/error.log
+
+EXPOSE 80
+STOPSIGNAL SIGTERM
+
+CMD ["nginx", "-g", "daemon off;"]
+ 	   </code></pre>
+   <p>Для сборки этим Dockerfile некого образа Docker, исполните приводимое ниже в том каталоге, который содержит данный 
+   Dockerfile, а также ваши сертификат и ключ репозитория NGINX Plus:</p>
+		<pre class="screen"><code><strong>
+$ docker build --no-cache -t nginxplus .
+		</strong></code></pre>
+   <p>Данная команда <span class="term"><code>docker build</code></span> применяет флаг <span class="term"><code>--no-cache</code></span> 
+   чтобы обеспечить то, что вне зависимости от того что вы собирали ранее, из репозитория NGINX Plus были вытянуты для обновления 
+   свежие пакеты NGINX Plus. Если для вас будет <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/Ch03.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/Ch03.html#04%27" tppabs="http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/Ch03.html#04" 
+   target="_top">допустимо</a> применение той же самой версии NGINX Plus, которую мы собирали ранее, вы можете опустить данный флаг 
+   <span class="term"><code>--no-cache</code></span>. В этом примере наш новый образ Docker <a class="link" 
+   href="javascript:if(confirm(%27http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/Ch03.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/Ch03.html#01%27" tppabs="http://onreader.mdl.ru/DockerRailsDevelopersApplicationsEverywhere/content/Ch03.html#01" target="_top">снабжается тегом</a> 
+   <span class="term"><code>nginxplus</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Создавая для NGINX Plus свой собственный образ, вы получаете возможность настраивать свой контейнер NGINX Plus так, 
+   как считаете нужным и переносить его в любую среду Docker. Это вскрывает всю мощность и расширенную функциональность 
+   NGINX Plus для вашей среды контейнеров. Данный Dockerfile не использует имеющееся свойство <span class="term"><code>ADD</code></span>
+   Dockerfile для добавления в ваши настройки; вам придётся добавлять свои установки вручную.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2crOMB6  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2crOMB6%27" tppabs="http://bit.ly/2crOMB6" target="_top">NGINX blog on Docker images</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Применение переменных среды NGINX</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется воспользоваться переменными среды внутри своей конфигурации NGINX чтобы применять один и тот же образ 
+   контейнера для различных сред.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для установки в NGINX переменных из своей среды воспользуйтесь модулем <span class="term"><code>ngx_http_perl_module</code></span>:</p>
+	   <pre class="screen"><code>
+daemon off;
+env APP_DNS;
+include /usr/share/nginx/modules/*.conf;
+...
+http {
+  perl_set $upstream_app 'sub { return $ENV{"APP_DNS"}; }';
+  server {
+    ...
+    location / {
+      proxy_pass https://$upstream_app;
+    }
+  }
+}
+ 	   </code></pre>
+   <p>Для применения <span class="term"><code>perl_set</code></span> вам требуется иметь установленным 
+   <span class="term"><code>ngx_http_perl_module</code></span>; вы можете сделать это загружая данный модуль динамически или 
+   статически при построении из исходного кода. По умолчанию NGINX стирает переменные среды из своего окружения: вам требуется 
+   объявлять все переменные, которые вы не желаете удалять, в директиве <span class="term"><code>env</code></span>. Сама 
+   директива <span class="term"><code>perl_set</code></span> получает два параметра: имя той переменной, которую вы бы хотели 
+   установить т строку perl, которая вычисляет необходимый результат.</p>
+   <p>Приводимый ниже Dockerfile, который динамически загружает <span class="term"><code>ngx_http_perl_module</code></span>, 
+   устанавливает этот модуль из своей утилиты управления пакетами. При установке модулей из соответствующей утилиты пакета для 
+   CentOS они помещаются в каталог <span class="term"><code><em>/usr/lib64/nginx/modules/</em></code></span>, а файлы настройки, 
+   которые динамически загружают эти модули помещаются в каталог <span class="term"><code><em>/usr/share/nginx/modules/</em></code></span>. 
+   Именно по этой причине в предыдущем фрагменте кода мы пометили все файлы настройки в такой путь:</p>
+		<pre class="screen"><code><strong>
+FROM centos:7
+
+# Install epel repo to get nginx and install nginx
+RUN yum -y install epel-release && \
+yum -y install nginx nginx-mod-http-perl
+
+# add local configuration files into the image
+ADD /nginx-conf /etc/nginx
+
+EXPOSE 80 443
+
+CMD ["nginx"]
+		</strong></code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Обычной практикой при использовании Docker является применение переменных окружения для изменения того порядка, в котором 
+   работают контейнеры. В своей конфигурации NGINX вы можете применять переменные среды с тем чтобы ваш Dockerfile NGINX мог быть 
+   использован во многих разнообразных средах.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Контроллер Ingress Kubernetes</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы развёртываете своё приложение в Kubernetes и вам требуется контроллер ingress.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Убедитесь что у вас имеется доступ к необходимому образу контроллера ingress. Для NGINX вы можете применять образ 
+   <span class="term"><code><em>nginx/nginx-ingress</em></code></span> из Docker hub. Для NGINX Plus вам потребуется построить 
+   свой собственный образ и разместить его в своём собственном частном реесте Docker. Вы можете найти инструкции по сборке и 
+   активной доставке своего собственного контроллера Kubernetes NGINX Plus Ingress в 
+   <a class="link" href="javascript:if(confirm(%27http://bit.ly/2FHQQpQ  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2FHQQpQ%27" tppabs="http://bit.ly/2FHQQpQ" target="_top">NGINX Inc’s GitHub</a>.</p>
+   <p>Посетите папку <a class="link" href="javascript:if(confirm(%27http://bit.ly/2R0brHt  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2R0brHt%27" tppabs="http://bit.ly/2R0brHt" target="_top">Kubernetes Ingress Controller Deployments</a> 
+   в репозитории kubernetes-ingress GitHub. Все команды, которым вы будете следовать, будут запускаться из данного 
+   каталога в некой локальной копии этого репозитория.</p>
+   <p>Создайте пространство имён и учётную запись службы для своего контроллера ingress; они оба имеют название 
+   <span class="term"><code>nginx-ingress</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f common/ns-and-sa.yaml
+		</strong></code></pre>
+   <p>Создайте некий ключ безопасности с помощью сертификата TLS и ключ для своего контроллера ingress:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f common/default-server-secret.yaml
+		</strong></code></pre>
+   <p>Эти сертификат и ключ самостоятельно подписываются и создаются NGINX Inc. для целей проверок и примеров. Рекомендуется
+   применять свой собственный, так как данный ключ имеет общий открытый доступ.</p>
+   <p>В качестве варианта вы можете создать некое соответствие настроек для индивидуальной конфигурации NGINX (такое 
+   соответстиве настроек предоставляется пустым; но вы ознакомиться с подробностями индивидуализации и комментариями
+   <a class="link" href="javascript:if(confirm(%27http://bit.ly/2OPi1i1  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2OPi1i1%27" tppabs="http://bit.ly/2OPi1i1" target="_top">здесь</a>):</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f common/nginx-config.yaml
+		</strong></code></pre>
+   <p>Если в вашем кластере включён RBAC (Role-Based Access Control), создайте некую роль кластера и свяжите ей с 
+   соответствующей учётной записью этой службы. Для выполнения данного шага вам следует быть администратором кластера:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f rbac/rbac.yaml
+		</strong></code></pre>
+   <p>Теперь разверните свой контроллер ingress. В данном репозитории сделаны доступными два примера оснащений: 
+   Deployment и DaemonSet. Если вы планируете динамически изменять общее число реплик контроллера ingress, применяйте
+   Deployment. Для развёртывания контроллера ingress во всех узлах или в неком подмножестве узлов воспользуйтесь 
+   DaemonSet.</p>
+   <p>Если вы намерены применять манифесты Deployment NGINX Plus, вам следует исправить соответствующий файл YAML 
+   и определить свои собственные реестр и образ.</p>
+   <p>Для Deployment NGINX:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f deployment/nginx-ingress.yaml
+		</strong></code></pre>
+   <p>Для Deployment NGINX Plus:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f deployment/nginx-plus-ingress.yaml
+		</strong></code></pre>
+   <p>Для DaemonSet NGINX:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f daemon-set/nginx-ingress.yaml
+		</strong></code></pre>
+   <p>Для DaemonSet NGINX Plus:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f daemon-set/nginx-plus-ingress.yaml
+		</strong></code></pre>
+   <p>Убедитесь что ваш контроллер ingress запущен:</p>
+		<pre class="screen"><code><strong>
+$ kubectl get pods --namespace=nginx-ingress
+		</strong></code></pre>
+   <p>Если вы создали DaemonSet, порты контроллера ingress <span class="term"><code>80</code></span> и 
+   <span class="term"><code>443</code></span> соответствуют тем же самым портам того узла, в котором запущен этот 
+   контроллер. Для доступа к данному контроллеру ingress применяйте данные порт и IP адрес каждого из узлов в которых 
+   запущены контроллеры ingress. Если вы развернули Deployment, продолжите следующим шагом.</p>
+   <p>Для ваших методов Deployment имеются два метода доступа к подам контроллера ingress. Вы можете указать Kubernetes 
+   случайным образом выделять некий порт узла, который соответствует вашему поду контроллера ingress. Такая служба имеет 
+   тип <span class="term"><code>NodePort</code></span>. Другим вариантом является создание службы с типом 
+   <span class="term"><code>LoadBalancer</code></span>. При создании некой службы типа 
+   <span class="term"><code>LoadBalancer</code></span>, Kubernetes собирает некий балансировщик нагрузки для конкретной 
+   облачной платформы, такой как Amazon Web Services, Microsoft Azure и Google Cloud Compute.</p>
+   <p>Для создания некой службы с типом <span class="term"><code>NodePort</code></span> примените следующее:</p>
+		<pre class="screen"><code><strong>
+$ kubectl create -f service/nodeport.yaml
+		</strong></code></pre>
+   <p>Чтобы настроить необходимый открытый для данного пода порт статически, измените соответствующий YAML и добавьте атрибут 
+   <span class="term"><code>nodePort: {port}</code></span> в настройки всех подлежащих открытию портов.</p>
+   <p>Для создания некой службы с типом <span class="term"><code>LoadBalancer</code></span> для Google Cloud Compute или 
+   Azure воспользуйтесь таким кодом:</p>
+		<pre class="screen"><code><strong>
+$ kubectl create -f service/loadbalancer.yaml
+		</strong></code></pre>
+   <p>Для создания службы с типом <span class="term"><code>LoadBalancer</code></span> под Amazon Web Services:</p>
+		<pre class="screen"><code><strong>
+$ kubectl create -f service/loadbalancer-aws-elb.yaml
+		</strong></code></pre>
+   <p>Под AWS Kubernetes создаёт классический ELB в режиме TCP с включённым протоколом посредника (прокси). Вам следует 
+   настроить NGINX для применения этого протокола TCP. Для этого вы можете в своё соответствие настроек, упомянутом 
+   ранее как файл <span class="term"><code><em>common/nginx-confg.yaml</em></code></span>, вы можете добавить 
+   следующее:</p>
+	   <pre class="screen"><code>
+proxy-protocol: "True"
+real-ip-header: "proxy_protocol"
+set-real-ip-from: "0.0.0.0/0"
+ 	   </code></pre>
+   <p>Затем обновите это соответствие настроек:</p>
+		<pre class="screen"><code><strong>
+$ kubectl apply -f common/nginx-config.yaml
+		</strong></code></pre>
+   <p>Вы можете теперь выполнять адресацию своего пода по его <span class="term"><code>NodePort</code></span> или выполняя 
+   запросы к имеющемуся балансировщику нагрузки, созданному от его имени.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>На момсент написания данных строк {редакция 2019}, Kubernetes является ведущей платформой для оркестрации и управления 
+   контейнерами. Контроллер ingress является пограничным модулем, который набравляет обмен остальной части вашего приложения.
+   NGINX идеально подходит для данной роли и упрощает настройку со своими комментариями. Проект NGINX-Ingress предлагает 
+   контроллер ingress с открытым исходным кодом сразу после его установки из некого образа Dockerfile, а также NGINX Plus 
+   с несколькими шагами добавления ваших ключа и сертификата репозитория. Включение вашего кластера Kubernetes с помощью 
+   контроллера ingress NGINX предоставляет все те же свойства, которые имеются у NGINX, но с дополнительными функциями 
+   сетевых сред Kubernetes и DNS для маршрутизации обмена.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="08"> </a>Маршрутизатор OpenShift</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется развернуть своё приложение в OpenShift и вы желаете применять в качестве маршрутизатора NGINX.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Соберите образ Маршрутизатора и выгрузите его в свой частный реестр. Вы можете обнаружить необходимые исходные файлы 
+   для этого образа в <a class="link" href="javascript:if(confirm(%27https://github.com/openshift/origin/tree/master/images/router/nginx  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://github.com/openshift/origin/tree/master/images/router/nginx%27" tppabs="https://github.com/openshift/origin/tree/master/images/router/nginx" 
+   target="_top">Оригинальном репозитории</a>. Важно вытянуть образ вашего Маршрутизатора в имеющийся частный реестр до 
+   того как вы удалите установленный по умолчанию Маршрутизатор, так как это переведёт данный реестр в состояние без 
+   доступа.</p>
+   <p>Зарегистрируйтесь в своём кластере OpenShift под администратором:</p>
+		<pre class="screen"><code><strong>
+$ oc login -u system:admin
+		</strong></code></pre>
+   <p>Выберите проект <span class="term"><code>default</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ oc project default
+		</strong></code></pre>
+   <p>Выполните резервное копирование настроек установленного по умолчанию Маршрутизатора, на случай если вам потребуется его
+   восстановить:</p>
+		<pre class="screen"><code><strong>
+$ oc get -o yaml service/router dc/router \
+    clusterrolebinding/router-router-role \
+    serviceaccount/router > default-router-backup.yaml
+		</strong></code></pre>
+   <p>Удалите этот Маршрутизатор:</p>
+		<pre class="screen"><code><strong>
+$ oc delete -f default-router-backup.yaml
+		</strong></code></pre>
+   <p>Разверните Маршрутизатор NGINX:</p>
+		<pre class="screen"><code><strong>
+$ oc adm router router --images={image} --type='' \
+    --selector='node-role.kubernetes.io/infra=true'
+		</strong></code></pre>
+   <p>В данном примере значение <span class="term"><code>{image}</code></span> должно указывать на образ Маршрутизатора 
+   NGINX в вашем реестре. Значение параметра <span class="term"><code>selector</code></span> определяет некую метку 
+   селектора для узлов в которых будет развёрнут ваш Маршрутизатор: <span class="term"><code>node-role.kubernetes.io/infra=true</code></span>.
+   Применяйте тот селектор, который актуален в вашей среде.</p>
+   <p>Проверьте что ваш Маршрутизатор NGINX поднят и работает:</p>
+		<pre class="screen"><code><strong>
+$ oc get pods
+		</strong></code></pre>
+   <p>Вы должны обнаружить некий под Маршрутизатора с названием <span class="term"><code>router-1-{string}</code></span>.</p>
+   <p>По умолчанию страница заглушки NGINX доступна через порт <span class="term"><code>1936</code></span> того узла, в котором 
+   запущен ваш Маршрутизатор (вы можете изменить этот порт при помощи переменной среды
+   <span class="term"><code>STATS_PORT</code></span>). Для доступа к страницам вне данного узла вам потребуется добавить 
+   некую запись в свои правила IPtables для такого узла:</p>
+		<pre class="screen"><code><strong>
+$ sudo iptables -I OS_FIREWALL_ALLOW -p tcp -s {ip range} \
+    -m tcp --dport 1936 -j ACCEPT
+		</strong></code></pre>
+   <p>Откройте свой браузер в <span class="term"><code><em>http://{node-ip}:1936/stub_status </em></code></span> чтобы 
+   получить доступ к странице состояния заглушки.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Маршрутизатор OpenShift является точкой входа для внешних запросов, ограничивающей запущенные в OpenShift приложения. 
+   Задание этого Маршрутизатора состоит в получении входящих запросов и направлении их в соответствующий под приложения. 
+   Возможности балансировки нагрузки и маршрутизации NGINX делают его великолепным выбором для применения в качестве 
+   Маршрутизатора OpenShift. Переключение с устанавливаемого по умолчанию Маршрутизатора на Маршрутизатор NGINX включает все 
+   имеющиеся функции и всю мощность NGINX основным проникновением в ваше приложение OpenStack.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

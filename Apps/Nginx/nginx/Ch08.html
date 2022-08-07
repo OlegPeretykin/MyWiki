@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 8. HTTP/2 - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch07.html" title="Глава 7. Управления безопасностью"/>
+<link rel="next" href="Ch09.html" title="Глава 9. Управление сложными потоками медиа"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 8. HTTP/2';
+PrevRef = 'Ch07.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch09.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch09.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 8. HTTP/2
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch08.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html">Глава 8. HTTP/2</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch08.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch08.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#02">Базовая настройка</a></span></dt>
+       <dt><span class="chapter"><a href="Ch08.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#03">gRPC</a></span></dt>
+       <dt><span class="chapter"><a href="Ch08.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#04">Сервер активной доставки HTTP/2</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>HTTP/2 основной ревизией протокола HTTP. Большая часть выполненной в этой версии работы сосредоточена на его 
+   транспортном уровне, например, разрешение мультиплексирования полного запроса и отклика поверх отдельного подключения 
+   TCP. За счёт применения сжатия полей заголовка HTTP были достигнуты высокие показатели эффективности, к тому же была 
+   добавлена поддержка приоритетов для запросов. Другим крупным добавлением в этот протокол стала возможность для 
+   конкретного сервера активно доставлять сообщения своему клиенту. Данная глава описывает подробности базовой конфигурации 
+   для включения в NGINX HTTP/2, а также настройку поддержки gRPC и активной доставки сервера HTTP/2.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Базовая настройка</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы желаете воспользоваться преимуществами  HTTP/2.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Включите HTTP/2 в своём сервере NGINX:</p>
+	   <pre class="screen"><code>
+server {
+    listen 443 ssl http2 default_server;
+
+    ssl_certificate server.crt;
+    ssl_certificate_key server.key;
+    ...
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Для включения HTTP/2 вам просто требуется добавить соответствующий параметр <span class="term"><code>http2</code></span>
+   к своей директиве <span class="term"><code>listen</code></span>. Однако засада в том, что хотя сам протокол и не требует 
+   обёртки своего подключения в SSL/ TLS, некоторые реализации клиентов HTTP/2 поддерживают исключительно HTTP/2 
+   поверх шифрованных подключений. Следующее предостережение состоит в том, что в самой спецификации HTTP/2 несколько 
+   комплектов шифров TLS 1.2 занесено в чёрный список и следовательно будут отказывать при квитировании (handshake). Применяемые 
+   в NGINX по умолчанию шифры не находятся в этом чёрном списке. Для проверки того что ваша установка правильная вы 
+   можете установить некий подключаемый модуль для браузеров Chrome и Firefox, который указывает когда некий сайт применяет 
+   HTTP/2 или из командной строки при помощи утилиты <span class="term"><code>nghttp</code></span>.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2Q7j4P0  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2Q7j4P0%27" tppabs="http://bit.ly/2Q7j4P0" target="_top">HTTP/2 RFC Blacklisted Ciphers</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2Kk8leA  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2Kk8leA%27" tppabs="http://bit.ly/2Kk8leA" target="_top">Chrome HTTP2 and SPDY Indicator Plugin</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://mzl.la/2A4LT4o  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://mzl.la/2A4LT4o%27" tppabs="https://mzl.la/2A4LT4o" target="_top">Firefox HTTP2 Indicator Add-on</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>gRPC</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется прекратить, проинспектировать, маршрутизировать или осуществить балансировку нагрузки вызовы метода
+   gRPC.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для посредничества (прокси) подключений gRPC воспользуйтесь NGINX.</p>
+	   <pre class="screen"><code>
+server {
+    listen 80 http2;
+
+    location / {
+        grpc_pass grpc://backend.local:50051;
+    }
+}
+ 	   </code></pre>
+   <p>В этой конфигурации NGINX выполняет ожидание по порту <span class="term"><code>80</code></span> для обмена HTTP/2 
+   без шифрования, а также выступает посредником для машины с названием <span class="term"><code>backend.local</code></span> 
+   по порту <span class="term"><code>50051</code></span>. Установленная директива <span class="term"><code>grpc_pass</code></span> 
+   указывает NGINX на необходимость рассматривать такое подключение как некий вызов gRPC. Указание 
+   <span class="term"><code>grpc://</code></span> в самом начале местоположения нашего сервера backend не требуется; тем не менее,
+   это непосредственно указывfет на то, что данное подключение backend не шифруется.</p>
+   <p>Чтобы воспользоваться шифрованием TLS между данными клиентом и NGINX и прерывать такое шифрование перед необходимыми вызовами 
+   имеющегося сервера приложений включите SSL и HTTP/2 как вы это делали в нашем первом разделе:</p>
+	   <pre class="screen"><code>
+server {
+    listen 443 ssl http2 default_server;
+
+    ssl_certificate server.crt;
+    ssl_certificate_key server.key;
+    location / {
+        grpc_pass grpc://backend.local:50051;
+    }
+}
+ 	   </code></pre>
+   <p>Данная конфигурация прекращает TLS в NGINX и передаёт соответствующее взаимодействие gPRC в имеющееся приложение поверх 
+   не зашифрованного HTTP/2.</p>
+   <p>Для настройки NGINX на шифрование всего взаимодействия gRPC со своим сервером приложения предоставьте повсеместное 
+   шифрование обмена, просто изменив имеющуюся директиву <span class="term"><code>grpc_pass</code></span>, определив 
+   <span class="term"><code>grpcs://</code></span> перед уже имеющейся информацией о сервере (обратите внимание на 
+   добавление символа <span class="term"><code>s</code></span>, обозначающего безопасное взаимодействие):</p>
+	   <pre class="screen"><code>
+grpc_pass grpcs://backend.local:50051;
+ 	   </code></pre>
+   <p>Вы также можете применять NGINX для маршрутизации вызовов к различным серверным службам на основе значения URI gRPC, 
+   которые включают пакеты, службы и методы. Для этого воспользуйтесь директивой <span class="term"><code>location</code></span>.</p>
+	   <pre class="screen"><code>
+location /mypackage.service1 {
+    grpc_pass grpc://backend.local:50051;
+}
+    location /mypackage.service2 {
+    grpc_pass grpc://backend.local:50052;
+}
+location / {
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+}
+ 	   </code></pre>
+   <p>Данный пример конфигурации применяет директиву <span class="term"><code>location</code></span> для направления 
+   входящего обмена HTTP/2 между двумя обособленными службами gRPC, а также некое <span class="term"><code>location</code></span> 
+   для обслуживания статического содержимого. Вызовы метода для установленной службы 
+   <span class="term"><code>mypackage.service1</code></span> направляются в сервер <span class="term"><code>backend.local</code></span>
+   по порту <span class="term"><code>50051</code></span>, а вызовы для <span class="term"><code>mypackage.service2</code></span> 
+   отправляются в порт <span class="term"><code>50052</code></span>. Установленное <span class="term"><code>location /</code></span> 
+   перехватывает все прочие запросы HTTP и обслуживает статическое содержимое. Это демонстрирует как NGINX способен обслуживать 
+   gRPC и не- gRPC под одной и той же оконечной точкой HTTP/2 и выполнять надлежащим образом маршрутизацию.</p>
+   <p>Вызовы балансировки нагрузки также похожи на обмен HTTP без gRPC:</p>
+	   <pre class="screen"><code>
+upstream grpcservers {
+    server backend1.local:50051;
+    server backend2.local:50051;
+}
+server {
+    listen 443 ssl http2 default_server;
+
+    ssl_certificate server.crt;
+    ssl_certificate_key server.key;
+    location / {
+        grpc_pass grpc://grpcservers;
+    }
+}
+ 	   </code></pre>
+   <p>Приведённый блок <span class="term"><code>upstream</code></span> работает в точности так же для gRPC, как он делал 
+   это для обмена HTTP. Единственное отличите состоит в том, что этот <span class="term"><code>upstream</code></span>
+   получает ссылку через <span class="term"><code>grpc_pass</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>NGINX обладает возможностью получать, выступать посредником, выполнять балансировку нагрузки, осуществлять 
+   маршрутизацию и прекращать шифрование для вызовов gRPC. Имеющийся модуль gRPC позволяет NGINX устанавливать, изменять или 
+   сбрасывать заголовки вызова gRPC, выставлять таймауты для запросов и устанавливать спецификации восходящего SSL/ TLS. 
+   Так как gRPC выполняет взаимодействие поверх протокола HTTP/2, вы можете настроить NGINX на приём gRPC и не gRPC 
+   веб- обмена в одной и той же оконечной точке.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Сервер активной доставки HTTP/2</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется активно доставлять своему клиенту содержимое упреждающим образом.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь функциональностью NGINX активной доставки HTTP/2.</p>
+	   <pre class="screen"><code>
+server {
+    listen 443 ssl http2 default_server;
+
+    ssl_certificate server.crt;
+    ssl_certificate_key server.key;
+    root /usr/share/nginx/html;
+
+    location = /demo.html {
+        http2_push /style.css;
+        http2_push /image1.jpg;
+    }
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Для применения активной доставки сервера HTTP/2 ваш сервер обязан быть настроенным для HTTP/2, как это было нами 
+   сделано в рецепте <a class="link" href="Ch08.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html#02" target="_top">Базовая настройка</a>. Здесь вы можете 
+   указать NGINX на необходимость упреждающей активной доставки определённых файлов при помощи директивы 
+   <span class="term"><code>http2_push</code></span>. Эта директива получает один параметр, значение полного пути URI 
+   того файла, который активно доставляется вашему клиенту.</p>
+   <p>NGINX таке способен автоматически активно доставлять клиентам ресурсы если выступает посредником (прокси) в приложениях, 
+   содержащих некий заголовок отклика HTTP с названием <span class="term"><code>Link</code></span>. Такой заголовок 
+   имеет возможность указывать NGINX на упреждающую загрузку предписанных ресурсов. Чтобы включить данную функциональность 
+   добавьте в настройки своего NGINX <span class="term"><code>http2_push_preload on;</code></span>.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

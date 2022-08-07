@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 1. Основы - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="index.html" title="Предисловие"/>
+<link rel="next" href="Ch02.html" title="Глава 2. Высоко производительная балансировка нагрузки"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 1. Основы';
+PrevRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch02.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 1. Основы
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch01.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html">Глава 1. Основы</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch01.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#02">Установка в Debian/Ubuntu</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#03">Установка в RedHat/CentOS</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#04">Установка NGINX Plus</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#05">Проверка вашей установки</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#06">Ключевые файлы, команды и каталоги</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#07">Обслуживание статического содержания</a></span></dt>
+       <dt><span class="chapter"><a href="Ch01.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html#08">Аккуратная перезагрузка</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>Чтобы начать работу с NGINX с открытым исходным кодом или NGINX Plus, вам вначале требуется установить его в некой 
+   системе и изучить кое- какие основы. В этой главе вы изучите как устанавливать NGINX, где располагаются основные файлы 
+   настройки, а также команды администрирования. Вы также изучите как проверять вашу установку и делать запросы к установленному 
+   по умолчанию серверу.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Установка в Debian/Ubuntu</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить NGINX с открытым исходным кодом в машине с Debian или Ubuntu.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Создайте некий файл с названием <span class="term"><code><em>/etc/apt/sources.list.d/nginx.list</em></code></span>, который 
+   содержит следующее содержимое:</p>
+		<pre class="screen"><code>
+deb http://nginx.org/packages/mainline/OS/ CODENAME nginx
+deb-src http://nginx.org/packages/mainline/OS/ CODENAME nginx
+		</code></pre>
+   <p>В зависимости от вашего дистрибутива замените в этом файле <span class="term"><code>OS</code></span> в самом 
+   конце каждого из URL на <span class="term"><code>ubuntu</code></span> или <span class="term"><code>debian</code></span>.
+   Для Debian измените <span class="term"><code>CODENAME</code></span> на <span class="term"><code>jessie</code></span> 
+   или <span class="term"><code>stretch</code></span>, а для Ubuntu на <span class="term"><code>trusty</code></span>,
+   <span class="term"><code>xenial</code></span>,<span class="term"><code>artful</code></span> или 
+   <span class="term"><code>bionic</code></span>. Затем исполните следующие команды:</p>
+		<pre class="screen"><code><strong>
+wget http://nginx.org/keys/nginx_signing.key
+apt-key add nginx_signing.key
+apt-get update
+apt-get install -y nginx
+/etc/init.d/nginx start
+		</strong></code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Созданный вами файл инструктирует систему управления пакетами <span class="term"><code>apt</code></span> применять 
+   Официальный репозиторий пакетов NGINX. Следующая команда выгружает ключ GPG подписи пакета NGINX и импортирует его в 
+   <span class="term"><code>apt</code></span>. Предоставление для <span class="term"><code>apt</code></span> этого ключа подписи 
+   делает возможной проверку подлинности пакетов из репозитория. Следующая команда <span class="term"><code>apt-get update</code></span> 
+   инструктирует систему <span class="term"><code>apt</code></span> обновить её перечни пакетов из известных репозиториев. 
+   После того как данный список пакетов освежён, вы можете устанавливать NGINX с открытым исходным кодом из официального 
+   репозитория NGINX. После того как вы его установите, заключительная команда запускает NGINX.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Установка в RedHat/CentOS</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить NGINX с открытым исходным кодом в машине в RedHat или CentOS.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Создайте некий файл с названием <span class="term"><code><em>/etc/yum.repos.d/nginx.repo</em></code></span>, который 
+   содержит следующее содержимое:</p>
+		<pre class="screen"><code>
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/mainline/OS/OSRELEASE/$basearch/
+gpgcheck=0
+enabled=1
+		</code></pre>
+   <p>В зависимости от вашего дистрибутива замените в этом файле <span class="term"><code>OS</code></span> в самом 
+   конце каждого из URL на <span class="term"><code>rhel</code></span> или <span class="term"><code>centos</code></span>.
+   Измените <span class="term"><code>OSRELEASE</code></span> на <span class="term"><code>6</code></span> 
+   или <span class="term"><code>7</code></span>, для версий 6.x или 7.x, соответственно. Затем исполните следующие команды:</p>
+		<pre class="screen"><code><strong>
+yum -y install nginx
+systemctl enable nginx
+systemctl start nginx
+firewall-cmd --permanent --zone=public --add-port=80/tcp
+firewall-cmd --reload
+		</strong></code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Созданный вами для данного решения файл  инструктирует вашу систему управления пакетами <span class="term"><code>yum</code></span> 
+   в качестве репозитория пакетов применять Официальный репозиторий открытого исходного кода NGINX, указывает 
+   <span class="term"><code>systemd</code></span>  на разрешение NGINX во время загрузки и сообщает ему о необходимости запуска 
+   прямо сейчас. Команды межсетевого экрана открывают порт <span class="term"><code>80</code></span> для протокола TCP, 
+   который выступает значением порта по умолчанию для HTTP. Самая последняя команда перезагружает межсетевой экран для фиксации 
+   этих изменений.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Установка NGINX Plus</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется установить NGINX Plus.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Посетите <a class="link" href="javascript:if(confirm(%27http://cs.nginx.com/repo_setup  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://cs.nginx.com/repo_setup%27" tppabs="http://cs.nginx.com/repo_setup" target="_top">http://cs.nginx.com/repo_setup</a>. 
+   В полученном ниспадающем меню выберите ту ОС, в которой вы устанавливаете, а затем следуйте получаемым инструкциям. 
+   Эти инструкции аналогичны тем, которые применяются при установке решений с открытым исходным кодом; тем не менее, вам 
+   требуется установить некий сертификат чтобы соответствовать аутентификации основного репозитория NGINX Plus.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>NGINX отслеживает получаемое вами руководство по установки в современном состоянии с инструкциями по установке 
+   выбранного NGINX Plus. В зависимости от вашей ОС и версии эти инструкции слегка отличаются, но имеется одно общее место. 
+   Вам следует зарегистрироваться в самом портале NGINX для выгрузки сертификата и ключа для предоставления их вашей системе, 
+   которые будут применяться для аутентификации в общем репозитории NGINX Plus.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Проверка вашей установки</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы желаете удостовериться в правильности установки NGINX и проверить её версию.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Вы можете удостовериться в верности установки NGINX и проверить её версию применив следующую команду:</p>
+		<pre class="screen"><code><strong>
+$ nginx -v
+nginx version: nginx/1.15.3
+		</strong></code></pre>
+   <p>Как показывает это пример, получаемый отклик отображает номер версии.</p>
+   <p>Вы можете подтвердить что NGINX запущен применив такую команду:</p>
+		<pre class="screen"><code><strong>
+$ ps -ef | grep nginx
+root      1738     1  0  19:54  ?   00:00:00 nginx: master process
+nginx     1739  1738  0  19:54  ?   00:00:00 nginx: worker process
+		</strong></code></pre>
+   <p>Применённая команда <span class="term"><code>ps</code></span> перечисляет запущенные процессы. Направляя её в конвейер 
+   через <span class="term"><code>grep</code></span> вы можете отыскивать в получаемом выводе специфичные слова. Данный 
+   пример использует <span class="term"><code>grep</code></span> для поиска <span class="term"><code>nginx</code></span>. 
+   Если NGINX запущен, вы всегда можете наблюдать хозяина и один или более процессов исполнителей. Относительно инструкций 
+   по запуску NGINX отсылаем вас к следующему разделу. Для отслеживания того как NGINX запускается в качестве демона 
+   применяйте методологии <span class="term"><code>init.d</code></span> или <span class="term"><code>systemd</code></span>.</p>
+   <p>Чтобы подтвердить тот факт что NGINX возвращает корректные запросы, воспользуйтесь браузером для выполнения запросов 
+   в своей машине или примените <span class="term"><code>curl</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ curl localhost
+		</strong></code></pre>
+   <p>Вы обнаружите NGINX установленный по умолчанию сайт HTML Welcome.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Команда <span class="term"><code>nginx</code></span> позволяет вам взаимодействовать с самим исполняемым файлом NGINX 
+   для проверки его версии, перечисления установленных модулей, проверки настроек и отправки сигналов его процессу хозяина. 
+   Для обслуживания им запросов, NGINX должен быть запущен. Команда <span class="term"><code>ps</code></span> является 
+   безошибочным вариантом выявления того запущен ли NGINX в качестве демона или в фоновом режиме. Устанавливаемая по 
+   умолчанию конфигурация по умолчанию запускает NGINX в качестве статического сервера сайта HTTP с портом 
+   <span class="term"><code>80</code></span>. Вы можете проверить этот установленный по умолчанию сайт выполняя некий запрос 
+   HTTP к машине с <span class="term"><code>localhost</code></span>, а также с соответствующим адресом IP и именем хоста.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Ключевые файлы, команды и каталоги</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется понимать все важные каталоги и команды NGINX.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p class="title"><em>Файлы и каталоги NGINX</em></p>
+  <div class="definedlist"><p><strong></strong></p>
+   <dl>
+     <dt><span class="term"><em class="userinput"><code>/etc/nginx/</code></em></span></dt>
+     <dd><p>Каталог <span class="term"><code><em>/etc/nginx/</em></code></span> для настройки по умолчанию является корнем 
+	 для данного сервера NGINX. Внутри этого каталога вы можете обнаружить файлы настроек, которые указывают NGINX как ему 
+	 себя вести.</p></dd>
+     <dt><span class="term"><em class="userinput"><code>/etc/nginx/nginx.conf</code></em></span></dt>
+     <dd><p>Файл <span class="term"><code><em>/etc/nginx/nginx.conf</em></code></span> выступает установленной по умолчанию 
+	 точкой входа, которую применяет сама служба NGINX. Этот файл конфигурации настраивает глобальные установки для таких 
+	 моментов как процесс исполнителя, регулировка, регистрация, загрузка динамических модулей, а также ссылки на прочие 
+	 файлы настройки NGINX. В установленной по умолчанию конфигурации этот файл <span class="term"><code><em>/etc/nginx/nginx.conf</em></code></span> 
+	 содержит блок верхнего уровня <span class="term"><code>Code</code></span>, который содержит все файлы настроек в описанном
+	 далее каталоге.</p></dd>
+     <dt><span class="term"><em class="userinput"><code>/etc/nginx/conf.d/</code></em></span></dt>
+     <dd><p>Каталог <span class="term"><code><em>/etc/nginx/conf.d/</em></code></span> содержит устанавливаемый по умолчанию 
+	 файл конфигурации сервера HTTP. Заканчивающиеся на <span class="term"><code><em>.conf</em></code></span> файлы из этого 
+	 каталога включаются в блок верхнего уровня <span class="term"><code><em>http</em></code></span> внутри основного 
+	 файла <span class="term"><code><em>/etc/nginx/nginx.conf/</em></code></span>. Самым лучшим приёмом на практике 
+	 для организации вашей конфигурации будет применение оператора <span class="term"><code><em>include</em></code></span> с тем, 
+	 чтобы ваши файлы настройки были краткими. В некоторых репозиториях пакетов эта папка именуется 
+	 <span class="term"><code><em>sites-enabled</em></code></span>, а файлы настроек связываются из некой папки с названием 
+	 <span class="term"><code><em>site-available</em></code></span>; это соглашение является устаревшим.</p></dd>
+     <dt><span class="term"><em class="userinput"><code>/var/log/nginx/</code></em></span></dt>
+     <dd><p>Каталог <span class="term"><code><em>/var/log/nginx/</em></code></span> является устанавливаемым по умолчанию 
+	 местоположением журналов NGINX. Внутри этого каталога вы можете обнаружить файл <span class="term"><code><em>access.log</em></code></span> 
+	 и файл <span class="term"><code><em>error.log</em></code></span>. Первый является журналом доступа и содержит записи для 
+	 каждого обслуженного запроса NGINX. Второй файл регистрации ошибок содержит события с ошибками и отладочную информацию 
+	 когда включён модуль отладки.</p></dd>
+   </dl>
+   <p class="title"><em>Команды NGINX</em></p>
+  <div class="definedlist"><p><strong></strong></p>
+   <dl>
+     <dt><span class="term"><code>nginx -h</code></span></dt>
+     <dd><p>Отображает меню подсказок.</p></dd>
+     <dt><span class="term"><code>nginx -v</code></span></dt>
+     <dd><p>Выдаёт номер версии NGINX.</p></dd>
+     <dt><span class="term"><code>nginx -V</code></span></dt>
+     <dd><p>Показывает номер версии NGINX, информацию о сборке и параметры конфигурации, которые отображают собранные 
+	 модули в данном исполняемом файле NGINX.</p></dd>
+     <dt><span class="term"><code>nginx -t</code></span></dt>
+     <dd><p>Проверка конфигурации NGINX.</p></dd>
+     <dt><span class="term"><code>nginx -T</code></span></dt>
+     <dd><p>Проверяет конфигурацию NGINX и выводит на ваш экран допустимые настройки. Эта команда полезна при поиске поддержки.</p></dd>
+     <dt><span class="term"><code>nginx -s signal</code></span></dt>
+     <dd><p>Данный флаг <span class="term"><code>-s</code></span> отправляет некий сигнал имеющемуся процессу хозяина NGINX. Вы 
+	 имеете возможность отправлять такие сигналы как <span class="term"><code>stop</code></span>, 
+	 <span class="term"><code>quit</code></span>, <span class="term"><code>reload</code></span> и 
+	 <span class="term"><code>reopen</code></span>. Сигнал <span class="term"><code>stop</code></span> немедленно отключает имеющийся 
+	 процесс NGINX. Синал <span class="term"><code>quit</code></span> останавливает процесс NGINX после того как он завершит 
+	 обработку влетевших в него запросов. Сигнал <span class="term"><code>reload</code></span> перезагружает данную конфигурацию. 
+	 Сигнал <span class="term"><code>reopen</code></span> инструктирует NGINX повторно открыть файлы журналов.</p></dd>
+   </dl>
+  </div>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Понимая эти ключевые файлы, каталоги и команды, вы находитесь в хороших условиях для того чтобы приступить к работе с NGINX.
+   Освоив эти знания, вы способны изменять установленные по умолчанию файлы конфигурации и проверять изменения применяя 
+   команду <span class="term"><code>nginx -t</code></span>. Если ваша проверка успешна, вы также знаете как указать NGINX на 
+   необходимость перезагрузить его настройки при помощи соответствующей команды 
+   <span class="term"><code>nginx -s reload</code></span>.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Обслуживание статического содержания</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется обслуживать статическое содержимое с помощью NGINX.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Перепишите установленную в <span class="term"><code><em>/etc/nginx/conf.d/default.conf </em></code></span> 
+   по умолчанию конфигурацию сервера HTTP со следующим образцом настроек NGINX:</p>
+	   <pre class="screen"><code>
+server {
+
+    listen 80 default_server;
+    server_name www.example.com;
+
+    location / {
+        root /usr/share/nginx/html;
+        # alias /usr/share/nginx/html;
+        index index.html index.htm;
+    }
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Данная конфигурация обслуживает статические файлы поверх HTTP по порту <span class="term"><code>80</code></span> 
+   из своего каталога <span class="term"><code><em>/usr/share/nginx/html/</em></code></span>. Самая первая строка в этой 
+   конфигурации определяет блок <span class="term"><code>server</code></span>. Он задаёт новый контекст для отслеживания 
+   NGINX. Строка два указывает NGINX на необходимость выполнять ожидание по порту <span class="term"><code>80</code></span>, 
+   а значение параметра <span class="term"><code>default_server</code></span> указывает NGINX на необходимость применения 
+   данного сервера в качестве контекста по умолчанию для порта <span class="term"><code>80</code></span>. Директива 
+   <span class="term"><code>server_name</code></span> определяет значение имени хоста или имён хостов на которые будут 
+   направляться запросы для данного сервера. Если данная конфигурация не определила данный контекст в качестве 
+   <span class="term"><code>default_server</code></span>, NGINX будет направлять запросы к этому серверу только когда сам 
+   заголовок хоста HTTP соответствует тому значению, которое производится для имеющейся директивы 
+   <span class="term"><code>server_name</code></span>.</p>
+   <p>Блок <span class="term"><code>location</code></span> определяет некую настройку на основе значения пути в получаемом 
+   URL. Значение пути, или часть всего URL, остающаяся после значения домена имеет сокращение URI. Лучше всего NGINX 
+   будет устанавливать соответствие запрошенному значению URI блоку <span class="term"><code>location</code></span>. Данный 
+   образец применяет <span class="term"><code>/</code></span> для соответствия всем запросам. Значение директивы 
+   <span class="term"><code>root</code></span> указывает NGINX где отыскивать статические файлы при обслуживании содержимого 
+   для этого заданного контекста. Значение URI самого запроса добавляется в конец к значению директивы <span class="term"><code>root</code></span> 
+   при поиске запрашиваемого файла. Если мы предоставили некий префикс URI для своей директивы <span class="term"><code>location</code></span>,
+   он был бы добавлен в конец получаемого пути, только если мы не применяем значение каталога <span class="term"><code>alias</code></span> 
+   вместо <span class="term"><code>root</code></span>. Наконец, значение директивы <span class="term"><code>index</code></span> 
+   снабжает NGINX неким именем файла по умолчанию, либо списка файлов для проверки в том случае, когда не указан дальнейший 
+   путь.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="08"> </a>Аккуратная перезагрузка</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется перезагрузить свою конфигурацию без отбрасывания пакетов.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь методом NGINX <span class="term"><code>reload</code></span> для достижения аккуратной перезагрузки вашей 
+   конфигурации без останова самого сервера:</p>
+		<pre class="screen"><code><strong>
+$ nginx -s reload
+		</strong></code></pre>
+   <p>Данный пример перезагружает вашу систему NGINX при помощи самого исполняемого файла NGINX для отправки сигнала 
+   имеющемуся процессу хозяина.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Перезагрузка имеющейся конфигурации NGINX без остановки самого сервера предоставляет возможность изменения настроек 
+   на лету без какого бы то ни было отбрасывания пакетов. Для некой динамичной среды с высоким значением работы без останова 
+   вам будет необходимо изменять в некий момент времени изменять свои настройки балансировки нагрузки. NGINX позволяет 
+   осуществлять это оставляя в рабочем состоянии сам балансировщик нагрузки. Это свойство делает возможными многочисленные 
+   возможности, такие как повторный запуск управления настройками в некой среде в реальном режиме времени, или сборку некого 
+   приложения и осведомлённого о кластере модуля в какую- то динамическую конфигурацию с последующей перезагрузкой NGINX 
+   для выполнения его соответствия потребностям вашего окружения.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

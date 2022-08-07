@@ -1,0 +1,12 @@
+Import our maintainer key for validating signature:
+wget -qO- https://eddie.website/repository/keys/eddie_maintainer_gpg.key | sudo tee /etc/apt/trusted.gpg.d/eddie.website.asc
+from terminal, or use Software & Updates -> Authentication -> Import Key File
+
+Import our Debian PPA Repository (replace stable with testing for experimental versions)
+echo "deb http://eddie.website/repository/apt stable main" | sudo tee /etc/apt/sources.list.d/eddie.website.list
+sudo apt-get update
+from terminal, our usedeb http://eddie.website/repository/apt stable main in your package manager.
+
+Install
+sudo apt-get install eddie-ui
+You can use eddie-ui -cli for CLI edition.

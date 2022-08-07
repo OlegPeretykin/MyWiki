@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 2. Высоко производительная балансировка нагрузки - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch01.html" title="Глава 1. Основы"/>
+<link rel="next" href="Ch03.html" title="Глава 3. Управление обменом"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 2. Высоко производительная балансировка нагрузки';
+PrevRef = 'Ch01.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch01.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch03.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch03.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 2. Высоко производительная балансировка нагрузки
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch02.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html">Глава 2. Высоко производительная балансировка нагрузки</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch02.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#02">Балансировка нагрузки HTTP</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#03">Балансировка нагрузки TCP</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#04">Балансировка нагрузки UDP</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#05">Методы балансировки нагрузки</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#06">Клейкие куки</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#07">Обучения наклейкам</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#08">Наклейки маршрутов</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#09" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#09">Осушение соединения</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#10" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#10">Пассивные проверки жизнеспособности</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#11" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#11">Активные проверки жизнеспособности</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#12" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#12">Медленный запуск</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#13" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch02.html#13">Проверки жизнеспособности TCP</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+
+   <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+  <p>Пользователь интернета наших дней обладает запросом на производительность и непрерывную работу. Чтобы достичь этого, 
+  запускается множество копий одной и той же системы и имеющаяся нагрузка распределяется между ними. По мере роста нагрузки 
+  в рабочее состояние может вводиться ещё одна копия такой системы. Это достигается техникой, имеющей название 
+  <span class="emphasis"><em>горизонтального масштабирования</em></span>. Инфраструктура на основе программного обеспечения 
+  имеет растущую популярность благодаря своей гибкости, открывая обширный мир возможностей. Будет ли вариант применения небольшим, 
+  подобным набору из двух для высокой производительности, либо большим и представляющим тысячи повсеместно, имеется 
+  потребность в решении балансировки нагрузки, которое будет столь же динамичным как и инфраструктура. NGINX заполняет эту 
+  потребность множеством способов, таких как балансировка нагрузки HTTP, TCP и UDP, которые мы рассмотрим в этой главе.</p>
+  <p>При балансировке нагрузки важно то, что её воздействие на клиента исключительно позитивное. Многие современные веб 
+  архитектуры предлагают обвязку приложений без сохранения состояния, храня состояние в совместной памяти или базе данных. 
+  Однако это не является повсеместной реальностью. Такое состояние может храниться локально по множеству причин; к примеру, 
+  некое приложение, для которого подлежащие обработке данные настолько велики, что сетевые накладные расходы слишком затратны 
+  в производительности. Когда состояние хранится локально в некотором сервере приложения, для практики пользователя чрезвычайно 
+  важно чтобы последовательные запросы доставлялись на один и тот же сервер. Другой гранью этой ситуации является то, что серверы 
+  не должны высвобождаться до тех пор, пока не завершится такой сеанс. Работа с обладающими состоянием приложениями при их 
+  масштабировании требует интеллектуальной балансировки нагрузки. NGINX Plus предлагает множество вариантов для решения 
+  данной проблемы отслеживанием куки или маршрутизации. Данная глава обсуждает непрерывность сеанса,так как она имеет отношение 
+  к балансировке нагрузки с помощью NGINX и NGINX Plus.</p>
+  <p>Также является важным то, что обслуживание приложения NGINX является жизнеспособным. По целому ряду причин приложения падают.
+  Это может происходить по причине сетевой связи, отказов сервера, либо отказов приложения, причём мы перечислили только 
+  часть причин. Посредники (прокси) и балансировщики нагрузки должны обладать достаточным интеллектом чтобы чтобы выявлять
+  отказы в восходящих к серверам потоках и прекращать передачу обмена к ним; в противном случае такой клиент будет пребывать в 
+  состоянии ожидания, получая лишь сообщения о таймауте. Неким способом снижения деградации службы при отказе какого- то 
+  сервера является наличие соответствующей проверки со стороны посредника жизнеспособности серверов восходящего потока. 
+  NGINX предлагает два различных способа проверки жизнеспособности: пассивной, доступной в версии с открытым исходным кодом, 
+  и активной, доступной только в NGINX Plus. Активные проверки жизнеспособности через регулярные промежутки времени 
+  будут выполнять подключение или запрос к имеющемуся серверу восходящего потока и могут получать подтверждение того что 
+  такой запрос верный. Пассивные проверки жизнеспособности выполняют мониторинг имеющегося подключения к восходящему серверу 
+  или отклика от него только по мерер того как клиенты выполняют такие запросы или подключения. Вы можете пожелать использовать 
+  пассивные проверки жизнеспособности для снижения нагрузки на свои серверы восходящего потока, но вы также можете пожелать 
+  применять активные проверки жизнеспособности для выявления отказа некого сервера восходящего потока прежде чем получит отказ 
+  обслуживаемый им клиент. Завершающая часть данной главы изучает мониторинг прикладных серверов восходящего потока для 
+  которых вы и выполняете балансировку нагрузки.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Балансировка нагрузки HTTP</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется распределить нагрузку между двумя или более серверами HTTP.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для выполнения балансировки по серверам HTTP воспользуйтесь модулем HTTP NGINX применив блок 
+   <span class="term"><code>upstream</code></span>:</p>
+		<pre class="screen"><code>
+upstream backend {
+    server 10.10.12.45:80     weight=1;
+    server app.example.com:80 weight=2;
+}
+server {
+    location / {
+        proxy_pass http://backend;
+    }
+}
+		</code></pre>
+   <p>Данная настройка выполняет балансировку нагрузки по двум серверам HTTP с портом <span class="term"><code>80</code></span>.
+   Значение параметра <span class="term"><code>weight</code></span> инструктирует NGIN о необходимости передавать 
+   в два раза больше подключений на второй сервер, причём значением по умолчанию для <span class="term"><code>weight</code></span>
+   является <span class="term"><code>1</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Модуль HTTP <span class="term"><code>upstream</code></span> контролирует параметры балансировки для HTTP. Этот модуль 
+   определяет некий пул получателей - любые сочетания сокетов Unix, IP адресов и записей DNS или их смешения. Этот модуль 
+   <span class="term"><code>upstream</code></span> также определяет как назначать любые индивидуальные запросы всем 
+   серверам восходящего потока.</p>
+   <p>Каждый получатель в восходящем потоке определяется в пуле восходящего потока соответствующей директивой 
+   <span class="term"><code>server</code></span>. Эта директива <span class="term"><code>server</code></span> предоставляет 
+   некий сокет Unix, IP адрес или какой- то FQDN, совместно с неким числом необязательных параметров. Данные необязательные 
+   параметры дают дополнительное управление имеющимися маршрутами или запросами. Эти параметры содержат значение веса 
+   соответствующего сервера в своём алгоритме балансировки; будет ли пребывать данные сервер в режиме ожидания (standby), 
+   доступным или не доступным; а также как определять что сервер недоступен. NGINX Plus определяет целый ряд прочих 
+   удобных параметров, таких как ограничение на подключение к данному серверу, расширенный контроль разрешения DNS, а также 
+   возможность 	медленного наращивания числа подключений к некому серверу после его запуска.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Балансировка нагрузки TCP</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется выполнить балансировку нагрузки между двумя или более серверами TCP.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для балансировки нагрузки по серверам TCP воспользуйтесь модулем <span class="term"><code>steam</code></span> NGINX 
+   применив блок <span class="term"><code>upstream</code></span>:</p>
+	   <pre class="screen"><code>
+stream {
+    upstream mysql_read {
+        server read1.example.com:3306 weight=5;
+        server read2.example.com:3306;
+        server 10.10.12.34:3306 backup;
+    }
+
+    server {
+        listen 3306;
+        proxy_pass mysql_read;
+    }
+}
+ 	   </code></pre>
+   <p>Соответствующий блок <span class="term"><code>server</code></span> в данном примере инструктирует NGINX выполнять 
+   ожидание по порту TCP <span class="term"><code>3306</code></span> и выполнять балансировку нагрузки между двумя репликами 
+   на чтение базы данных MySQL и приводит в списке другой в качестве резервной копии, в который будет передаваться обмен 
+   если указанные первичные будут остановлены. Эти настройки не будут добавляться в папку <span class="term"><code>conf.d</code></span>, 
+   поскольку эта папка вложена в <span class="term"><code>http block</code></span>; вместо этого вам следует создать иную папку 
+   с названием <span class="term"><code>stream.conf.d</code></span>, открыть блок <span class="term"><code>stream</code></span> 
+   в соответствующем файле <span class="term"><code>nginx.conf</code></span> и вложить эту новую папку для настройки stream.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Балансировка нагрузки TCP определяется соответствующим модулем NGINX <span class="term"><code>stream</code></span>. 
+   Этот модуль <span class="term"><code>stream</code></span>, как и обсуждавшийся модуль <span class="term"><code>HTTP</code></span>, 
+   позволяет вам определять пулы серверов восходящего потока и настраивать некий ожидающий сервер. При настройке некого сервера 
+   на ожидание (listen) определённого порта, вы должны определить то значение порта, по которому выполняется ожидание, или, 
+   что не обязательно, некий адрес и порт. Здесь может быть определён получатель, причём либо это будет обратный посредник 
+   (прокси) на другой адрес, либо некий восходящий пул ресурсов.</p>
+   <p>Такой восходящий поток для балансировки нагрузки TCP во многом аналогичен восходящему потоку для HTTP, в том что он 
+   определяет восходящие ресурсы как серверы, настраиваемые сокетами Unix, IP , либо полностью определённым именем домена 
+   (FQDN, fully qualified domain name), а также веса сервера, максимального числа подключений, решателей DNS, и периодов вывода 
+   в рабочий режим; а также того, активен ли сервер, отключён ли, либо пребывает в режиме резервной копии.</p>
+   <p>NGINX Plus предлагает для балансировки нагрузки TCP даже дополнительные свойства. Такие предлагаемые NGINX Plus 
+   расширенные свойства могут быть представлены на протяжении данной книги. Проверки жизнеспособности для всех балансировок 
+   нагрузки будут обсуждены в этой главе позднее.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Балансировка нагрузки UDP</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется распределить балансировку нагрузки между двумя или более серверами UDP.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для балансировки нагрузки по серверам UDP воспользуйтесь модулем <span class="term"><code>steam</code></span> NGINX 
+   применив блок <span class="term"><code>upstream</code></span>, определяемый как <span class="term"><code>udp</code></span>:</p>
+	   <pre class="screen"><code>
+stream {
+    upstream ntp {
+        server ntp1.example.com:123 weight=2;
+        server ntp2.example.com:123;
+    }
+
+    server {
+        listen 123 udp;
+        proxy_pass ntp;
+    }
+}
+ 	   </code></pre>
+   <p>Этот раздел настраивает балансировку нагрузки между двумя серверами NTP (Network Time Protocol) восходящего потока, 
+   которые применяют протокол UDP. Определение балансировки нагрузки UDP является примером использования параметра 
+   <span class="term"><code>udp</code></span> в соответствующей директиве <span class="term"><code>listen</code></span>.</p>
+   <p>Если соответствующая служба поверх вашей балансировки нагрузки требует обратной отправки множества пакетов и далее 
+   между клиентом и сервером, вы можете определить соответствующий параметр <span class="term"><code>reuseport</code></span>.
+   Примерами такого типа служб являются OpenVPN, Voice over Internet Protocol (VoIP), решения виртуальных рабочих мест и 
+   DTLS (Datagram Transport Layer Security). Ниже приводится пример использования NGINX для обработки соединений Open VPN 
+   и их посредничества (прокси) для запущенной локально службы Open VPN:</p>
+	   <pre class="screen"><code>
+stream {
+    server {
+        listen 1195 udp reuseport;
+        proxy_pass 127.0.0.1:1194;
+    }
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Вы можете спросить, &quot;Зачем мне применять некую балансировку нагрузки, когда я могу иметь в записи DNS A или SRV
+   множества хостов?&quot; Ответ состоит в том, что это не просто альтернативные алгоритмы балансировки, которыми мы можем 
+   осуществлять балансировку, но мы также можем выполнять балансировку и поверх самих серверов DNS. Службы UDP составляют 
+   множество тех служб, от которых мы зависим в сетевых системах, таких как DNS, NTP и VoIP. Балансировка нагрузки UDP может 
+   быть не распространена для некоторых из них, но просто полезна в общем мире масштабирования.</p>
+   <p>В точности так же как это имеет место и для TCP, вы можете обнаружить балансировку нагрузки UDP в модуле 
+   <span class="term"><code>stream</code></span>, причём в целом она настраивается так же. Основное отличие состоит в том, 
+   что соответствующая директива <span class="term"><code>listen</code></span> определяет что её сокет открыт для работы с 
+   дейтаграммами. При работе с дейтаграммами имеются некие иные директивы, которые могут применяться когда они не 
+   укладываются в TCP, такие как директива <span class="term"><code>proxy_response</code></span>, которая задаёт для 
+   NGINX сколько ожидаемых откликов может быть отправлено от её сервера восходящего потока. По умолчанию оно не ограничено 
+   до тех пор пока не достигается предел <span class="term"><code>proxy_timeout</code></span>.</p>
+   <p>Устанавливаемый параметр <span class="term"><code>reuseport</code></span> инструктирует NGINX о необходимости создания 
+   некого индивидуального порта ожидания для каждого процесса исполнителя. Это делает возможным для имеющегося ядра распределять 
+   входящие подключения между процессами исполнителей для обработки множества пакетов, отправляемых между клиентом и 
+   сервером. Данная функциональность <span class="term"><code>reuseport</code></span> работает только в ядрах Linux 3.9 и выше, 
+   DragonFly BSD, а также FreeBSD 12 и выше.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Методы балансировки нагрузки</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Карусельный (round- robin) метод балансировки не соответствует вашему варианту применения по той причине что у вас 
+   имеются неоднородные рабочие нагрузки или пулы серверов.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь одним из таких методов балансировки нагрузки NGINX как методов наименьших подключений (least connections), 
+   наименьшего времени (least time), общего хэширования (generic hash), хэширования IP (IP hash), или случайного (random):</p>
+	   <pre class="screen"><code>
+upstream backend {
+    least_conn;
+    server backend.example.com;
+    server backend1.example.com;
+}
+ 	   </code></pre>
+   <p>Этот пример настраивает значением алгоритма балансировки нагрузки для своего пула серверов восходящего потока метод 
+   наименьших подключений (least connections). Все алгоритмы балансировки нагрузки, за исключением общего хэширования, 
+   случайного и наименьшего времени работы являются обособленными директивами, как и в данном примере. Значения параметров 
+   для этих директив поясняются в идущем далее обсуждении.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Не все обслуживания запросов или пакетов несут равные веса. Исходя из этого, карусельный метод, или даже взвешенный 
+   карусельный метод, применявшийся в предыдущих примерах, не будут соответствовать всем приложения или потокам обмена.
+   Дополнительно к возможности выбора таких алгоритмов или методов балансировки нагрузки вы также можете и настраивать их. 
+   Для пулов восходящих потоков HTTP, TCP и UDP доступны следующие методы балансировки нагрузки:</p>
+  <div class="definedlist"><p><strong></strong></p>
+   <dl>
+     <dt><span class="emphasis"><em>Карусельный</em></span></dt>
+     <dd><p>Это устанавливаемый по умолчанию метод балансировки нагрузки, который распределяет запросы в порядке своего списка 
+	 серверов в соответствующем восходящем пуле. Для некого взвешенного карусельного метода вы также можете принимать во 
+	 внимание вес, который может применяться когда разнятся ёмкости соответствующих серверов восходящего потока. Чем больше 
+	 целочисленное значение для такого веса, тем более предпочтителен будет этот сервер в данном карусельном методе. Соответствующий 
+	 алгоритм, стоящий за весом это просто статистическая вероятность некого взвешенного среднего.</p></dd>
+     <dt><span class="emphasis"><em>Наименьшее подключение</em></span></dt>
+     <dd><p>Данный метод балансирует нагрузку выступая посредником для текущего запроса к тому серверу восходящего потока, который 
+	 имеет наименьшее число открытых подключений. Метод наименьших подключений, так же как и карусельный, принимает во внимание 
+	 веса при определении того в какой из серверов отправлять данное подключение. Эта директива имеет название 
+	 <span class="term"><code>least_conn</code></span>.</p></dd>
+     <dt><span class="emphasis"><em>Наименьшее время</em></span></dt>
+     <dd><p>Доступный только в NGINX PLUS, метод наименьшего времени является родственным методу наименьших подключений в том, 
+	 что он выступает посредником для того сервера, у которого наименьшее число подключений, но при этом предпочтение отдаётся 
+	 серверу с наименьшим значением среднего времени обработки запросов. Данный метод один из самых искушённых алгоритмов 
+	 балансировки нагрузки и соответствует потребностям веб приложений с высокой производительностью. Данный алгоритм дополнительно 
+	 оценивает наименьшее время соединения, поскольку некое меньшее число подключений не обязательно означает самый быстрый 
+	 отклик. Для данной директивы необходимо определять параметр <span class="term"><code>header</code></span> или 
+	 <span class="term"><code>last_byte</code></span>. Когда определён <span class="term"><code>header</code></span>, используется 
+	 время на получения отклика от заголовка. Когда определён <span class="term"><code>last_byte</code></span>, применяется значение
+	 времени для получения полного отклика. Названием этой директивы является <span class="term"><code>least_time</code></span>.</p></dd>
+     <dt><span class="emphasis"><em>Общее хэширование</em></span></dt>
+     <dd><p>Сам администратор определяет некий хэш для заданного текста, переменных запроса или времени исполнения, либо 
+	 и того и другого. NGINX распределяет имеющуюся нагрузку по всем серверам предоставляя некий хэш для значения текущего 
+	 запроса и размещая его в серверах восходящего потока. Данный метод очень полезен когда вам требуется больше контроля 
+	 над тем куда отправляются запросы или для определения того какой из серверов восходящего потока будет скорее всего 
+	 кэшировать эти данные. Обратите внимание, что при добавлении или удалении сервера из пула хэшированные запросы будут 
+	 перераспределяться. Этот алгоритм имеет некий необязательный параметр, <span class="term"><code>consistent</code></span>, 
+	 для минимизации эффекта перераспределения. Эта директива имеет название <span class="term"><code>hash</code></span>.</p></dd>
+     <dt><span class="emphasis"><em>Случайное</em></span></dt>
+     <dd><p>Этот метод применяется чтобы предписать NGINX для выбора случайным образом сервера из определённой группы, принимая 
+	 во внимание веса серверов. Не обязательный параметр <span class="term"><code>two [method]</code></span> указывает NGINX 
+	 на необходимость случайным образом выбирать два сервера, а затем применять предоставляемый им метод балансировки нагрузки 
+	 для балансирования между этими двумя. Если <span class="term"><code>two</code></span> передаётся без какого бы то ни было 
+	 метода, по умолчанию применяется <span class="term"><code>least_conn</code></span>. Значением имени для случайной 
+	 балансировки нагрузки является <span class="term"><code>random</code></span>.</p></dd>
+     <dt><span class="emphasis"><em>Хэширование IP</em></span></dt>
+     <dd><p>Этот метод работает только для HTTP. Хэш IP применяет значение адреса IP клиента в качестве самого хеширования. 
+	 Слегка отличаясь от применения соответствующей удалённой переменной в неком общем хэшировании, данный алгоритм использует 
+	 первые три октета некого IPv4 адреса либо весь адрес IPv6 целиком. Этот метод гарантирует что клиенты выставляются посредником 
+	 на один и тот же сервер восходящего потока пока доступен этот самый сервер, что очень полезно в том случае, когда имеет 
+	 значение состояние сеанса и оно не обрабатывается общей памятью данного приложения. Этот метод также учитывает значение 
+	 параметра <span class="term"><code>weight</code></span> при распределении значения хэша. Именем директивы является 
+	 <span class="term"><code>ip_hash</code></span>.</p></dd>
+   </dl>
+  </div>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Клейкие куки</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется привязывать некого клиента нижестоящего клиента с каким- то сервером восходящего уровня при помощи 
+   NGINX Plus.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь директивой <span class="term"><code>sticky cookie</code></span> (клейких куки) NGINX Plus для 
+   создания и отслеживания куки:</p>
+	   <pre class="screen"><code>
+upstream backend {
+    server backend1.example.com;
+    server backend2.example.com;
+    sticky cookie
+        affinity
+        expires=1h
+        domain=.example.com
+        httponly
+        secure
+        path=/;
+}
+ 	   </code></pre>
+   <p>Данная конфигурация создаёт и отслеживает некий куки, который связывает подлежащего клиента с сервером верхнего 
+   уровня. В данном примере этот куки, именуемый как <span class="term"><code>affinity</code></span>, устанавливается 
+   для example.com, со сроком истечения действия в один час, причём не может потребляться стороной клиента, может отправляться 
+   исключительно через HTTPS и действует для всех путей.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Применение параметра <span class="term"><code>cookie</code></span> в соответствующей директиве 
+   <span class="term"><code>sticky</code></span> создаёт некий куки при самом первом запросе, который содержит информацию 
+   относительно требуемого сервера верхнего уровня. NGINX Plus отслеживает такой куки, что позволяет ему продолжать 
+   отправлять последующие запросы в тот же самый сервер. Самый первый позиционный параметр в самом параметре 
+   <span class="term"><code>cookie</code></span> является необходимым именем подлежащего созданию и отслеживанию куки. 
+   Прочие параметры предлагают дополнительную информацию контроля за просмотром соответствующего использования, например, 
+   времени истечения, домена, пути, и того может ли этот куки потребляться стороной клиента и может ли он передаваться по 
+   не безопасным протоколам.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Обучения наклейкам</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется связать некого подлежащего клиента с каким- то восходящим сервером при помощи уже имеющегося в NGINX Plus 
+   куки.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для обнаружения и отслеживания куки, который создан соответствующим сервером верхнего уровня воспользуйтесь директивой
+   <span class="term"><code>sticky learn</code></span>:</p>
+	   <pre class="screen"><code>
+upstream backend {
+    server backend1.example.com:8080;
+    server backend2.example.com:8081;
+
+    sticky learn
+        create=$upstream_cookie_cookiename
+        lookup=$cookie_cookiename
+        zone=client_sessions:2m;
+}
+ 	   </code></pre>
+   <p>Данный пример инструктирует NGINX отыскивать и отслеживать сеансы, просматривая куки с именем 
+   <span class="term"><code>COOKIENAME</code></span> в заголовках отклика, и определять существующие сеансы находя тот 
+   же самый куки в заголовках запросов. Такое родство (affinity) сеаснов хранится в разделяемой зоне памяти в 2 МБ, что позволяет 
+   отслеживать приблизительно 16 000 сеансов. Само название куки всегда будет определяться приложением. Внутри соответствующего 
+   приложения или настроек сервера приложения обычно применяются названия, подобные <span class="term"><code>jsessionid</code></span>
+   или <span class="term"><code>phpsessionid</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Когда некое приложение создаёт свой собственный куки состояния сеанса, NGINX Plus способен отыскивать его в откликах запросов 
+   и отслеживать их. Такой тип отслеживания куки осуществляется когда сама директива <span class="term"><code>sticky</code></span> 
+   снабжается соответствующим параметром <span class="term"><code>learn</code></span>. Совместная память для отслеживания куки 
+   определяется значением параметра <span class="term"><code>zone</code></span> с неким названием и размером. NGINX Plus направляет 
+   поиск куки в соответствующем отклике от своего сервера верхнего уровня через определение надлежащего параметра 
+   <span class="term"><code>create</code></span> и отыскивает предварительно зарегистрированное родство сервера при помощи значения 
+   параметра <span class="term"><code>lookup</code></span>. Сами значения таких параметров являются выставляемыми модулем 
+   <span class="term"><code>HTTP</code></span> переменными.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="08"> </a>Наклейки маршрутов</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходим более точный контроль NGINX Plus над тем как выполняется маршрутизация ваших постоянных сеансов к 
+   соответствующему серверу верхнего уровня.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для применения переменных относительно необходимого запроса на маршрут воспользуйтесь директивой 
+   <span class="term"><code>sticky</code></span> с соответствующим параметром <span class="term"><code>route</code></span>:</p>
+	   <pre class="screen"><code>
+map $cookie_jsessionid $route_cookie {
+    ~.+\.(?P&lt;route&gt;\w+)$ $route;
+}
+map $request_uri $route_uri {
+    ~jsessionid=.+\.(?P&lt;route&gt;\w+)$ $route;
+}
+
+upstream backend {
+    server backend1.example.com route=a;
+    server backend2.example.com route=b;
+
+    sticky route $route_cookie $route_uri;
+}
+ 	   </code></pre>
+   <p>Этот пример выполняет попытку выделения некого идентификатора сеанса Java, причём вначале из некого куки, устанавливая 
+   соответствие самого идентификатора сеанса Java некой переменной при помощи самого первого блока 
+   <span class="term"><code>map</code></span>, а далее просматривая поступающий URI запроса на предмет параметра с названием 
+   <span class="term"><code>jsessionid</code></span>, устанавливая соответствие полученного значения переменной при помощи 
+   второго блока <span class="term"><code>map</code></span>. Такая директива <span class="term"><code>sticky</code></span> 
+   с параметром <span class="term"><code>route</code></span> передаёт любое число переменных. Для необходимого маршрута 
+   применяется самый первый ненулевое или не пустое значение. Если применяется некий куки 
+   <span class="term"><code>jsessionid</code></span>, такой запрос направляется в <span class="term"><code>backend1</code></span>;
+   если используется некий параметр URI, соответствующий запрос будет отправлен в <span class="term"><code>backend2</code></span>.
+   Хотя этот пример основывается на значении идентификатора сеанса Java, то же самое применимо и к прочим технологиям 
+   сеансов, таким как <span class="term"><code>phpsessionid</code></span>, либо любой иной, которая обеспечивает выработку 
+   уникального идентификатора сеанса для вашего приложения.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Порой вы желаете направлять обмен в какой- то определённый сервер имея несколько более тонкий контроль. Для достижения 
+   данной цели создан параметр <span class="term"><code>route</code></span> в директиве <span class="term"><code>sticky</code></span>.
+   Наклейка на маршруте предоставляет вам лучшее управление, реальное отслеживание и связываемость в противоположность 
+   алгоритму балансировки нагрузки с общим хэшированием. Такой клиент вначале направляется в сервер верхнего уровня на основе 
+   заданного маршрута, а затем последующие запросы будут обрабатывать получаемую в куки или URI информацию о маршруте. 
+   Наклейки маршрутов получают целый ряд вычисляемых позиционных параметров. Самая первая не пустая переменная применяется в 
+   качестве маршрута к серверу. Для выборочного разбора переменных и охранения их в качестве прочих переменных могут 
+   применяться блоки <span class="term"><code>map</code></span>. В конечном счёте директива 
+   <span class="term"><code>sticky route</code></span> создаёт некий сеанс внутри зоны совместной памяти NGINX Plus для 
+   отслеживания любых идентификаторов сеанса пользователя, которые вы определяете для надлежащего сервера верхнего уровня, 
+   непрерывно доставляя запросы с таким идентификатором сеанса в тот же самый сервер верхнего уровня, что и самый первый 
+   запрос.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="09"> </a>Осушение соединения</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется аккуратно удалить серверы для работ по сопровождению или по иным причинам и при этом продолжать 
+   обслуживание сеансов при помощи NGINX Plus.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Через API NGINX Plus воспользуйтесь параметром <span class="term"><code>drain</code></span>, который более подробно 
+   описывается в <a class="link" href="Ch05.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch05.html" target="_top">Главе 5</a>, чтобы проинструктировать NGINX о необходимости 
+   прекращения отправки новых подключений, которые ещё пока не отслеживаются:</p>
+		<pre class="screen"><code><strong>
+$ curl -X POST -d '{"drain":true}' \
+'http://nginx.local/api/3/http/upstreams/backend/servers/0'
+
+{
+  "id":0,
+  "server":"172.17.0.3:80",
+  "weight":1,
+  "max_conns":0,
+  "max_fails":1,
+  "fail_timeout":
+  "10s","slow_start":
+  "0s",
+  "route":"",
+  "backup":false,
+  "down":false,
+  "drain":true
+}
+		</strong></code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Прежде чем удалять из имеющегося пула некий сервер, в котором локально хранится состояние сеанса, следует осушить 
+   подключения и сеансы. Осушение соединений это процесс, который позволяет естественным образом завершаться сеансам сервера 
+   по истечению времени прежде чем удалять сам сервер из соответствующего пула восходящего потока. Вы можете настроить осушение 
+   для какого- то конкретного сервера добавив параметр <span class="term"><code>drain</code></span> в соответствующую 
+   директиву <span class="term"><code>server</code></span>. Когда параметр <span class="term"><code>drain</code></span> 
+   установлен, NGINX Plus прекращает отправку новых сеансов в этот сервер, но позволяет текущим сеансам продолжать своё 
+   обслуживание на протяжении времени жизни их сеансов. Вы можете включать такую настройку добавляя соответствующий параметр 
+   <span class="term"><code>drain</code></span> в директиву к серверу восходящего потока.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="10"> </a>Пассивные проверки жизнеспособности</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется выполнить пассивную проверку состояния жизнеспособности серверов восходящего потока.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь проверками жизнеспособности NGINX для балансировки нагрузки чтобы убедиться что применяются только 
+   жизнеспособные серверы восходящего потока:</p>
+	   <pre class="screen"><code>
+upstream backend {
+    server backend1.example.com:1234 max_fails=3 fail_timeout=3s;
+    server backend2.example.com:1234 max_fails=3 fail_timeout=3s;
+}
+ 	   </code></pre>
+   <p>Данная настрока осуществляет пассивный мониторинг жизнеспособности своего восходящего потока, назначая значение 
+   <span class="term"><code>max_fails</code></span> директивы в три, а <span class="term"><code>fail_timeout</code></span> 
+   на три секунды. Данные параметры директивы работают одним и тем же способом как для серверов потоков, так и для серверов 
+   HTTP.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Пассивные проверки жизнеспособности доступны в версии NGINX с Открытым исходным кодом. Пассивный мониторинг выявляет 
+   отказавшие или завершённые по тайм- ауту подключения по мере их передачи через NGINX в качестве запросов некого клиента. 
+   Пассивные проверки жизнеспособности включены по умолчанию; упомянутые здесь параметры позволяют вам подстраивать их 
+   поведение. Мониторинг жизнеспособности важен во всех типах балансировки нагрузок, причём не только с точки зрения 
+   взаимодействия пользователя, но также и для обеспечения непрерывности бизнеса. NGINX выполняет пассивный мониторинг 
+   серверов HTTP, TCP и UDP восходящего потока чтобы гарантировать их жизнеспособность и работу.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="11"> </a>Активные проверки жизнеспособности</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется в NGINX Plus выполнять активную проверку жизнеспособности серверов восходящего потока.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для HTTP воспользуйтесь в блоке местоположения директивой <span class="term"><code>health_check</code></span>:</p>
+	   <pre class="screen"><code>
+http {
+    server {
+        ...
+        location / {
+            proxy_pass http://backend;
+            health_check interval=2s
+                fails=2
+                passes=5
+                uri=/
+                match=welcome;
+        }
+    }
+    # status is 200, content type is "text/html",
+    # and body contains "Welcome to nginx!"
+    match welcome {
+        status 200;
+        header Content-Type = text/html;
+        body ~ "Welcome to nginx!";
+    }
+}
+ 	   </code></pre>
+   <p>Данная проверка жизнеспособности для серверов HTTP контролирует состояние жизнеспособности имеющихся серверов 
+   восходящего потока выполняя каждые две секунды некий запрос HTTP к URI<span class="term"><code>'/'</code></span>. 
+   Чтобы рассматриваться жизнеспособными, соответствующие серверы восходящего потока должны пройти пять последовательных 
+   проверок жизнеспособности. Они рассматриваются как не жизнеспособные когда отказывают две последовательные проверки. 
+   Соответствующий отклик от такого сервера верхнего уровня должен соответствовать тому определяемому блоку соответствия, 
+   который задаёт значение кода состояния равным <span class="term"><code>200</code></span>, а значение заголовка 
+   <span class="term"><code>Content-Type</code></span> как <span class="term"><code>'text/html'</code></span> и 
+   строку <span class="term"><code>&quot;Welcome to nginx!&quot;</code></span> в качестве значения тела отклика.
+   Сам HTTP <span class="term"><code>match block</code></span> имеет три директивы: состояния, заголовка и тела. 
+   Все эти три директивы также имеют флаги сравнения.</p>
+   <p>Проверки для служб TCP/UDP очень похожи:</p>
+	   <pre class="screen"><code>
+stream {
+    ...
+    server {
+        listen 1234;
+        proxy_pass stream_backend;
+        health_check interval=10s
+            passes=2
+            fails=3;
+        health_check_timeout 5s;
+    }
+    ...
+}
+ 	   </code></pre>
+   <p>В данном примере некий сервер TCP настроен на ожидание по порту <span class="term"><code>1234</code></span> и 
+   для выполнения посредничества к некому набору серверов восходящего потока, для которого он и выполняет активные 
+   проверки жизнеспособности. Соответствующая директива <span class="term"><code>health_check</code></span> получает все 
+   те же параметры, что и HTTP, за исключением <span class="term"><code>uri</code></span>, а значение версии потока 
+   имеет параметр для переключения проткола проверки на <span class="term"><code>udp</code></span>. В данном примере 
+   значение интервала установлено на 10 секунд, требуются два прохода для того чтобы он рассматривался как жизнеспособный 
+   и три отказа чтобы принмать его не жизнеспособным. Такая активная проверка потока также способна удостоверять получаемый 
+   отклик от своего сервера верхнего уровня. Тем не менее, соответствующий блок <span class="term"><code>match</code></span> 
+   для серверов потока имеет только два параметра: <span class="term"><code>send</code></span> и
+   <span class="term"><code>expect</code></span>. Значением директивы <span class="term"><code>send</code></span> 
+   являются подлежащие отправке сырые данные, в то время как <span class="term"><code>expect</code></span> представляет 
+   собой точный отклик или некое регулярное выражение для проверки соответствия.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Активные проверки жизнеспособности NGINX Plus непрерывно выполняют запросы к соответствующим серверам источников для 
+   контроля их жизнеспособности. Такие проверки жизнеспособности способны проверять не только значение кода отклика. В 
+   NGINX Plus активные проверки жизнеспособности HTTP осуществляют мониторинг на основе некого числа приемлемых критериев 
+   соответствующего отклика от самого сервера верхнего уровня. Вы можете настраивать мониторинг активных проверок 
+   жизнеспособности на то насколько часто проверяются серверы восходящего потока, сколько раз сервер обязан пройти такую 
+   проверку чтобы рассматривать его жизнеспособным, сколько раз он может отказывать прежде чем будет рассматриваться как 
+   не жизнеспособный и что следует рассматривать значением ожидаемого результата. Значение параметра 
+   <span class="term"><code>match</code></span> указывает на некий блок соответствия, который определяет значение приемлемого 
+   критерия для получаемого отклика. Значение блока соответствия также определяет те данные, которые отправляются в 
+   опрашиваемый сервер верхнего уровня при использовании значения контекста потока для TCP/ UDP. Эти свойства позволяют 
+   NGINX гарантировать жизнеспособность серверов восходящего потока на протяжении всего времени.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="12"> </a>Медленный запуск</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Ваше приложение нуждается в прогреве прежде чем начать принимать полную промышленную нагрузку.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для постепенного увеличения общего числа подключений со временем после того как некий сервер был представлен в 
+   своём пуле восходящей балансировки нагрузки, воспользуйтесь параметром <span class="term"><code>slow_start</code></span> 
+   в соответствующей директиве <span class="term"><code>server</code></span>:</p>
+	   <pre class="screen"><code>
+upstream {
+    zone backend 64k;
+
+    server server1.example.com slow_start=20s;
+    server server2.example.com slow_start=15s;
+}
+ 	   </code></pre>
+   <p>Данная настройка директивы <span class="term"><code>server</code></span> будет замедленно прогревать обмен к 
+   серверам восходящего потока после их представления в данном пуле. <span class="term"><code>server1</code></span> 
+   будет медленно наращивать своё число подключений на протяжении 20 секунд, а <span class="term"><code>server2</code></span>
+   в течении 15 секунд.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p><span class="emphasis"><em>Медленный запуск</em></span> является концепцией медленного наращивания общего числа запросов 
+   для посреднической передачи в некий сервер на протяжении какого- то промежутка времени. Медленный старт делает 
+   возможным для приложения выполнять прогрев, заполняя его кэши, инициируя подключения к базе данных без того чтобы 
+   оказаться переполненным подключениями сразу после его запуска. Это свойство вступает в действие когда некий сервер, 
+   испытавший отказ при проверках жизнеспособности, начинает проходить их снова и возвращается в свой пул балансировки 
+   нагрузки.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="13"> </a>Проверки жизнеспособности TCP</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется проверить свой сервер TCP восходящего потока на жизнеспособность и удалять не жизнеспособные серверы 
+   из их пула.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для некой активной проверки воспользуйтесь директивой <span class="term"><code>health_check</code></span> в 
+   надлежащем блоке <span class="term"><code>server</code></span>:</p>
+	   <pre class="screen"><code>
+stream {
+    server {
+        listen       3306;
+        proxy_pass   read_backend;
+        health_check interval=10 passes=2 fails=3;
+    }
+}
+ 	   </code></pre>
+   <p>Данный пример выполняет активный мониторинг серверов своего восходящего потока. Подлежащий отслеживанию сервер 
+   восходящего потока рассматривается как не жизнеспособный если он отказывает в отклике для трёх или более инициированных 
+   NGINX подключений TCP. NGINX выполняет данную проверку каждые 10 секунд. Определённый сервер будет рассматриваться как 
+   жизнеспособный только после прохода двух проверок на жизнеспособность.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Проверка жизнеспособности TCP может подтверждаться со стороны NGINX Plus пассивно или активно. Пассивный мониторинг 
+   жизнеспособности осуществляется путём регистрации взаимодействия между имеющимся клиентом и его сервером верхнего 
+   уровня. Когда такой сервер восходящего потока приводит к тайм- ауту или отклоняет подключения, пассивная проверка 
+   жизнеспособности будет считать такой сервер не жизнеспособным. Активные проверки жизнеспособности будут инициировать 
+   свои собственные настраиваемые проверки для определения жизнеспособности. Активные проверки жизнеспособности не только 
+   контролируют некое подключение к своему серверу восходящего потока, но также могут ожидать некий заданный отклик.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

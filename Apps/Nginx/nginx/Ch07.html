@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 7. Управления безопасностью - Книга рецептов NGINX</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="NGINXCookbook"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="up" href="index.html" title="Книга рецептов NGINX"/>
+<link rel="prev" href="Ch06.html" title="Глава 6. Аутентификация"/>
+<link rel="next" href="Ch08.html" title="Глава 8. HTTP/2"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "nginx-cookbook";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/NGINXCookbook/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 7. Управления безопасностью';
+PrevRef = 'Ch06.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/index.html*/;
+NextRef = 'Ch08.html'/*tpa=http://onreader.mdl.ru/NGINXCookbook/content/Ch08.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 7. Управления безопасностью
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch07.html" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html">Глава 7. Управления безопасностью</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch07.html#01" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#01">Введение</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#02">Основанный на IP доступ</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#03">Разрешение обмена ресурсами между источниками</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#04">Шифрование стороны клиента</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#05" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#05">Восходящее шифрование</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#06">Безопасность местоположения</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#07" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#07">Генерация безопасного соединения при помощи ключа безопасности</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#08" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#08">Безопасность местоположения при помощи ограниченной даты</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#09" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#09">Генерация ссылки с ограниченным сроком</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#10" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#10">Перенаправление HTTPS</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#11" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#11">Перенаправление на HTTPS когда SSL/ TLS прекращается до NGINX</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#12" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#12">Строгая безопасность доставки HTTP</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#13" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#13">Удовлетворение любого числа методов безопасности</a></span></dt>
+       <dt><span class="chapter"><a href="Ch07.html#14" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#14">Динамичное ослабление DDoS</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Введение</h3>
+   </div></div></div>
+   <p>Мероприятия по безопасности выполняются на различных уровнях и для её истинной прочности следует иметь множество уровней 
+   в вашей модели безопасности. В данной главе мы пройдём множество различных способов по осуществлению мероприятий безопасности 
+   для ваших веб приложений при помощи NGINX и NGINX Plus. Вы можете применять в сочетании друг с другом многие из этих 
+   методов для содействия упрочению безопасности. Далее приводится целый ряд разделов по безопасности, которые рассматривают 
+   свойства NGINX и NGINX Plus, способные содействовать упрочнению вашего приложения. Вам следует обратить внимание на то, 
+   что эта глава не касается одной из самых крупных функциональностей безопасности NGINX, модуля NGINX ModSecurity 3.0, 
+   который превращает NGINX в Веб приложение межсетевого экрана (WAF, Web Application Firewall). Для изучения дополнительных 
+   возможностей WAF выгрузите <a class="link" href="javascript:if(confirm(%27http://bit.ly/2RZjUKM  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2RZjUKM%27" tppabs="http://bit.ly/2RZjUKM" target="_top">ModSecurity 3.0 and NGINX: Quick Start Guide</a>
+   </p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Основанный на IP доступ</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется контролировать доступ клиента на основе значения IP адреса самого клиента.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь методом доступа HTTP для управления доступом к защищаемым ресурсам:</p>
+	   <pre class="screen"><code>
+location /admin/ {
+    deny 10.0.0.1;
+    allow 10.0.0.0/20;
+    allow 2001:0db8::/32;
+    deny all;
+}
+ 	   </code></pre>
+   <p>Данный конкретный блок location разрешает доступ со всех адресов IPv4 в <span class="term"><code>10.0.0.0/20</code></span>
+   за исключением <span class="term"><code>10.0.0.1</code></span>, допускает доступ с адресов IPv6 из подсети 
+   <span class="term"><code>2001:0db8::/32</code></span> и возвращает 403 для всех поступающих с прочих адресов запросов. 
+   Такие директивы <span class="term"><code>allow</code></span> и <span class="term"><code>deny</code></span> допустимы в 
+   контекстах HTTP, server и location. Правила проверяются последовательно пока не будет найдено соответствие для удалённого 
+   адреса запрашивающей стороны.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Защита значимых ресурсов и служб в Интернете должна выполняться на разных уровнях. NGINX предоставляет такую возможность 
+   быть одним из подобных уровней. его директива <span class="term"><code>deny</code></span> блокирует доступ к некому 
+   заданному контексту, в то время как директива <span class="term"><code>allow</code></span> может применяться для допуска 
+   подмножеств в имеющемся заблокированном доступе. Вы можете применять IP адреса, причём IPv4 и IPv6, диапазоны блоков CIDR, 
+   ключевое слово <span class="term"><code>all</code></span>, а также сокет Unix. Обычно при защите некого ресурса следует 
+   разрешат некий блок внутренних IP адресов и запрещать доступ для <span class="term"><code>all</code></span>.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Разрешение обмена ресурсами между источниками</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вы обслуживаете ресурсы из одного домена и вам требуется разрешить совместное использование ресурсов между источниками 
+   (CORS, Cross-Origin Resource Sharing) чтобы позволить браузерам применять эти ресурсы.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для включения CORS измените заголовки на основе метода <span class="term"><code>request</code></span>:</p>
+	   <pre class="screen"><code>
+map $request_method $cors_method {
+  OPTIONS 11;
+  GET 1;
+  POST 1;
+  default 0;
+}
+server {
+  ...
+  location / {
+    if ($cors_method ~ '1') {
+            add_header 'Access-Control-Allow-Methods'
+                'GET,POST,OPTIONS';
+            add_header 'Access-Control-Allow-Origin'
+                '*.example.com';
+            add_header 'Access-Control-Allow-Headers'
+                       'DNT,
+                       Keep-Alive,
+                       User-Agent,
+                       X-Requested-With,
+                       If-Modified-Since,
+                       Cache-Control,
+                       Content-Type';
+    }
+    if ($cors_method = '11') {
+        add_header 'Access-Control-Max-Age' 1728000;
+        add_header 'Content-Type' 'text/plain; charset=UTF-8';
+        add_header 'Content-Length' 0;
+        return 204;
+    }
+  }
+}
+ 	   </code></pre>
+   <p>В данном методе происходит много чего, что было сокращено при помощи некого <span class="term"><code>map</code></span>
+   группе приводимых методов <span class="term"><code>GET</code></span> и <span class="term"><code>POST</code></span> 
+   всем сразу. Приводимый метод запроса <span class="term"><code>OPTIONS</code></span> возвращает некий
+   <span class="term"><code><em>предполётный</em></code></span> запрос для запрашивающего клиента относительно этих правил 
+   CORS. Под CORS разрешены методы <span class="term"><code>OPTIONS</code></span>, <span class="term"><code>GET</code></span>
+   и <span class="term"><code>POST</code></span>. Установка значения заголовка 
+   <span class="term"><code>Access-Control-Allow-Origin</code></span> делает возможным обслуживание содержимого с данного 
+   сервера, также применимым для страниц, происходящих с тех ,которые соответствуют данному заголовку. Такой предполётный 
+   запрос может быть кэширован для данного клиента на протяжении 1 728 000 секунд, или 20 дней.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Подобные JavaScript ресурсы применяют CORS когда запрашиваемые ими ресурсы расположены в отличающихся от из собственных 
+   доменах. Когда некий запрос рассматривается как предполагающий совместное применение источников, его браузеру требуется 
+   следовать правилам CORS. Браузер запрашивающей стороны не будет применять такой ресурс если у него нет заголовков, которые 
+   именно это ему предписывают делать. Для того чтобы разрешить использование наших ресурсов с прочих поддоменов, нам требуется 
+   установить необходимые заголовки CORS, что может быть выполнено при помощи директивы <span class="term"><code>add_header</code></span>
+   Если таким запросом являетс некий <span class="term"><code>GET</code></span>, <span class="term"><code>HEAD</code></span> 
+   или <span class="term"><code>POST</code></span> со стандартным типом содержимого, и такой запрос не имеет особых заголовков, 
+   его браузер сделает соответствующий запрос и проверит только его происхождение. Прочие методы заставят этот браузер выполнять 
+   необходимый предполётный запрос для проверки условий того сервера, которому подчинён такой ресурс. Если у вас не установлен 
+   надлежащий заголовок, браузер запроса получит некое сообщение об ошибке когда попытается воспользоваться данным ресурсом.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Шифрование стороны клиента</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется шифровать обмен между своим сервером NGINX и его клиентом.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для шифрования обмена  воспользуйтесь одним из имеющихся модулей SSL, например, <span class="term"><code>ngx_http_ssl_module</code></span>
+   или <span class="term"><code>ngx_stream_ssl_module</code></span>:</p>
+	   <pre class="screen"><code>
+http { # All directives used below are also valid in stream
+    server {
+        listen 8433 ssl;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_certificate /etc/nginx/ssl/example.pem;
+        ssl_certificate_key /etc/nginx/ssl/example.key;
+        ssl_certificate /etc/nginx/ssl/example.ecdsa.crt;
+        ssl_certificate_key /etc/nginx/ssl/example.ecdsa.key;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+    }
+}
+ 	   </code></pre>
+   <p>Данная конфигурация настраивает сервер на ожидание по порту с шифрованием SSL, 8443. Данный сервер принимает протоколы 
+   SSL версий TLSv1.2 и TLSv1.3. Для применения данным сервером раскрываются два набора местоположений сертификата и пар 
+   ключей. Данному серверу предписывается применять наивысшую предлагаемую его клиентом неприступность при ограничении 
+   небольшим числом не являющихся безопасными. Поскольку мы предоставили некую пару ключей ECC (Elliptic Curve Cryptopgraphy),
+   наивысшим приоритетом обладает именно шифрование ECC. Имеющиеся кэш SSL сеанса и таймаут делают для исполнителей возможным 
+   кэшировать и сохранять параметры сеанса на заданный промежуток времени. Существует большое число прочих параметров кэширования 
+   сеанса, которые способствуют производительности и безопасности для любых видо вариантов применения. Вы можете использовать 
+   параметры кэширования сеанса совместно друг с другом. Однако если определять параметр без значения по умолчанию отключит то 
+   значение по умолчанию, которое встроено в кэширование сеанса.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Безопасный транспортный уровень является наиболее распространённым способом шифрования информации при передаче. На момент
+   написания данной книги протокол TLS более предпочтителен нежели протокол SSL. Это обусловлено тем, что версии SSL с 1 по 
+   3 теперь рассматриваются как лишённые защищённости. Хотя само название протокола и может быть иным, TLS всё- таки устанавливает 
+   secure socket layer (протокол защищённых сокетов). NGINX позволяет вашей службе защищать информацию между вами и вашими 
+   клиентами, что в свою очередь защищает и самого клиента и ваш бизнес. При применении подписанного сертификата вам требуется 
+   прицеплять свой сертификат к имеющейся цепочке, причём ваш сертификат должен пребывать в надлежащем файле над этой цепочкой.
+   Если ваш центр сертификации предоставил множество файлов в вашей цепочке, он также может предоставить и порядок их 
+   следования. Кэширование SSL сеанса расширяет производительность через отсутствие потребности согласования версий SSL/ TLS 
+   и шифра.</p>
+   <p>При тестировании было установлено, что сертификаты ECC быстрее сертификатов RSA с той же строгостью. Его размер ключа меньше, 
+   что в результате приводит к возможности обслуживания большего числа подключений SSL/ TLS, причём с более быстрым квитированием.
+   NGINX позволяет настраивать несколько сертификатов и ключей, а затем обслуживать оптимальный для браузера клиента сертификат. 
+   Это делает для вас возможным использовать преимущества новой технологии, но при этом обслуживать и старых клиентов.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://mzl.la/2OU4xS0  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://mzl.la/2OU4xS0%27" tppabs="https://mzl.la/2OU4xS0" target="_top">Mozilla Server Side TLS Page</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27http://bit.ly/2fz7iIv  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://bit.ly/2fz7iIv%27" tppabs="http://bit.ly/2fz7iIv" target="_top">Mozilla SSL Configuration Generator</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://www.ssllabs.com/ssltest/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://www.ssllabs.com/ssltest/%27" tppabs="https://www.ssllabs.com/ssltest/" target="_top">Test Your SSL Configuration with SSL Labs SSL Test</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Восходящее шифрование</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется шифровать обмен между NGINX и конкретной службой восходящего потока, а также устанавливать особые правила 
+   согласования для регулировок надёжности или когда данный восходящий поток пребывает вне вашей безопасной сетевой среды.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для задания правил SSL вам следует применить директивы SSL для своего модуля посредника HTTP:</p>
+	   <pre class="screen"><code>
+location / {
+    proxy_pass https://upstream.example.com;
+    proxy_ssl_verify on;
+    proxy_ssl_verify_depth 2;
+    proxy_ssl_protocols TLSv1.2;
+}
+ 	   </code></pre>
+   <p>Эти директивы посредника устанавливают особые правила SSL чтобы подчиняться NGINX. Эти настраиваемые директивы 
+   гарантируют что NGINX удостоверяет что данный сертификат и цепочка в данной службе восходящего потока подтверждён до 
+   двух сертификатов в глубину. Соответствующая директива <span class="term"><code>proxy_ssl_protocols</code></span> 
+   определяет что этот NGINX будет применять только TLS с версией 1.2. По умолчанию NGINX не проверяет сертификаты 
+   восходящего потока и применяет все версии TLS.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Имеющиеся директивы для нашего модуля посредника HTTP очень многочисленны, а если вам требуется шифровать обмен 
+   восходящего потока, вам следует по крайней мере включить установление подлинности. Вы можете выступать посредником поверх 
+   HTTPS изменяя протокол в том значении, которое передаётся в соответствующую директиву <span class="term"><code>proxy_pass</code></span>.
+   Тем не менее, это не подтверждает имеющийся сертификат восходящего потока. Прочие директивы, такие как 
+   <span class="term"><code>proxy_ssl_certificate</code></span> и <span class="term"><code>proxy_ssl_certificate_key</code></span>, 
+   позволяют вам ограничивать шифрование восходящего потока расширенной безопасностью. Вы также можете предписать 
+   <span class="term"><code>proxy_ssl_crl</code></span> или некий список аннулированных сертификатов, который перечисляет 
+   сертификаты, которые более не рассматриваются как допустимые. Такие директивы посредника SSL помогают упрочнять каналы 
+   взаимодействия вашей системы внутри вашей собственной сетевой среды или поверх общедоступного интернета.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Безопасность местоположения</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется при помощи ключа безопасности защитить некий блок location.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>
+   <span class="term"><code>secure_link_secret</code></span>:</p>
+	   <pre class="screen"><code>
+location /resources {
+    secure_link_secret mySecret;
+    if ($secure_link = "") { return 403; }
+
+    rewrite ^ /secured/$secure_link;
+}
+
+location /secured/ {
+    internal;
+    root /var/www;
+}
+ 	   </code></pre>
+   <p>Данная конфигурация создаёт некий внутренний и повёрнутый в общедоступную стороны блоки location. Развёрнутый в сторону 
+   общей доступности блок location <span class="term"><code>/resources</code></span> будет возвращать 403 Forbidden всякий раз 
+   когда URI его запроса содержит некую строку хэширования <span class="term"><code>md5</code></span>, которая не может быть 
+   проверена тем кодом безопасности, который предоставляется в установленной директиве <span class="term"><code>secure_link_secret</code></span>. 
+   Значение переменной <span class="term"><code>$secure_link</code></span> является некой пустой строкой пока значение 
+   хэша URI не удостоверено.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Предоставление безопасности при помощи кода безопасности является великолепным способом гарантии того что ваши файлы 
+   защищены. Такой код безопасности применяется в сочетании со значением URI. Данная строка далее хэшируется посредством 
+   <span class="term"><code>md5</code></span>, и в получаемом URI применяются шестнадцатеричные цифры данного хэша 
+   <span class="term"><code>md5</code></span>. Этот хэш помещается в надлежащую ссылку и вычисляется NGINX. NGINX обладает 
+   информацией относительно значений запрашиваемых пути и файла, поскольку они пребывают в URI после значения хэша. NGINX 
+   также знает ваш код безопасности (secret), поскольку он предоставляется через соответствующую директиву 
+   <span class="term"><code>secure_link_secret</code></span>. NGINX имеет возможность быстро удостоверивать значение хэша 
+   <span class="term"><code>md5</code></span> и сохранять получаемый URI в значении переменной 
+   <span class="term"><code>$secure_link</code></span>. Если же значение хэша не подтверждается, значение переменной 
+   устанавливается в некую пустую строку. Важно отметить, что те аргументы, которые передаются в 
+   <span class="term"><code>secure_link_secret</code></span> обязаны быть статической строкой; они не могут быть некой 
+   переменной.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Генерация безопасного соединения при помощи ключа безопасности</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется сгенерировать в своём приложении некую безопасную ссылку при помощи какого- то кода безопасности.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Имеющийся в NGINX модуль безопасной ссылки принимает значения шестнадцатеричных цифр некой хэшированной 
+   <span class="term"><code>md5</code></span> строки, причём такая строка представляет собой сцепление значение URI пути 
+   и сам код безопасности (secret). Отталкиваясь от своего последнего рецепта, <a class="link" href="Ch07.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#06" 
+   target="_top">Безопасность местоположения</a>, мы создадим защищённую ссылку, которая будет работать с предыдущим примером 
+   конфигурации с учётом того что имеется некий файл, представленный в 
+   <span class="term"><code><em>/var/www/secured/index.html</em></code></span>. Для выработки требуемых 
+   значений шестнадцатеричных цифр <span class="term"><code>md5</code></span> мы можем применить команду Unix
+   <span class="term"><code>openssl</code></span>:</p>
+		<pre class="screen"><code><strong>
+$ echo -n 'index.htmlmySecret' | openssl md5 -hex
+(stdin)= a53bee08a4bf0bbea978ddf736363a12
+		</strong></code></pre>
+   <p>Здесь мы показываем значение защищаемого нами URI, <span class="term"><code><em>index.html</em></code></span>, 
+   сцепляемого с нашим кодом безопасности, <span class="term"><code>mySecret</code></span>. Эта строка передаётся в 
+   соответствующую команду <span class="term"><code>openssl</code></span> для вывода шестнадцатеричных цифр 
+   <span class="term"><code>md5</code></span>.</p>
+   <p>Ниже приводится некий пример построения в Python тех же самых шестнадцатеричных цифр с применением библиотеки 
+   <span class="term"><code>hashlib</code></span>, которая входит в состав Стандартной библиотеки Python:</p>
+	   <pre class="screen"><code>
+import hashlib
+hashlib.md5.(b'index.htmlmySecret').hexdigest()
+'a53bee08a4bf0bbea978ddf736363a12'
+ 	   </code></pre>
+   <p>Теперь, когда у нас имеются данные шестнадцатеричные цифры, мы можем применять их в неком URL. Нашим примером будет 
+   www.example.com, выполняющий некий запрос для своего файла <span class="term"><code><em>/var/www/secured/index.html</em></code></span> 
+   через location <span class="term"><code><em>/resources</em></code></span>. Нашим полным URL будет следующее:</p>
+	   <pre class="screen"><code>
+www.example.com/resources/a53bee08a4bf0bbea978ddf736363a12/\
+index.html
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Выработка цифровых значений может выполняться множеством способов, причём на множестве языков программирования. Что следует 
+   помнить: значение пути URI следует перед самим кодом безопасности, в этой строке нет никаких символов перехода на новую строку, 
+   а также применяются шестнадцатеричные цифры из соответствующего хэширования <span class="term"><code>md5</code></span>.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="08"> </a>Безопасность местоположения при помощи ограниченной даты</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется защитить некое местоположение при помощи ссылки, которая имеет срок истечения в будущем и является специфичной 
+   для некого клиента.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для настройки срока истечения действия воспользуйтесь прочими включёнными в обсуждаемый модуль безопасных ссылок 
+   директивами и применяйте переменные в своей защищённой ссылке:</p>
+	   <pre class="screen"><code>
+location /resources {
+    root /var/www;
+    secure_link $arg_md5,$arg_expires;
+    secure_link_md5 "$secure_link_expires$uri$remote_addr mySecret";
+    if ($secure_link = "") { return 403; }
+    if ($secure_link = "0") { return 410; }
+}
+ 	   </code></pre>
+   <p>Приводимая директива <span class="term"><code>secure_link</code></span> получает два разделяемые запятой параметра. 
+   Значением первого параметра является переменная, которая содержит значение хэша <span class="term"><code>md5</code></span>. 
+   Данный пример использует некий аргумент HTTP <span class="term"><code>md5</code></span>. Вторым параметром является 
+   переменная, которая содержит значение времени истечения срока данной ссылки, исчисляемого в формате времени эпохи Unix. 
+   Следующая директива <span class="term"><code>secure_link_md5</code></span> получает некий отдельный параметр, 
+   объявляющий значение формата той строки, которая применяется для построения значения хэша 
+   <span class="term"><code>md5</code></span>. Как и для прочих конфигураций, когда это значение хэша не проходит 
+   процедуру удостоверения, значение переменной <span class="term"><code>$secure_link</code></span> устанавливается в некую 
+   пустую строку. Тем не менее, при данном применении, в случае соответствия значения хэша, но при истечении срока действия 
+   значение переменной <span class="term"><code>$secure_link</code></span> будет установлено в 
+   <span class="term"><code>0</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Данное применение защищённой ссылки является более гибким и выглядит более понятным чем тот 
+   <span class="term"><code>secure_link_secret</code></span>, который показан в рецепте 
+   <a class="link" href="Ch07.html#06" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#06" target="_top">Безопасность местоположения</a>. При помощи этих директив мы способны 
+   применять любое число доступных для NGINX переменных, в своей хэшируемой строке. Использование специфичных для пользователя 
+   переменных в такой строке хэша усилит вашу безопасность, поскольку у пользователей не будет возможности выставлять на продажу 
+   ссылки к защищённым ресурсам. Рекомендуется применять переменные, подобные <span class="term"><code>$remote_addr</code></span> 
+   или <span class="term"><code>$http_x_forwarded_for</code></span>, либо некий заголовок куки сеанса, вырабатываемый вашим 
+   приложением. Значения аргументов для <span class="term"><code>secure_link</code></span> может поступать из любых предпочитаемых 
+   вами переменных, и они могут именоваться так чтобы лучше соответствовать вашим потребностям. Значения условий относительно 
+   значения переменной <span class="term"><code>$secure_link</code></span> устанавливаются для возврата известных кодов HTTP для
+   Forbidden и Gone. Значение 410 HTTP, Gone прекрасно подходит для просроченных ссылок, так как данное условие  рассматривается 
+   как неизменное.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="09"> </a>Генерация ссылки с ограниченным сроком</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется выработать ссылку со сроком истечения.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Сгенерируйте некий временной штамп (timestamp) для значения срока истечения в формате эпохи Unix. В некой системе 
+   Unix вы можете выполнить проверку применив значение даты, мкак это демонстрируется следующим примером:</p>
+		<pre class="screen"><code><strong>
+$ date -d "2020-12-31 00:00" +%s --utc
+1609372800
+		</strong></code></pre>
+   <p>Далее вам требуется сцепить строку своего хэша для установления значения строки, настраиваемой при помощи директивы 
+   <span class="term"><code>secure_link_md5</code></span>. В данном случае нашей используемой строкой будет 
+   <span class="term"><code>1293771600/resources/index.html127.0.0.1 mySecret</code></span>. Значение хэша 
+   <span class="term"><code>md5</code></span> слегка отличается от просто шестнадцатеричных цифр. Это некий хэш 
+   <span class="term"><code>md5</code></span> в двоичном формате, кодированный base64, причём символы плюса 
+   (<span class="term"><code>+</code></span>) транслируются в дефисы (<span class="term"><code>-</code></span>), 
+   слэши (<span class="term"><code>/</code></span>) транслируются в подчёркивания (<span class="term"><code>_</code></span>), 
+   а символы равенства (<span class="term"><code>=</code></span>) удаляются. Вот некий пример в какой-то системе Unix:</p>
+		<pre class="screen"><code><strong>
+$ echo -n '1609372800/resources/index.html127.0.0.1 mySecret' \
+  | openssl md5 -binary \
+  | openssl base64 \
+  | tr +/ -_ \
+  | tr -d =
+TG6ck3OpAttQ1d7jW3JOcw
+		</strong></code></pre>
+   <p>Теперь, когда мы имеем свой хэш, мы можем воспользоваться им в качестве некого аргумента совместно с датой истечения 
+   срока:</p>
+	   <pre class="screen"><code>
+'/resources/index.html?md5=TG6ck3OpAttQ1d7jW3JOcw&expires=1609372800'
+ 	   </code></pre>
+   <p>Далее приводится более практичный пример на Python, применяющий относительное время для срока истечения, устанавливающий значение срока истечения ссылки 
+   на один час с момента его выработки. На момент написания данной книги этот пример работал с Python 2.7 b 3.x с использванием 
+   их Стандартной библиотеки Python:</p>
+	   <pre class="screen"><code>
+from datetime import datetime, timedelta
+from base64 import b64encode
+import hashlib
+
+# Set environment vars
+resource = b'/resources/index.html'
+remote_addr = b'127.0.0.1'
+host = b'www.example.com'
+mysecret = b'mySecret'
+
+# Generate expire timestamp
+now = datetime.utcnow()
+expire_dt = now + timedelta(hours=1)
+expire_epoch = str.encode(expire_dt.strftime('%s'))
+
+# md5 hash the string
+uncoded = expire_epoch + resource + remote_addr + mysecret
+md5hashed = hashlib.md5(uncoded).digest()
+
+# Base64 encode and transform the string
+b64 = b64encode(md5hashed)
+unpadded_b64url = b64.replace(b'+', b'-')\
+    .replace(b'/', b'_')\
+    .replace(b'=', b'')
+
+# Format and generate the link
+linkformat = "{}{}?md5={}?expires={}"
+securelink = linkformat.format(
+    host.decode(),
+    resource.decode(),
+    unpadded_b64url.decode(),
+    expire_epoch.decode()
+)
+print(securelink)
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>При наличии данного шаблона мы имеем возможность вырабатывать некую защищённую ссылку в особом формате, которая может применяться в 
+   URI. Данный код безопасности (secret) предоставляет защиту при помощи использования переменных, которые никогда не отправляются 
+   определённому клиенту. У вас есть возможность применять столько переменных, сколько вам потребуется чтобы сделать свое 
+   местоположение безопасным. Хэширование <span class="term"><code>md5</code></span> и кодирование base64 являются распространёнными,
+   оюладают малым весом и доступны почти во всех языках программирования.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="10"> </a>Перенаправление HTTPS</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется перенаправлять не зашифрованные запросы в HTTPS.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь повторной записью для отправки всего обмена HTTP в HTTPS:</p>
+	   <pre class="screen"><code>
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
+}
+ 	   </code></pre>
+   <p>данная конфигурация выполняет ожидание по порту 80 в качестве её сервера по умолчанию как для IPv4, так и для IPv6, а 
+   также для любых названий хостов. Оператор <span class="term"><code>return</code></span> возвращает некий код 301, 
+   постоянно выполняя перенаправление в имеющийся в том же самом хосте сервер HTTP и подставляя URI запроса.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Важно всегда выполнять перенаправление в HTTPS, когда он доступен. Вы можете обнаружить что вам не требуется 
+   перенаправлять все запросы, а только те, которые содержат чувствительную информацию, подлежащую передачу между 
+   клиентом и сервером. В данном случае вы можете пожелать поместить в оператор <span class="term"><code>return</code></span> 
+   только конкретные расположения, например, <span class="term"><code><em>/login</em></code></span>.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="11"> </a>Перенаправление на HTTPS когда SSL/ TLS прекращается до NGINX</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется выполнять перенаправление в HTTPS, однако у вас истёк срок SSL/ TLS на уровне перед NGINX.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для выяснения того что вам требуется выполнить перенаправление воспользуйтесь стандартным заголовком 
+   <span class="term"><code>X-Forwarded-Proto</code></span>:</p>
+	   <pre class="screen"><code>
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    if ($http_x_forwarded_proto = 'http') {
+        return 301 https://$host$request_uri;
+    }
+}
+ 	   </code></pre>
+   <p>Эта конфигурация во многом схожа с перенаправлением HTTPS. Тем не менее, в данной конфигурации мы выполняем 
+   перенаправление только когда значение заголовка <span class="term"><code>X-Forwarded-Proto</code></span> эквивалентно
+   HTTP.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Достаточно распространённым случаем является когда у вас может завершится срок действия SSL/ TLS на неком уровне перед 
+   NGINX. Одной из причин может быть то что вы делаете нечто подобное сбережению затрат на вычисления. Тем не менее, вам 
+   требуется быть уверенным что все запросы являются HTTPS, но при этом сам уровень с прекращённым SSL/ TLS не имеет возможности 
+   перенаправления. Он способен, однако, устанавливать заголовки посредника. Эта конфигурация работает с такими уровнями как 
+   Amazon Web Services Elastic Load Balancer, который выполняет разгрузку SSL/ TLS без дополнительных затрат. Это удобный 
+   трюк для обеспечения защиты для вашего обмена HTTP.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="12"> </a>Строгая безопасность доставки HTTP</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется проинформировать браузеры что им никогда не следует отправлять запросы поверх HTTP.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Воспользуйтесь расширением HSTS (HTTP Strict Transport Security) устанавливая заголовок 
+   <span class="term"><code>Strict-Transport-Security</code></span>:</p>
+	   <pre class="screen"><code>
+add_header Strict-Transport-Security max-age=31536000;
+ 	   </code></pre>
+   <p>Данная конфигурация устанавливает значение заголовка <span class="term"><code>Strict-Transport-Security</code></span> 
+   на максимальный возраст в один год. Он будет инструктировать соответствующий браузер всегда осуществлять некое 
+   внутреннее перенаправление при попытке выполнения к данному домену запросов HTTP, чтобы все запросы выполнялись поверх 
+   HTTPS.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Для некоторых приложений один перехваченный атакой с человеком в середине запрос HTTP может стать концом всей компании. 
+   Если сообщение некой содержащей чувствительную информацию формы отправляется по HTTP, перенаправление HTTPS из NGINX не 
+   спасёт вас; взлом уже произошёл. Данный вариант улучшения безопасности информирует браузер запросов никогда не делать никаких 
+   запросов HTTP, а следовательно они никогда не отправляются в незащищённом виде.</p>
+   <p class="title"><strong>Также ознакомьтесь</strong></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://tools.ietf.org/html/rfc6797  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://tools.ietf.org/html/rfc6797%27" tppabs="https://tools.ietf.org/html/rfc6797" target="_top">RFC-6797 HTTP Strict Transport Security</a></p>
+   <p><a class="link" href="javascript:if(confirm(%27https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet%27" tppabs="https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet" target="_top">OWASP HSTS Cheat Sheet</a></p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="13"> </a>Удовлетворение любого числа методов безопасности</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам требуется предоставить множество способов передачи безопасности закрытой площадке.</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для указания того что вы желаете удовлетворять неким или даже всем применяемым методам безопасности, для выдачи NGINX 
+   инструкции об этом примените директиву <span class="term"><code>satisfy</code></span>:</p>
+	   <pre class="screen"><code>
+location / {
+    satisfy any;
+
+    allow 192.168.1.0/24;
+    deny all;
+
+    auth_basic           "closed site";
+    auth_basic_user_file conf/htpasswd;
+}
+ 	   </code></pre>
+   <p>Данная конфигурация сообщает NGINX что запрашивающий <span class="term"><code>location /</code></span> 
+   пользователь должен удовлетворять одному из установленных методов безопасности: либо эти запросы должны происходить с блока CIDR
+   <span class="term"><code><em>192.168.1.0/24</em></code></span>, либо быть способными поддерживать некие имя пользователя и пароль, 
+   которые могут быть найдены в обозначенном файле <span class="term"><code><em>conf/htpasswd</em></code></span>. Данная 
+   директива <span class="term"><code>satisfy</code></span> имеет всего два варианта:
+   <span class="term"><code>any</code></span> или <span class="term"><code>all</code></span>.</p>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Описанная директива <span class="term"><code>satisfy</code></span> является великолепным способом предложения 
+   множества способов аутентификации для вашего веб приложения. Определяя <span class="term"><code>any</code></span> 
+   для директивы <span class="term"><code>satisfy</code></span>, данный пользователь обязан соответствовать одной из 
+   предоставленных защит. Определяя в директиве <span class="term"><code>satisfy</code></span> значение
+   <span class="term"><code>all</code></span>, запрашивающий пользователь должен соответствовать всем выставленным 
+   требованиям безопасности. Данная директива может применяться совместно с <span class="term"><code>http_access_module</code></span>, 
+   описанном в рецепте <a class="link" href="Ch07.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch07.html#02" target="_top">Основанный на IP доступ</a>, 
+   <span class="term"><code>http_auth_basic_module</code></span>, детализированном в рецепте 
+   <a class="link" href="Ch06.html#02" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#02" target="_top">Базовая аутентификация HTTP</a>, 
+   <span class="term"><code>http_auth_request_module</code></span>,
+   описанном в рецепте <a class="link" href="Ch06.html#03" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#03" target="_top">Подзапросы аутентификации</a> и 
+   описанном в рецепте <a class="link" href="Ch06.html#04" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/Ch06.html#04" target="_top">JWT подтверждение</a>
+   <span class="term"><code>http_auth_jwt_module</code></span>. Обсуждаемая директива <span class="term"><code>satisfy</code></span> 
+   поможет вам достигать этого для местоположений и серверов, которые требуют глубоких правил защиты.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="14"> </a>Динамичное ослабление DDoS</h3>
+   </div></div></div>
+   <p class="title"><strong>Задача</strong></p>
+   <p>Вам необходимо некое динамичное решение смягчения DDoS (Distributed Denial of Service).</p>
+   <p class="title"><strong>Решение</strong></p>
+   <p>Для построения некого осведомлённого о кластере ограничения частот запросов и автоматического чёрного списка воспользуйтесь
+   NGINX Plus:</p>
+	   <pre class="screen"><code>
+limit_req_zone   $remote_addr zone=per_ip:1M rate=100r/s sync;
+                 # Cluster-aware rate limit
+limit_req_status 429;
+
+keyval_zone zone=sinbin:1M timeout=600 sync;
+              # Cluster-aware "sin bin" with
+              # 10-minute TTL
+keyval $remote_addr $in_sinbin zone=sinbin;
+              # Populate $in_sinbin with
+              # matched client IP addresses
+
+server {
+    listen 80;
+    location / {
+        if ($in_sinbin) {
+            set $limit_rate 50; # Restrict bandwidth of bad clients
+        }
+
+        limit_req zone=per_ip;
+              # Apply the rate limit here
+        error_page 429 = @send_to_sinbin;
+              # Excessive clients are moved to
+              # this location
+        proxy_pass http://my_backend;
+    }
+
+    location @send_to_sinbin {
+        rewrite ^ /api/3/http/keyvals/sinbin break;
+              # Set the URI of the
+              # "sin bin" key-val
+        proxy_method POST;
+        proxy_set_body '{"$remote_addr":"1"}';
+        proxy_pass http://127.0.0.1:80;
+    }
+
+    location /api/ {
+        api write=on;
+        # directives to control access to the API
+    }
+}
+ 	   </code></pre>
+   <p class="title"><strong>Обсуждение</strong></p>
+   <p>Это решение использует некий синхронизируемый предел частот обращений и синхронизируемое хранилище ключ- значение для 
+   динамических откликов на DDoS атаки и смягчения их действия. Параметр <span class="term"><code>sync</code></span> 
+   предоставляет директивам <span class="term"><code>limit_req_zone</code></span> и <span class="term"><code>keyval_zone</code></span> 
+   синхронные зоны разделяемой с прочими машинами памяти в имеющемся активный- активный кластере NGINX Plus. Данный пример 
+   выявляет клиентов, которые отправляют более 100 запросов в секунду вне зависимости от того какой из узлов NGINX Plus получает
+   такой запрос. После того как некий клиент превышает установленный предел частот, его IP адрес добавляется в некое хранилище 
+   ключ- значение &quot;sin bin&quot; (Скамейка штрафников) через выполнение запроса API NGINX Plus. Эта Скамейка штрафников 
+   синхронизируется по всему кластеру. Последующие запросы от попадающих на Скамейку штрафников клиентов являются предметом 
+   очень низкого ограничения полосы пропускания, причём вне зависимости от того какой из узлов NGINX Plus получает их. Ограничение
+   полосы пропускания более предпочтительно чем полное отклонение запросов, ибо оно не становится очевидным сигналом для 
+   такого клиента что смягчение DDoS атаки вступило в действие. После 10 минут данный клиент автоматически удаляется со 
+   Скамейки штрафников.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/NGINXCookbook/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

@@ -1,0 +1,1521 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 4. Системы хранения - Proxmox. Полное руководство. 3е изд.</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="MasteringProxmox3ed"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Proxmox. Полное руководство. 3е изд."/>
+<link rel="up" href="index.html" title="Proxmox. Полное руководство. 3е изд."/>
+<link rel="prev" href="Ch03.html" title="Глава 3. Под капотом Proxmox"/>
+<link rel="next" href="Ch05.html" title="Глава 5. Установка и настройка Ceph"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "mastering-proxmox-3ed";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/MasteringProxmox3ed/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 4. Системы хранения';
+PrevRef = 'Ch03.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch03.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/index.html*/;
+NextRef = 'Ch05.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch05.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 4. Системы хранения
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch04.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html">Глава 4. Системы хранения</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch04.html#01" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#01">Сопоставление локального хранилища с совместно используемым</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch04.html#0101" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0101">Миграция виртуальных машин в реальном времени</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0102" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0102">Бесшовное расширение пространства хранения со множеством узлов</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0103" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0103">Централизованное резервное копирование</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0104" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0104">Многоуровневое кэширование данных</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0105" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0105">Централизованное управление хранением</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch04.html#02" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#02">Сравнение локального и совместно используемого хранилищ</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#03" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#03">Образ виртуального диска</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch04.html#0301" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0301">Поддерживаемые форматы образов</a></span></dt>
+         <dd><dl>
+           <dt><span class="chapter"><a href="Ch04.html#030101" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030101">Тип образа .qcow2</a></span></dt>
+           <dt><span class="chapter"><a href="Ch04.html#030102" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030102">Тип образа .raw</a></span></dt>
+           <dt><span class="chapter"><a href="Ch04.html#030103" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030103">Тип образа .vmdk</a></span></dt>
+       </dl></dd>
+         <dt><span class="chapter"><a href="Ch04.html#0302" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0302">Типы виртуальных устройств</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0303" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0303">Управление образами дисков</a></span></dt>
+         <dd><dl>
+           <dt><span class="chapter"><a href="Ch04.html#030301" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030301">Изменение размера виртуального диска</a></span></dt>
+           <dt><span class="chapter"><a href="Ch04.html#030302" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030302">Перемещение образа виртуального диска</a></span></dt>
+           <dt><span class="chapter"><a href="Ch04.html#030303" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030303">Дросселирование образа виртуального диска</a></span></dt>
+           <dt><span class="chapter"><a href="Ch04.html#030304" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030304">Кэширование образа виртуального диска</a></span></dt>
+         </dl></dd>
+         <dt><span class="chapter"><a href="Ch04.html#0304" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0304">Тип шины VirtIO для ВМ Windows</a></span></dt>
+         <dd><dl>
+           <dt><span class="chapter"><a href="Ch04.html#030401" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030401">Установка драйверов VirtIO в процессе установки Windows</a></span></dt>
+           <dt><span class="chapter"><a href="Ch04.html#030402" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#030402">Установка драйверов VirtIO после установки Windows</a></span></dt>
+         </dl></dd>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch04.html#04" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#04">Типы хранилищ в Proxmox</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch04.html#0401" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0401">Каталог</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0402" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0402">iSCSI</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0403" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0403">LVM</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0404" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0404">NFS</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0405" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0405">ZFS</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0406" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0406">Ceph RBD</a></span></dt>
+         <dt><span class="chapter"><a href="Ch04.html#0407" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#0407">GlusterFS</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch04.html#05" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#05">Некоммерческие и коммерческие опции хранения</a></span></dt>
+       <dt><span class="chapter"><a href="Ch04.html#06" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch04.html#06">Выводы</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+  <p>Система хранения является средой хранения данных для одновременного доступа к ним множества устройств или узлов в 
+  сетевой среде. По мере того, как виртуализация серверов и рабочих мест становятся обычными, надлежащая, стабильная 
+  система хранения сегодня становится самым критичным местом для виртуальной среды. В терминологии Proxmox система 
+  хранения является тем местом, в котором лежат образы виртуальных дисков как для виртуальных машин на основе KVM, так и 
+  для базирующихся на контейнерах.</p>
+  <p>Несмотря на то, что некий кластер Proxmox может быть полностью рабочеспособным с Непосредственно подключаемым 
+  хранилищем (<span class="term"><strong class="userinput">DAS</strong></span>, 
+  <span class="term"><strong class="userinput">Direct Attached Storage</strong></span>) или с какой- то локальной 
+  системой хранения в том же самом узле Proxmox, совместно используемая система хранения имеет целый ряд преимуществ в 
+  промышленной среде, к примеру, улучшенная управляемость, бесшовное расширение хранения, а также избыточность, и это далеко 
+  не всё. В данной главе мы рассмотрим следующие темы:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p>Сопоставление локальных и совместно используемых хранилищ</p>
+	 </li><li class="listitem">
+	 <p>Типы образов виртуального диска</p>
+	 </li><li class="listitem">
+	 <p>Поддерживаемые Proxmox типы хранения</p>
+	 </li><li class="listitem">
+	 <p>Варианты совместного хранения коммерческие и свободно распространяемые</p>
+	 </li><li class="listitem">
+	 <p>FreeNAS как вариант совместного хранилища с низкой стоимостью</p>
+	 </li>
+    </ul>
+    </div>
+  <p>Будь она локальной или совместно используемой, система хранения является жизненно важной компонентой кластера 
+  Proxmox. Система хранения является именно тем местом, в котором расположены все виртуальные машины. Кроме того, 
+  более глубокое понимание различных систем хранения позволит администратору надлежащим образом планировать 
+  требования хранения для любого кластерного окружения.</p>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Сопоставление локального хранилища с совместно используемым</h3>
+   </div></div></div>
+   <p>Совместное используемое хранилище не является чем- то абсолютно необходимым в Proxmox, однако несомненно, оно делает 
+   управление хранением более простой задачей. В какой- то небольшой бизнес- среде может быть вполне допустимым не иметь 
+   времени работы в режиме 24/7 со 100% надёжностью, поэтому какой- то локальной системы хранения может оказаться 
+   вполне достаточно. В большинстве корпоративных виртуальных сред с критически важными данными совместно используемые 
+   хранилища сегодня являются единственным логичным выбором благодаря тем преимущества, которые они привносят во всю 
+   работу кластера. Ниже перечислены общепризнанные преимущества применения совместного хранилища:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p>Миграция виртуальных машин в реальном времени</p>
+	 </li><li class="listitem">
+	 <p>Бесшовное расширение пространства хранения со множеством узлов</p>
+	 </li><li class="listitem">
+	 <p>Централизованное резервное копирование</p>
+	 </li><li class="listitem">
+	 <p>Многоуровневое кэширование данных</p>
+	 </li><li class="listitem">
+	 <p>Централизованное управление хранением</p>
+	 </li>
+    </ul>
+    </div>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0101"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Миграция виртуальных машин в реальном времени</span></h4>
+   </div></div></div>
+   <p>Вероятно, это одна из самых важных  пользующихся спросом причин для перехода на совместно используемые системы 
+   хранения. <span class="term"><strong class="userinput">Миграция в реальном времени</strong></span>
+   (<span class="term"><strong class="userinput">Live migration</strong></span>) это когда некая виртуальная машина 
+   может перемещаться на другой узел без её предварительного останова. <span class="term"><strong class="userinput">Миграция 
+   в отключённом состоянии</strong></span> (<span class="term"><strong class="userinput"> Offline migration</strong></span>)
+   это когда данная виртуальная машина выключается перед осуществлением её перемещения. Имеющиеся оборудование и 
+   операционные системы узлов Proxmox нуждаются в обновлениях, исправлениях, а также замене время от времени. Некоторые 
+   обновления требуют немедленной перезагрузки, в то время как прочие обходятся без неё. Основной задачей узлов 
+   Proxmox является исполнение виртуальных машин. Когда некий узел требует перезагрузки, все работающие в нём 
+   виртуальные машины должны быть остановлены либо осуществить миграцию на иные узлы. Затем, после того как первоначальный 
+   узе выполнит полный цикл отключения- включения, выполняется обратная миграция. В Proxmox некая включённая ВМ 
+   не может выполнить свою миграцию в реальном времени без её предварительного отключения если она расположена на локальном 
+   диске в запрашиваемом узле. Если вдруг по любой причине происходит полный отказ узла Proxmox, все те ВМ, которые 
+   хранятся на этом узле будут полностью недоступными пока этот узел не будет исправлен или заменён. Это происходит по той 
+   причине, что доступ к этим ВМ не может быть перемещён на другой узел пока не будет включён такой проблемный узел.</p>
+   <p>В большинстве случаев отключение всех имеющихся ВМ для простой перезагрузки их хоста не является допустимым 
+   вариантом. В таком случае слишком длительное время простоя зависит от общего числа обслуживаемых данным хостом ВМ. 
+   Для выполнения миграции локально хранимых ВМ они должны быть вначале остановлены и после этого миграция должна быть 
+   инициирована из GUI Proxmox. Миграция с одного локального хранилища на другое локальное хранилище отнимает много 
+   времени, которое зависит от общего размера самой ВМ, так как Proxmox перемещает файл образа целиком с применением 
+   rsync для размещения этой ВМ на другом узле. Давайте взглянем на следующую схему кластера с 40 локально хранимыми 
+   ВМ, с размещением по 10 на каждом из четырёх узлов Proxmox:</p>
+	 <div class="figure"><a id="Fig0401"> </a>
+	  <p class="title"><strong>Рисунок 4-1</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0401.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0401.jpg" width="630" height="226"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>В приведённой выше чрезвычайно упрощённой схеме присутствуют четыре узла Proxmox с 10 виртуальными машинами в 
+   каждом из них. Если <span class="term"><strong class="userinput">node 01</strong></span> потребует перезагрузки для 
+   применения обновлений, все его 10 виртуальных машин должны быть остановлены, так как сам узел нуждается в перезагрузке, 
+   а затем все эти виртуальные машины должны быть выключены. Если же <span class="term"><strong class="userinput">node 01</strong></span>
+   полностью отказал, все его 10 виртуальных машин будут недоступными пока 
+   <span class="term"><strong class="userinput">node 01</strong></span> не вернётся обратно вновь.</p>
+   <p>Таким образом очевидно, что установка кластера с локальным хранением виртуальных машин может вызывать нежелательное 
+   время простоя когда возникает необходимость в миграции. Теперь давайте взглянем на следующую схему, в которой четыре 
+   узла Proxmox с 40 виртуальными машинами хранятся в некоторой совместно используемой системе хранения:</p>
+	 <div class="figure"><a id="Fig0402"> </a>
+	  <p class="title"><strong>Рисунок 4-2</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0402.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0402.jpg" width="587" height="241"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>В приведённой выше схеме все наши 40 виртуальных машин находятся в какой- то совместно используемой системе хранения.
+   Сам узел Proxmox содержит только необходимые файлы настроек для каждой виртуальной машины. В таком сценарии в случае, 
+   когда <span class="term"><strong class="userinput">node 01</strong></span> будет нуждаться в перезагрузке из- за 
+   исправлений безопасности или обновлений, все его виртуальные машины могут просто мигрировать на другой узел без 
+   выключения отдельной виртуальной машины. Пользователь виртуальной машины никогда не заметит что его виртуальная 
+   машина на самом деле перемещена на другой узел. При полном отказе некоторого узла Proxmox все файлы настроек его 
+   виртуальных машин могут быть просто вручную перенесены из 
+   <span class="term"><code>/etc/pve/nodes/node01/qemu-server/&lt;vmid&gt;.conf</code></span> в 
+   <span class="term"><code>/etc/pve/nodes/node02/qemu-server/&lt;vmid&gt;.conf</code></span>.</p>
+     <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+	   <table border="0" summary="Замечание"><tr><td rowspan="2" align="center" valign="top" width="25">
+	   <img alt="[Замечание]" src="note.png" tppabs="http://onreader.mdl.ru/common/images/admon/note.png"/></td><th align="left">Замечание</th></tr><tr><td align="left" valign="top">
+	   <p>Мы также можем воспользоваться мощью другой функциональности в Proxmox, именуемой высокой доступностью, 
+	   для автоматизации переноса такого файла настроек ВМ в процессе падения узла. Для изучения данной функциональности 
+	   обратитесь к <a class="link" href="Ch10.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch10.html" target="_top">Главе 10, Высокая доступность Proxmox</a>.</p></td></tr></table>
+     </div>
+   <p>Так как все файлы настроек виртуальных машин расположены в <span class="term"><strong class="userinput">pmxcfs</strong></span>
+   (<span class="term"><strong class="userinput">Proxmox clustered file system</strong></span>, Кластеризованной файловой 
+   системе Proxmox), доступ к ним может осуществляться с любого другого узла. Для ознакомления с подробностями pmxcfs
+   обратитесь к <a class="link" href="Ch03.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch03.html" target="_top">Главе 3, Под капотом Proxmox</a>. При расположении 
+   файлов образов виртуальных машин на совместно используемом хранилище нет необходимости перемещать все образы файлов 
+   с применением rsync с одного узла на другой, что делает миграцию виртуальных машин существенно более быстрой.</p>
+     <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+	   <table border="0" summary="Замечание"><tr><td rowspan="2" align="center" valign="top" width="25">
+	   <img alt="[Замечание]" src="note.png" tppabs="http://onreader.mdl.ru/common/images/admon/note.png"/></td><th align="left">Замечание</th></tr><tr><td align="left" valign="top">
+	   <p>rsync является программой с открытым исходным кодом и сетевым протоколом для систем, основанных на Unix. 
+	   Она предоставляет инкрементальный обмен с одного узла на другой файлами как в не шифрованном, так и в зашифрованном 
+	   виде.</p></td></tr></table>
+     </div>
+   <p>При миграции виртуальных машин в реальном времени имейте в виду, что чем больше оперативной памяти (RAM) выделено 
+   конкретной ВМ, тем больше времени потребует сама миграция в реальном времени включённой виртуальной машины, так как 
+   этот процесс миграции потребует копирования всего содержимого оперативной памяти. Отказ в исполнении этого может 
+   повлечь разрушение данных, поскольку имеющиеся в оперативной памяти данные могут быть не записанными в имеющемся 
+   образе диска.</p>
+   <p>Следует обратить внимание, что совместное хранилище может стать единой точкой отказа в случае, когда установлено 
+   некое решение хранения с единственным узлом в основе, таким как FreeNAS или NAS4Free без настроек с высокой доступностью. 
+   Применение совместно используемых хранилищ со множеством узлов или распределённых, например, Ceph, Gluster или DRBD, 
+   может исключить единую точку отказа. При совместном хранении данных на единственном узле все виртуальные машины 
+   находятся на одном узле. Если возникает ситуация отказа этого узла, данное хранилище становится недоступным для 
+   кластера Proxmox, что приводит к невозможности использования всех исполняемых виртуальных машин.</p>
+     <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+	   <table border="0" summary="Замечание"><tr><td rowspan="2" align="center" valign="top" width="25">
+	   <img alt="[Замечание]" src="note.png" tppabs="http://onreader.mdl.ru/common/images/admon/note.png"/></td><th align="left">Замечание</th></tr><tr><td align="left" valign="top">
+	   <p>В Proxmox VE 5.0, контейнеры LXC не могут выполнять миграцию в реальном времени. Они должны выключаться для 
+	   фиксации миграции в выключенном состоянии. ВМ KVM могут выполнять миграцию в реальном времени.</p></td></tr></table>
+     </div>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0102"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Бесшовное расширение пространства хранения со множеством узлов</span></h4>
+   </div></div></div>
+   <p>Цифровые данные в нашем сегодняшнем подключённом в режиме 24/7 современном мире растут даже быстрее чем ранее. 
+   Этот рост стал экспоненциальным с момента появления виртуализации. Поскольку намного проще моментально устанавливать 
+   виртуальный сервер, администратор может просто клонировать шаблон виртуального сервера и буквально через несколько минут
+   новый сервер становится  поднятым и работающим при потреблении пространства хранения. Если оставить это без проверок, 
+   такое регулярное создание и отстранение может заставить компанию вырасти выше пределов доступного пространства хранения. 
+   Любая распределённая совместно используемая система хранения разрабатывается с учётом в уме этого очень специфичного 
+   требования.</p>
+   <p>В некоторой корпоративной среде пространство хранения должно расти по запросу без отключения или прерывания работы 
+   критически важных узлов или виртуальных машин. Применяя совместно используемые системы хранения со множеством узлов 
+   или распределением, виртуальные машины теперь могут выходить за пределы кластеров в несколько узлов и для рассеяния по 
+   множеству узлов разбросанных к тому же по множеству географических регионов. К примеру, Ceph или Gluster могут 
+   распространяться на несколько стоек и надлежащим образом составлять более нескольких Петабайт используемого пространства 
+   хранения. Просто добавляйте новый узел целиком наполненный дисками и после этого сообщайте кластеру о необходимости 
+   распозначать новый узел для увеличения пространства хранения всего имеющегося кластера. Так как совместно используемое 
+   хранилище отделено от имеющихся узлов хостов виртуальных машин, хранилище может увеличиваться или уменьшаться без 
+   оказания существенного воздействия на какие бы то ни было исполняющиеся виртуальные машины. В 
+   <a class="link" href="Ch05.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch05.html" target="_top">Главе 5, Установка и настройка Ceph</a> мы увидим как мы можем 
+   интегрировать Ceph в свой кластер Proxmox.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0103"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Централизованное резервное копирование</span></h4>
+   </div></div></div>
+   <p>Совместно используемое хранилище делает возможным централизованное резервное копирование, позволяя каждому хосту 
+   виртуальных машин создавать резервную копию в одном централизованном местоположении. Это помогает диспетчеру 
+   резервных копий или администратору реализовывать основательный план резервного копирования и управлять имеющимися 
+   резервными копиями. Поскольку отказ некоторого узла Proxmox не приводит к падению всей совместно используемой системы
+   хранения, виртуальные машины запросто могут быть восстановлены в некий новый узел для снижения времени простоя.</p>
+	 <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Совет"><tr><td rowspan="2" align="center" valign="top" width="25">
+        <img alt="[Совет]" src="tip.png" tppabs="http://onreader.mdl.ru/common/images/admon/tip.png"/></td><th align="left">Совет</th></tr><tr><td align="left" valign="top">
+        <p>Для целей резервного копирования всегда применяйте отдельный узел. Хранения и самой виртуальной машины и её 
+		резервной копии не будет мудрым решением.</p></td></tr></table>
+     </div>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0104"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Многоуровневое кэширование данных</span></h4>
+   </div></div></div>
+   <p>Многоуровневость данных является подходом, при котором различные файлы могут содержаться в различных пулах хранения 
+   на основе их требований к производительности. К примеру, виртуальный файловый сервер может предоставлять очень быстрое 
+   обслуживание если его ВМ содержатся в некотором пуле на SSD, в то время как виртуальный сервер резервных копий может 
+   располагаться на более медленных хранилищах HDD, так как файлы резервного копирования не часто подвержены доступу и, 
+   следовательно, не требуют очень быстрого I/O. Множество уровней может быть установлено с применением различных узлов 
+   совместного хранилища с различными уровнями производительности. Оно также может быть настроено в рамках одного и того же 
+   узла путём выделения томов или пулов в особые наборы дисков.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0105"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Централизованное управление хранением</span></h4>
+   </div></div></div>
+   <p>Отделяя кластеры совместного хранения от основного кластера Proxmox, мы можем управлять двумя кластерами без 
+   их взаимного воздействия друг на друга. Поскольку совместно используемые системы хранения могут быть установлены с 
+   отдельными узлами и физическими коммутаторами, управление ими на основе различных авторизаций и полномочий становится 
+   более простой задачей. NAS, SAN и прочие типы решений совместного хранения поступают со своими собственными программами 
+   управления, в которых администратор или оператор может проверять жизнеспособность хранилищ кластера, состояние дисков, 
+   свободное пространство и тому подобное. Хранилище Ceph настраивается посредством CLI, однако Proxmox интегрировал большую 
+   часть опций управления Ceph вовнутрь GUI Proxmox, что делает более простым управление кластером Ceph. Применяя 
+   имеющийся API Proxmox может теперь собирать все данные кластера Ceph и отображать из с помощью GUI Proxmox, как это 
+   показано на приводимом ниже снимке экрана:</p>
+	 <div class="figure"><a id="Fig0403"> </a>
+	  <p class="title"><strong>Рисунок 4-3</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0403.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0403.jpg" width="620" height="292"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Другие решения NAS, такие как FreeNAS, OpenMediaVault и NAS4Free также имеют GUI, которые упрощают управление. 
+   Представленный ниже снимок экрана является примером отображения состояний жёстких дисков в окне GUI FreeNAS/</p>
+	 <div class="figure"><a id="Fig0404"> </a>
+	  <p class="title"><strong>Рисунок 4-4</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0404.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0404.jpg" width="620" height="451"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Сравнение локального и совместно используемого хранилищ</h3>
+   </div></div></div>
+   <p>приводимая здесь таблица является сопоставлением локального и совместно используемого хранилищ для болучения быстрой 
+   справки:</p>
+        <table rules="all" width="700" style="text-align:left; border-style:none;" id="table0401">
+        <caption>Таблица 4-1.</caption>
+		<col width="15%"/><col width="35%"/><col width="50%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Свойство</th>
+          <th style="border-bottom:1;border-top:1;">Локальное хранилище</th>
+          <th style="border-bottom:1;border-top:1;">Разделяемое хранилище</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p>Миграция ВМ в реальном времени</p></td>
+          <td style="border-style:none;"><p>Нет</p></td>
+          <td style="border-style:none;"><p>Да</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p>Высокая доступность</p></td>
+          <td style="border-style:none;"><p>Нет</p></td>
+          <td style="border-style:none;"><p>Да, когда применяется в распределённой системе хранения</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p>Стоимость</p></td>
+          <td style="border-style:none;"><p>Низкая</p></td>
+          <td style="border-style:none;"><p>Существенно выше</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p>Производительность ввода/ вывода</p></td>
+          <td style="border-style:none;"><p>Естественная скорость дисковых устройств</p></td>
+          <td style="border-style:none;"><p>Медленнее чем скорость натуральных дисковых устройств</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p>Требования навыков</p></td>
+          <td style="border-style:none;"><p>Не требуются никакие особые знания хранилищ</p></td>
+          <td style="border-style:none;"><p>Необходим опыт использования опций совместных хранилищ</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p>Расширяемость</p></td>
+          <td style="border-style:none;"><p>Ограничена доступными отсеками для дисков</p></td>
+          <td style="border-style:none;"><p>При применении множества узлов или распределённых хранилищ расширяется добавлением 
+		узлов или стоек.</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p>Сложность сопровождения</p></td>
+          <td style="border-style:none;"><p>Фактически не требует сопровождения</p></td>
+          <td style="border-style:none;"><p>Узлы или кластеры хранения требуют постоянный мониторинг.</p></td>
+        </tr></tbody></table>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Образ виртуального диска</h3>
+   </div></div></div>
+   <p>Образ виртуального диска является файлом или группой файлов в которых виртуальные машины хранят свои данные. 
+   В Proxmox для подключения образа диска может воссоздаваться и применяться файл настройки ВМ. Имеются различные типы 
+   форматов образа виртуальных дисков доступных для применения в виртуальных машинах. Для наличия оптимальной 
+   производительности существенным является знание всех имеющихся типов форматов образов. Знание форматов диска 
+   также помогает предотвращать преждевременную нехватку пространства, которая может возникать в случае перегруженных 
+   виртуальных дисков.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0301"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Поддерживаемые форматы образов</span></h4>
+   </div></div></div>
+   <p>Proxmox поддерживает форматы виртуальных дисков <span class="term"><code>.raw</code></span>, 
+   <span class="term"><code>.qcow2</code></span> и <span class="term"><code>.vmdk</code></span>. Каждый из форматов имеет свои сильные и слабые 
+   стороны. Необходимый формат образа обычно выбирается исходя из  самого назначения виртуальной машины, применяемой 
+   системы хранения, требований производительности и доступного бюджета. Приводимый ниже снимок экрана приводит то меню, в 
+   котором мы можем делать выбор типа образа в процессе создания диска с помощью GUI:</p>
+	 <div class="figure"><a id="Fig0405"> </a>
+	  <p class="title"><strong>Рисунок 4-5</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0405.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0405.jpg" width="620" height="293"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Следующая таблица кратко суммирует все различные типы форматов образов и их возможные варианты применения:</p>
+        <table rules="all" width="700" style="text-align:left; border-style:none;" id="table0402">
+        <caption>Таблица 4-2.</caption>
+		<col width="10%"/><col width="20%"/><col width="35%"/><col width="35%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Тип образа</th>
+          <th style="border-bottom:1;border-top:1;">Поддерживаемые хранилища</th>
+          <th style="border-bottom:1;border-top:1;">Сильные стороны</th>
+          <th style="border-bottom:1;border-top:1;">Слабые стороны</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>.qcow2</code></span></p></td>
+          <td style="border-style:none;"><p>NFS и каталоги</p></td>
+          <td style="border-style:none;"><p>Допускает динамичное виртуальное хранение файлов образов.</p>
+		  <p>Стабильное и безопасное.</p>
+		  <p>Совместно с типами образа присутствует большинство функций.</p></td>
+          <td style="border-style:none;"><p>Сложные форматы файлов с дополнительными программными уровнями.</p>
+		  <p>Высокие накладные расходы ввода/ вывода.</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>.raw</code></span></p></td>
+          <td style="border-style:none;"><p>LVM, RBD, iSCSI и каталоги</p></td>
+          <td style="border-style:none;"><p>Не требуется дополнительный программный уровень. Прямой доступ к файлам 
+		  образов.</p>
+		  <p>Стабильный, безопасный и самый быстрый.</p></td>
+          <td style="border-style:none;"><p>Только фиксированные файла образов.</p>
+		  <p>Не может применяться для хранения динамичных образов.</p>
+		  <p>ВМ требуется более длительное резервное копирование из- за больших размеров файлов образов.</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>.vmdk</code></span></p></td>
+          <td style="border-style:none;"><p>NFS и каталоги</p></td>
+          <td style="border-style:none;"><p>Ожидаемо хорошо работает с инфраструктурой VMware.</p>
+		  <p>Допускает динамичное хранение файлов виртуальных образов.</p></td>
+          <td style="border-style:none;"><p>Только фиксированные файлы образов.</p>
+		  <p>Дополнительный программный уровень, который уменьшает производительность.</p>
+		  <p>Не окончательно протестирован с Proxmox.</p></td>
+        </tr></tbody></table>
+	 <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Совет"><tr><td rowspan="2" align="center" valign="top" width="25">
+        <img alt="[Совет]" src="tip.png" tppabs="http://onreader.mdl.ru/common/images/admon/tip.png"/></td><th align="left">Совет</th></tr><tr><td align="left" valign="top">
+        <p>Proxmox очень снисходителен к установке виртуальных машин с неправильным форматом образа. Вы всегда можете преобразовывать 
+		такие типы образов из одного формата в другой. Преобразование может осуществляться как в CLI, так и в GUI. Преобразование 
+		образа виртуального диска объясняется позднее в этой главе.</p></td></tr></table>
+     </div>
+
+   <a id="030101"> </a>
+   <p class="title"><strong>Тип образа .qcow2</strong></p>
+   <p>Тип <span class="term"><code>.qcow2</code></span> является очень стабильным форматом образа ВМ. Proxmox целиком поддерживает 
+   этот формат. Создаваемый с <span class="term"><code>.qcow2</code></span> диск ВМ намного меньше поскольку по умолчанию он 
+   создаётся с образами диска динамичного выделения (thin- provisioning). Для примера, некая ВМ Ubuntu, создаваемая с 
+   50 ГБ пространством хранения может иметь файл образа размером около 1 ГБ. Пот мере сохранения пользователем данных в этой 
+   ВМ такой файл постепенно растёт в размере. Данный формат образа <span class="term"><code>.qcow2</code></span>
+   делает возможным для администратора с помощью такого формата <span class="term"><code>.qcow2</code></span> 
+   снабжать ВМ с избытком. Если не выполнять мониторинг на постоянной основе, имеющееся совместно используемое хранилище 
+   превысит имеющееся пространство, выделяя все имеющиеся растущие файлы образов. Хорошим практическим приёмом является добавлять 
+   дополнительное пространство хранения когда потребление общего пространства хранения достигает примерно 80%.</p>
+     <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+	   <table border="0" summary="Замечание"><tr><td rowspan="2" align="center" valign="top" width="25">
+	   <img alt="[Замечание]" src="note.png" tppabs="http://onreader.mdl.ru/common/images/admon/note.png"/></td><th align="left">Замечание</th></tr><tr><td align="left" valign="top">
+	   <p>Динамичное выделение осуществляется когда имеющийся файл образа виртуального диска не выделяет предварительно 
+	   все требуемые блоки, тем самым сдерживая общий размер такого файла образа только тем, что требуется. По мере того, 
+	   как дополнительные данные сохраняются в этой виртуальной машине, файл образа с динамическим выделением растёт пока 
+	   не достигает  установленного максимума выделяемого размера. С другой стороны полное выделение (thick provisioning) 
+	   выполняется таким образом, что при предварительном размещении данного файла образа виртуального диска выделяются 
+	   все требуемые блоки, тем самым создавая некий файл образа, который имеет в точности установленным свой размер 
+	   при его создании.</p></td></tr></table>
+     </div>
+   <p>Данный формат <span class="term"><code>.qcow2</code></span> также имеет очень высокие накладные расходы ввода/ 
+   вывода, обусловленных его дополнительным программным уровнем. Тем самым, это достаточно плохой выбор формата образа для
+   такой ВМ, как сервер базы данных. Все подлежащие чтению или записи в этом формате образа данные проходят сквозь 
+   программный уровень <span class="term"><code>.qcow2</code></span>, который увеличивает общий ввод/ вывод, что делает 
+   его более медленным. Создаваемая для <span class="term"><code>.qcow2</code></span> резервная копия может быть 
+   восстановлена только в NFS или локальный каталог.</p>
+   <p>В том случае, когда основное внимание уделяется бюджету и пространство хранения очень ограничено, 
+   <span class="term"><code>.qcow2</code></span> является исключительным выбором. Данный тип формата поддерживает 
+   моментальные снимки KVM в реальном времени для консервации состояния виртуальных машин.</p>
+
+   <a id="030102"> </a>
+   <p class="title"><strong>Тип образа .raw</strong></p>
+   <p>Тип образа <span class="term"><code>.raw</code></span> также является очень стабильным и зрелым форматом образа ВМ. 
+   Его основная мощность состоит в производительности. Нет никакого дополнительного программного уровня для его прохода 
+   данными. ВМ осуществляет прямой проброс доступа в свой файл <span class="term"><code>.raw</code></span>, что делает 
+   его намного более быстрым. Помимо этого, не существует никаких подключённых к нему программных компонентов, 
+   следовательно он намного менее склонен к проблематичности. Данный формат <span class="term"><code>.raw</code></span> 
+   может создавать только файл образа ВМ с фиксированным размером или с полным выделением. Например, ВМ Ubuntu, созданная 
+   с 50 ГБ пространством хранения получит файл образа с размеров в 50 ГБ. Это помогает администратору в точности знать 
+   сколько пространства используется, следовательно отсутствует вероятность неконтролируемого выхода за пределы 
+   имеющегося пространства.</p>
+   <p>Данный тип формата <span class="term"><code>.raw</code></span> является предпочтительным для всех ВМ Proxmox. 
+   Формат файла образа ВМ <span class="term"><code>.raw</code></span> может быть восстановлен практически в любом виде 
+   хранилища. В виртуальной среде дополнительные файлы образа виртуального диска могут добавляться к виртуальным машинам 
+   в любой момент времени. Следовательно нет нужды изначально выделять файл образа виртуального диска 
+   <span class="term"><code>.raw</code></span> большего размера с предполагаемым возможным ростом в дальнейшем. 
+   Конкретная ВМ может начать с неким небольшим файлом образа <span class="term"><code>.raw</code></span> и добавлять 
+   дополнительные образы дисков по мере необходимости. В качестве примера, некая ВМ с 50 ГБ данных начинает с каким- то 
+   файлом образа <span class="term"><code>.raw</code></span> 80 ГБ. Затем, если возникает такая потребность, увеличивает 
+   этот размер своего образа диска или добавляет дополнительные образы виртуальных дисков. Данная концепция во многом 
+   аналогична добавлению новых жёстких дисков в некий сервер для увеличения общего пространства.</p>
+   <p>Так как все файлы образа диска <span class="term"><code>.raw</code></span> выделяются заранее, не существует риска 
+   выделения пространства более имеющегося. Моментальные снимки KVM в реальном времени также поддерживаются данным 
+   форматом образа <span class="term"><code>.raw</code></span>. Существует ряд решений совместного хранения, которые 
+   поддерживают только данный образ диска <span class="term"><code>.raw</code></span>. Одним из таких примеров 
+   является Ceph RBD. Что касается Proxmox VE 4.1, мы имели возможность сохранять только образы виртуальных дисков 
+   <span class="term"><code>.raw</code></span> в блочных устройствах Ceph. Однако 
+   <span class="term"><strong class="userinput">Ceph FileSystem</strong></span> 
+   (<span class="term"><strong class="userinput">CephFS</strong></span>) поддерживает все имеющиеся образы виртуальных 
+   дисков. CephFS является одним из трёх типов хранения, поддерживаемых платформой Ceph. В настоящее время не имеется 
+   прямых подключаемых модулей для CephFS, они имеются только для RBD. Однако мы можем подключать к Proxmox CephFS в 
+   качестве совместного ресурса NFS.</p>
+
+   <a id="030103"> </a>
+   <p class="title"><strong>Тип образа .vmdk</strong></p>
+   <p>Формат образа <span class="term"><code>.vmdk</code></span> является очень распространённым в инфраструктуре 
+   VMware. Одним из основных преимуществ поддержки <span class="term"><code>.vmdk</code></span> со стороны 
+   Proxmox является простота миграции ВМ с VMware в кластер Proxmox. Некая созданная с форматом 
+   <span class="term"><code>.vmdk</code></span> в VMware ВМ запросто может быть настроена для её применения в кластере 
+   Proxmox и преобразовться. Больше нет дополнительных преимуществ сохранения файла образа виртуального диска в таком 
+   формате <span class="term"><code>.vmdk</code></span>, кроме как на протяжении процесса перехода, такого как 
+   преобразование виртуальных машин из инфраструктуры VMware.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0302"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Типы виртуальных устройств</span></h4>
+   </div></div></div>
+   <p>типы виртуального устройства эмулируют соответствующую шину или природу устройства физического диска. 
+   Proxmox допускает всего несколько дополнительных виртуальных устройств для добавления к некоторой ВМ. Приводимая 
+   далее таблица отображает все типы шин, поддерживаемых в Proxmox, а также максимальное число допустимых со стороны 
+   Proxmox дисковых устройств для ВМ.</p>
+        <table rules="all" width="300" style="text-align:left; border-style:none;" id="table0403">
+        <caption>Таблица 4-3.</caption>
+		<col width="50%"/><col width="50%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Тип шины/ устройства</th>
+          <th style="border-bottom:1;border-top:1;">Максимум допустимых</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>IDE</code></span></p></td>
+          <td style="border-style:none;"><p>3</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>SATA</code></span></p></td>
+          <td style="border-style:none;"><p>5</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>VirtIO</code></span></p></td>
+          <td style="border-style:none;"><p>15</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>SCSI</code></span></p></td>
+          <td style="border-style:none;"><p>13</p></td>
+        </tr></tbody></table>
+   <p>Из всех четырёх поддерживаемых типов шин, именно шина VirtIO предоставляет самую максимальную производительность 
+   почти во всех случаях. Образы диска VirtIO распознаются Linux без какой- либо дополнительной работы во время установки
+   ОС. Однако, при установке в ВМ Windows устройства VirtIO не распознаются. Необходимо добавлять дополнительное устройство 
+   VirtIO во время установки Windows. Позже в этой главе мы рассмотрим практические приёмы применения шины VirtIO с 
+   ОС Windows.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0303"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Управление образами дисков</span></h4>
+   </div></div></div>
+   <p>Файл виртуального образа Proxmox может управляться как из WebGUI, так и через CLI. WebGUI позволяет своему 
+   администратору применять опции добавления, изменения размера (только в сторону увеличения), перемещения, дросселирования 
+   и удаления, как это отображено на снимке экрана ниже:</p>
+	 <div class="figure"><a id="Fig0406"> </a>
+	  <p class="title"><strong>Рисунок 4-6</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0406.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0406.jpg" width="621" height="209"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Для выполнения любых изменений в некотором файле образа виртуального диска такой образ вначале должен быть 
+   выбран в закладке <span class="term"><strong class="userinput">Hardware</strong></span>, как это отображено в 
+   предыдущем снимке экрана. Файлами образов виртуальных машин также можно манипулировать с применением команд CLI.
+   Приводимая далее таблица демонстрирует некоторые примеры наиболее распространённых команд, применяемых для удаления, 
+   преобразования и изменения размера некоторого файла образа:</p>
+        <table rules="all" width="700" style="text-align:left; border-style:none;" id="table0404">
+        <caption>Таблица 4-4.</caption>
+		<col width="75%"/><col width="25%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Команда</th>
+          <th style="border-bottom:1;border-top:1;">Функция</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>#qemu-img create -f &lt;type&gt; -o &lt;filename&gt; &lt;size&gt;</code></span></p>
+		  <p><span class="term"><code>#qemu-img create -f raw -o test.raw size=1024M</code></span></p></td>
+          <td style="border-style:none;"><p>Создаёт файл образа</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>#qemu-img convert &lt;source&gt; -O &lt;type&gt; &lt;destination&gt;</code></span></p>
+		  <p><span class="term"><code>#qemu-img convert test.vmdk -O qcow2 test.qcow2</code></span></p></td>
+          <td style="border-style:none;"><p>Преобразовывает файл образа</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><code>#qemu-img resize &lt;filename&gt; &lt;+|-&gt;&lt;size&gt;</code></span></p>
+		  <p><span class="term"><code>#qemu-img resize test.qcow2 +1024M</code></span></p></td>
+          <td style="border-style:none;"><p>Изменяет размер файла образа</p></td>
+        </tr></tbody></table>
+
+   <a id="030301"> </a>
+   <p class="title"><strong>Изменение размера виртуального диска</strong></p>
+   <p>Опция <span class="term"><strong class="userinput">Resize disk</strong></span> поддерживает только увеличение 
+   имеющегося размера файла образа виртуального диска. Она не имеет никакой функции усечения. Данная опция Proxmox
+   <span class="term"><strong class="userinput">Resize disk</strong></span> регулирует только имеющийся размер файла 
+   образа виртуального диска. После любого изменения размера сам раздел должен быть отрегулирован внутри данной ВМ. 
+   Самый безопасный способ изменения размера раздела состоит в загрузке виртуальной машины на основе Linux с неким 
+   образом ISO с определёнными разделами, например, <span class="emphasis"><em>GParted</em></span> 
+   (<a class="link" href="javascript:if(confirm(%27http://gparted.org/download.php  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://gparted.org/download.php%27" tppabs="http://gparted.org/download.php" target="_top">http://gparted.org/download.php</a>), с последующим 
+   изменением имеющихся разделов с применением графического интерфейса GParted. Также имеется возможность осуществления 
+   изменения размера раздела в реальном времени при его включённой виртуальной машине. Изменение размера файла образа 
+   виртуального диска заключается в следующих трёх этапах:</p>
+   <div class="orderedlist">
+   <ol class="orderedlist" type="1"><li class="listitem">
+     <p>Изменение размера файла образа виртуального диска в Proxmox:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p><span class="term"><strong class="userinput">В GUI</strong></span>: Выберите требующийся виртуальный диск и затем 
+	 кликните <span class="term"><strong class="userinput">Resize disk</strong></span>.</p>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Из CLI</strong></span>: Исполните следующую команду:</p>
+	   <pre class="screen"><code><strong>
+# qm resize &lt;vm_id&gt; &lt;virtual_disk&gt; +&lt;size&gt;G
+ 	   </strong></code></pre>
+	 </li>
+    </ul>
+    </div>
+	 </li><li class="listitem">
+	 <p>Измените размер раздела своего файла образа виртуального диска изнутри данной ВМ:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p><span class="term"><strong class="userinput">Для ВМ Windows</strong></span>: Измените размер требуемого диска перейдя в
+	 <span class="term"><strong class="userinput">Computer Management</strong></span> из-под
+	 <span class="term"><strong class="userinput">Administrative Tools</strong></span>.</p>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Для ВМ Linux с разделами RAW</strong></span>: Исполните следующую команду:</p>
+	   <pre class="screen"><code><strong>
+# cfdisk &lt;disk_image&gt;
+ 	   </strong></code></pre>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Для ВМ Linux с разделами LVM</strong></span>: Исполните следующую команду:</p>
+	   <pre class="screen"><code><strong>
+# cfdisk &lt;/dev/XXX/disk_image&gt;
+ 	   </strong></code></pre>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Для ВМ Linux с разделами QCOW2</strong></span>: Исполните следующие команды:</p>
+	   <pre class="screen"><code><strong>
+# apt-get install nbd-client
+# qemu-nbd --connect /dev/nbd0 &lt;disk_image&gt;
+# cfdisk /dev/nbd0
+# qemu-nbd -d /dev/nbd0
+ 	   </strong></code></pre>
+	 </li><li class="listitem">
+	 <p>Измените размер файловой системы в данном разделе своего файла образа виртуального диска:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p><span class="term"><strong class="userinput">Для клиентов Linux с разделами LVM</strong></span>: Исполните следующие 
+	 команды:</p>
+	   <pre class="screen"><code><strong>
+# pvscan (find PV name)
+# pvresize /dev/xxx (/dev/xxx found from pvscan)
+# lvscan (find LVname)
+# lvresize -L+<size>G /dev/xxx/lv_&lt;disk&gt;
+ 	   </strong></code></pre>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Для использования 100% свободного пространства</strong></span>: 
+	 Исполните следующие команды:</p>
+	   <pre class="screen"><code><strong>
+# lvresize -l +100%FREE /dev/xxx/lv_&lt;disk&gt;
+# resize2fs /dev/xxx/lv_&lt;disk>&gt; (resize filesystem)
+ 	   </strong></code></pre>
+	 </li>
+    </ul>
+    </div>
+     <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;">
+	   <table border="0" summary="Замечание"><tr><td rowspan="2" align="center" valign="top" width="25">
+	   <img alt="[Замечание]" src="note.png" tppabs="http://onreader.mdl.ru/common/images/admon/note.png"/></td><th align="left">Замечание</th></tr><tr><td align="left" valign="top">
+	   <p>Шаги 2 и 3 необходимы только если изменение размера осуществляется без выключения ВМ. Если применяется 
+	   GRarted или прочий загружаемый носитель работы с разделами, тогда потребуется лишь шаг 1 перед загрузкой 
+	   данной ВМ с неким ISO.</p></td></tr></table>
+     </div>
+	 </li>
+   </ol>
+   </div>
+
+   <a id="030302"> </a>
+   <p class="title"><strong>Перемещение образа виртуального диска</strong></p>
+   <p><span class="term"><strong class="userinput">Move disk</strong></span> делает возможным перемещение определённого файла образа 
+   в другое хранилище или преобразование в другой тип образа:</p>
+	 <div class="figure"><a id="Fig0407"> </a>
+	  <p class="title"><strong>Рисунок 4-7</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0407.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0407.jpg" width="348" height="213"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>В этой опции меню<span class="term"><strong class="userinput">Move disk</strong></span> просто выберите надлежащий 
+   <span class="term"><strong class="userinput">Target Storage</strong></span> и тип 
+   <span class="term"><strong class="userinput">Format</strong></span>, а затем кликните по 
+   <span class="term"><strong class="userinput">Move disk</strong></span> для перемещения соответствующего файла образа.
+   Перемещение может быть выполнено в реальном режиме времени, без отключения данной ВМ.</p>
+	 <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Совет"><tr><td rowspan="2" align="center" valign="top" width="25">
+        <img alt="[Совет]" src="tip.png" tppabs="http://onreader.mdl.ru/common/images/admon/tip.png"/></td><th align="left">Совет</th></tr><tr><td align="left" valign="top">
+        <p>Если соответствующее хранилище получателя поддерживает только один тип формата образа, сам тип 
+		<span class="term"><strong class="userinput">Format</strong></span> будет отображён серым в вашей опции
+		<span class="term"><strong class="userinput">Move disk</strong></span>. В нашем предыдущем снимке экрана 
+		<span class="term"><code>ssd-ceph-01</code></span> является хранилищем RBD в пуле Ceph. Поскольку RBD 
+		поддерживает только формат RAW, соответствующий тип фомата будет автоматически скрыт серым..</p></td></tr></table>
+     </div>
+   <p>Кликнув по <span class="term"><strong class="userinput">Delete source</strong></span> вы удалите соответствующий исходный 
+   файл образа после завершения его перемещения.</p>
+   <p>Отметим, что если ваша виртуальная машина имеет какие бы то ни было моментальные снимки, у Proxmox не будет возможности 
+   удалить указанный файл источника автоматически. В этом случае соответствующий образ диска следует удалять вручную после 
+   удаления всех его моментальных снимков. После перемещения образа диска с моментальными снимками такой образ источника 
+   будет перечислен как <span class="term"><strong class="userinput">Unused disk 0</strong></span>, как это показано на 
+   снимке экрана внизу.</p>
+	 <div class="figure"><a id="Fig0408"> </a>
+	  <p class="title"><strong>Рисунок 4-8</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0408.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0408.jpg" width="589" height="218"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+
+   <a id="030303"> </a>
+   <p class="title"><strong>Дросселирование образа виртуального диска</strong></p>
+   <p>Proxmox допускает для каждого образа виртуального диска дросселирование или установку некоего предела для 
+   <span class="term"><strong class="userinput">IOPS</strong></span> 
+   (<span class="term"><strong class="userinput">input/output operations per second</strong></span>, числа операций 
+   ввода/ вывода в секунду). По умолчанию такие пределы не установлены. Каждый образ диска будет предпринимать попытку чтения 
+   и записи на максимальной  скорости, достижимой в том хранилище, в котором этот образ диска расположен. К примеру, 
+   если некий образ диска содержится в локальном хранилище, он попытается выполнять операции чтения и записи со скоростью 
+   примерно равной 110 МБ/с, так как это теоретический предел для диска SATA. Эта скорость будет отличаться для различных 
+   вариантов хранения. В среде со множеством арендаторов или крупного масштаба, если все имеющиеся образы дисков не 
+   дросселированы ни какими пределами, это может оказывать давление на полосу пропускания имеющейся сетевой среды и/ или 
+   хранилища. Выполняя дросселирование мы можем управлять той полосой пропускания, которую может применять каждый образ 
+   диска. Опция <span class="term"><strong class="userinput">Disk Throttle</strong></span> доступна в закладке 
+   <span class="term"><strong class="userinput">Hardware</strong></span> виртуальной машины. Следующий снимок экрана 
+   демонстрирует блок диалога <span class="term"><strong class="userinput">Disk Throttle</strong></span> с вариантами 
+   установленных пределов:</p>
+	 <div class="figure"><a id="Fig0409"> </a>
+	  <p class="title"><strong>Рисунок 4-9</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0409.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0409.jpg" width="620" height="230"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Когда наступает время дросселирования, не существует единого предела, подходящего под все размеры. Необходимая установка 
+   предела подвержена широким колебаниям в зависимости от различий хранилищ, применяемых в данной среде кластера, а также 
+   от общего объёма выполняемой каждой ВМ нагрузки. В зависимости от типа применяемого хранилища может оказаться 
+   необходимым установка только пределов на запись, чтения, или обоих. Например, кластер хранения Ceph с неким журналом SSD 
+   может иметь намного более высокую скорость записи в сопоставлении со скоростью чтения. Следовательно, допустимым 
+   вариантом может быть установка дросселирования ВМ с более высоким пределом на чтение и менее низким для записи.</p>
+   <p>Как уже упоминалось ранее, мы можем устанавливать предел на основе МБ/с или IOPS. Установка предела в МБ/с 
+   является намного более простой, так ака нам гораздо легче оценивать скорость чтения/ записи дискового устройства или сети в 
+   Мегабайтах. К примеру, стандартное дисковое устройство SATA может достигать теоретической скорости в 115 МБ/с, в то время как 
+   гигабитная сетевая среда может достигать порядка 100 МБ/с. Знание производительности IOPS, или ОП/с потребует неких дополнительных 
+   этапов. В ряде систем хранения мы можем встраивать некий виды мониторинга, которые могут снабжать нас данными IOPS в реальном масштабе 
+   времени. Для прочих нам придётся вычислять необходимые данные IOPS чтобы узнать соответствующую матрицу производительностей 
+   применяемых системой хранилищ. Все подробности вычисления значений IOPS выходят за рамки данной книги. Однако приводимое 
+   далее руководство должно послужить нам отправной точкой для вычисления ОП/с различных устройств хранения:</p>
+   <p>ОП/с для отдельного диска SATA 7200 rpm:</p>
+		<pre class="screen"><code><em>
+        IOPS = 1/(средняя задержка в секундах + среднее время позиционирования в секундах)
+		</em></code></pre>
+   <p>Основываясь на предыдущей формуле мы можем вычислять IOPS стандартных устройство SSD. Для получения времён средних задержки и 
+   позиционирования  мы можем воспользоваться инструментарием Linux <span class="term"><code>ioping</code></span>. 
+   По умолчанию он не установлен в Proxmox. Мы можем установить его применив следующую команду:</p>
+		<pre class="screen"><code><strong>
+# apt-get install ioping
+		</strong></code></pre>
+   <p>Инструмент <span class="term"><code>ioping</code></span> аналогичен команде 
+   <span class="term"><code>iperf</code></span>, которая однако применима к дисковым устройствам. Следующая команда отобразит 
+   латентность IO для SSD устройства нашего примера:</p>
+		<pre class="screen"><code><strong>
+# ioping /dev/sda
+		</strong></code></pre>
+   <p>Приводимый ниже снимок экрана показывает, что результатом <span class="term"><code>ioping</code></span> для 
+   усреднённой латентности является <span class="term"><code>1.79</code></span> миллисекунд, или 0.00179 секунд:</p>
+	 <div class="figure"><a id="Fig0410"> </a>
+	  <p class="title"><strong>Рисунок 4-10</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0410.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0410.jpg" width="429" height="58"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Чтобы определить среднее время позиционирования, нам следует выполнить такую команду <span class="term"><code>ioping</code></span>:</p>
+		<pre class="screen"><code><strong>
+# ioping -R /dev/sda
+		</strong></code></pre>
+   <p>Приводимый далее снимок экрана показывает, что результатом <span class="term"><code>ioping</code></span> для 
+   усреднённого значения позиционирования является время <span class="term"><code>133</code></span> микросекунд или 
+   0.000133 секунды:</p>
+	 <div class="figure"><a id="Fig0411"> </a>
+	  <p class="title"><strong>Рисунок 4-11</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0411.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0411.jpg" width="489" height="55"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Воспользовавшись достигнутыми результатами мы можем вычислить IOPS или ОП/с для своего устройства SSD следующим
+   образом:</p>
+		<pre class="screen"><code><em>
+        IOPS = 1 / (0.00179 + 0.000133) = 520
+		</em></code></pre>
+   <p>Если нам известно сколько IOPS может предоставлять носитель хранения, мы можем настраивать каждую ВМ дросселированием 
+   ОП/с для предотвращения возможных проблем в своём кластере. В Proxmox VE 4.1 у нас не было возможности устанавливать 
+   пределы дросселирования по всему кластеру. Каждый диск требует отдельного дросселирования вручную.</p>
+
+   <a id="030304"> </a>
+   <p class="title"><strong>Кэширование образа виртуального диска</strong></p>
+   <p>Кэширование образа виртуального диска предоставляет производительность и в ряде случаев защиту от неполноценного 
+   отключения. Не любое кэширование является безопасным. Для получения оптимальной производительности Proxmox следует 
+   ознакомиться со всеми различными вариантами кэширования, предлагаемыми в Proxmox. Данная опция доступна в закладе ВМ 
+   <span class="term"><strong class="userinput">Hardware</strong></span> в блоке диалога создания или редактирования 
+   соответствующего образа диска. Приводимый ниже снимок экрана отображает такой блок диалога изменения образа диска с 
+   ниспадающим меню кэширования для образа диска <span class="term"><code>.raw</code></span> ВМ из нашего примера:</p>
+	 <div class="figure"><a id="Fig0412"> </a>
+	  <p class="title"><strong>Рисунок 4-12</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0412.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0412.jpg" width="598" height="247"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>В Proxmox VE 5.0 доступны следующие опции кэширования:</p>
+        <table rules="all" width="700" style="text-align:left; border-style:none;" id="table0405">
+        <caption>Таблица 4-5.</caption>
+		<col width="25%"/><col width="75%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Опция кэшировнаия</th>
+          <th style="border-bottom:1;border-top:1;">Описание</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Direct sync</strong></span></p></td>
+          <td style="border-style:none;"><p>При данном варианте кэширования хост Proxmox не выполняет никакого кэширования, 
+		  однако диск образа ВМ применяет кэширование сквозной записи. При таком виде кэширования записи принимаются только 
+		  когда данные фиксируются в устройстве хранения. <span class="term"><strong class="userinput">Direct sync</strong></span> 
+		  рекомендуется для ВМ, которые не отправляют сбросы по необходимости. Это наиболее безопасное кэширование, поскольку 
+		  данные не утрачиваются при пропадании питания, однако он и самый медленный.</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Write through</strong></span></p></td>
+          <td style="border-style:none;"><p>В этом случае включена страница кэширования самого хоста Proxmox, в то время как 
+		  кэширование записи его ВМ отключено. Такое кэширование предоставляет хорошую производительность чтения при более 
+		  медленной производительности записи, так как кэширование записи отключено. Это более безопасный вид кэширования, так как 
+		  он гарантирует целостность данных. Данное кэширование рекомендуется для локальных и непосредственно подключаемых 
+		  хранилищ.</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Write back</strong></span>
+		  <td style="border-style:none;"><p>При данном виде кэширования и кэширование чтения, и кэширование записи 
+		  осуществляются самим хостом. Записи принимаются как выполненные самим диском ВМ как только они зафиксированы 
+		  в кэше своего хоста, вне зависимости от того зафиксированы они в хранилище или нет. При таком кэшировании 
+		  могут возникать потери данных.</p></td>
+		  </p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Write back (unsafe)</strong></span>
+		  <td style="border-style:none;"><p>Это в точности такое же кэширование <span class="term"><strong class="userinput">Write back</strong>, 
+		  кроме того, что все сбросы полностью игнорируются имеющейся гостевой виртуальной машиной. Это самый быстрый вид кэширования, 
+		  хотя и самый опасный. Данное кэширование никогда не следует применять в промышленных кластерах. Как правило, такой вид 
+		  кэширования применяется для ускорения установки операционной системы в ВМ. По окончанию установки ВМ, данный вид кэширования 
+		  следует отключить и перейти к более безопасному виду кэширования.</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">No cache</strong></span>
+		  <td style="border-style:none;"><p>Эта опция кэширования применяется в Proxmox по умолчанию. В данном случае на уровне хоста 
+		  не применяется никакое кэширование, однако сама гостевая виртуальная машина осуществляет кэширование с отложенной записью
+		  (<span class="term"><strong class="userinput">Write back</strong>). Имеющийся диск виртуальной машины пр данном виде 
+		  кэширования принимает подтверждения записи со стороны устройства хранения.при данном кэшировании данные могут быть 
+		  утрачены при внезапном отключении хоста из- за сбоя питания.</p></td>
+        </tr></tbody></table>
+   <p>Не все виды кэширования будут предоставлять одинаковую производительность во всех виртуальных средах. Все рабочие 
+   нагрузки ВМ имеют свои отличительные особенности. Таким образом, выбирая среди различных типов кэширования и рассматривая 
+   текущую производительность определённой ВМ необходимо какое из кэширований работает наилучшим образом для данной 
+   rjyrhtnyjq ВМ.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0304"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Тип шины VirtIO для ВМ Windows</span></h4>
+   </div></div></div>
+   <p>Образы дисков VirtIO автоматически распознаются ВМ Linux, так как все разновидности Linux поставляются снабжёнными 
+   драйверами VirtIO. Операционные системы Windows, однако, не имеют их. Мы можем следовать двумя методами использования 
+   дисков с типом VirtIO в Windows.</p>
+   <p>Вначале, выгрузите необходимые драйверы VirtIO для Windows в формате ISO со следующей ссылки:
+   <a class="link" href="javascript:if(confirm(%27https://onreader.mdl.ru:80/​/​fedoraproject.​org/​wiki/​Windows_​Virtio_​Drivers  \n\nThis file was not retrieved by Teleport Pro, because it is addressed using an unsupported protocol (e.g., gopher).  \n\nDo you want to open it from the server?%27))window.location=%27https://onreader.mdl.ru:80/​/​fedoraproject.​org/​wiki/​Windows_​Virtio_​Drivers%27" tppabs="https://onreader.mdl.ru:80/​/​fedoraproject.​org/​wiki/​Windows_​Virtio_​Drivers" 
+   target="_top">https:/​/​fedoraproject.​org/​wiki/​Windows_​Virtio_​Drivers</a>.</p>
+   <p>После загрузки данного файла образа ISO просто выложите его в то хранилище, которое подключено к Proxmox с тем, 
+   чтобы мы могли сделать его доступным для всех ВМ. Отметим, что данный образ ISO содержит не только драйверы для дискового 
+   устройства VirtIO, но также и для соответствующего сетевого интерфейса VirtIO.</p>
+
+   <a id="030401"> </a>
+   <p class="title"><strong>Установка драйверов VirtIO в процессе установки Windows</strong></p>
+   <p>В своём первом методе мы можем загрузить драйверы VirtIO в процессе загрузки Windows, воспользовавшись следующими 
+   шагами:</p>
+   <div class="orderedlist">
+   <ol class="orderedlist" type="1"><li class="listitem">
+     <p>При создании своей ВМ Windows добавьте два CD/ DVD устройства. Первое из них должно загружать установщик Windows, 
+	 а второе служит для загрузки соответствующего образа ISO VirtIO.</p>
+	 </li><li class="listitem">
+     <p>Запустите установку Windows и кликните по <span class="term"><strong class="userinput">Load driver</strong></span> 
+	 как это показано в следующем снимке экрана:</p>
+	 <div class="figure"><a id="Fig0413"> </a>
+	  <p class="title"><strong>Рисунок 4-13</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0413.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0413.jpg" width="620" height="472"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+	 </li><li class="listitem">
+     <p>Перейдите в <span class="term"><strong class="userinput">Browser</strong></span> для выбора того диска, в котором 
+	 находится ISO образ VirtIO. Этот драйвер для образа диска VirtIO обычно располагается в 
+	 <span class="term"><code>\\&lt;DriveLetter&gt;\viostor\&lt;windows_version&gt;\amd6</code></span>.</p>
+	 </li><li class="listitem">
+     <p>После выборы надлежащей папки вам отобразятся все доступные драйверы для образа диска VirtIO, который также именуется 
+	 как <span class="term"><strong class="userinput">Red Hat VirtIO SCSI controller</strong></span>, что показано на 
+	 следующем снимке экрана:</p>
+	 <div class="figure"><a id="Fig0414"> </a>
+	  <p class="title"><strong>Рисунок 4-14</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0414.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0414.jpg" width="619" height="470"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+	 </li><li class="listitem">
+     <p>Выберите нужный вам драйвер и продолжите обычную установку Windows.</p>
+	 </li>
+   </ol>
+   </div>
+
+   <a id="030402"> </a>
+   <p class="title"><strong>Установка драйверов VirtIO после установки Windows</strong></p>
+   <p>Данный метод полезен когда Windows уже установлена в ВМ и вам требуется преобразовать имеющиеся образы дисков 
+   IDE/ SATA в VirtIO вид. В данном подходе драйвер VirtIO необходимо загрузить прежде чем сам основной образ диска ОС 
+   преобразовывается в такой тип шины VirtIO. приводимые ниже шаги показывают как изменить имеющийся тип шины основного 
+   образа диска ОС Windows после того, как Windows уже была установлена в диск, не являющийся VirtIO:</p>
+   <div class="orderedlist">
+   <ol class="orderedlist" type="1"><li class="listitem">
+     <p>Создайте небольшой дополнительный образ диска.</p>
+	 </li><li class="listitem">
+     <p>Зарегистрируйтесь в Windows и загрузите соответствующий образ ISO диска VirtIO.</p>
+	 </li><li class="listitem">
+     <p>Установите драйверы с тем, чтобы этот дополнительный образ диска VirtIO распознался и был настроен Windows.</p>
+	 </li><li class="listitem">
+     <p>Остановите Windows, измените тип основного образа диска ОС на тип VirtIO и удалите дополнительный образ диска.</p>
+	 </li><li class="listitem">
+     <p>Перезапустите Windows.</p>
+	 </li>
+   </ol>
+   </div>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Типы хранилищ в Proxmox</h3>
+   </div></div></div>
+   <p>Proxmox имеет исключительные встраиваемые модули для вариантов хранилищ из основных направлений развития. В данном 
+   разделе мы собираемся рассмотреть какие встраиваемые модули интегрируются в Proxmox, а также увидеть как применять их 
+   для подключения к различным типам хранилищ в Proxmox. Ниже приведены те типы хранилищ, которые естественным образом 
+   поддерживаются в Proxmox VE 5.0:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p>Каталог</p>
+	 </li><li class="listitem">
+	 <p>LVM</p>
+	 </li><li class="listitem">
+	 <p>NFS</p>
+	 </li><li class="listitem">
+	 <p>ZFS</p>
+	 </li><li class="listitem">
+	 <p>Ceph RBD</p>
+	 </li><li class="listitem">
+	 <p>GlusterFS</p>
+	 </li>
+    </ul>
+    </div>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0401"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Каталог</span></h4>
+   </div></div></div>
+   <p>Хранилище <span class="term"><code>Directory</code></span> является обычной папкой локального узла, монтируемой в 
+   Proxmox. Она в основном применяется как локальное хранилище. Однако мы также можем смонтировать и некую удалённую папку 
+   из другого узла и применять её как точку монтирования для создания какого- то нового хранилища 
+   <span class="term"><code>Directory</code></span>. По умолчанию, его местоположением является
+   <span class="term"><code>/var/lib/vz</code></span>.</p>
+   <p>Ни для каких хранимых в таком хранилище <span class="term"><code>Directory</code></span> ВМ не допустима миграция 
+   в реальном масштабе времени. Такая ВМ должна быть вначале остановлена, прежде чем выполнить её миграцию на другой 
+   узел. 	Внутри данного хранилища <span class="term"><code>Directory</code></span> могут располагаться любые типы 
+   файлов образов виртуальных дисков. Чтобы создать некое новое хранилище с какой- то точкой монтирования перейдите в 
+   <span class="term"><strong class="userinput">Datacenter | Storage</strong></span> и кликните по 
+   <span class="term"><strong class="userinput">Add</strong></span> для выбора соответствующего встраиваемого модуля 
+   <span class="term"><code>Directory</code></span>. Приводимый ниже моментальный снимок отображает такой блок диалога 
+   хранилища <span class="term"><strong class="userinput">Add: Directory</strong></span>, в котором мы можем добавить 
+   хранилище с названием <span class="term"><code>local-iso</code></span>, с тем чтобы смонтировать его в 
+   <span class="term"><code>/mnt/iso</code></span> для хранения необходимых ISO и шаблонов контейнеров:</p>
+	 <div class="figure"><a id="Fig0415"> </a>
+	  <p class="title"><strong>Рисунок 4-15</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0415.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0415.jpg" width="619" height="230"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Для монтируемого локально хранилища выбор флага <span class="term"><strong class="userinput">Shared</strong></span>
+   не является обязательным. Данный вариант относится только к совместно используемым хранилищам, таким как NFS и RBD.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0402"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">iSCSI</span></h4>
+   </div></div></div>
+   <p><span class="term"><strong class="userinput">Internet Small Computer Systems Interface</strong></span>, который 
+   сокращается до <span class="term"><strong class="userinput">iSCSI</strong></span>, основывается на протоколе IP, что 
+   делает возможным передачу команд SCSI в стандартных сетевых средах на основе IP. Устройства iSCSI могут устанавливаться 
+   локально или на значительных расстояниях для предоставления возможностей хранения. Мы не можем непосредственно хранить 
+   образы виртуальных дисков в некотором устройстве iSCSI, однако мы модем настраивать хранилища LVM поверх таких устройств 
+   iSCSI и затем сохранять образы дисков. Подключаемое устройство iSCSI появляется как если бы оно было физически подключено, 
+   даже если оно хранится в другом удалённом узле.</p>
+   <p>
+   Для получения дополнительных сведений по iSCSI воспользуйтесь следующей ссылкой:
+   <a class="link" href="javascript:if(confirm(%27http://en.wikipedia.org/wiki/ISCSI  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://en.wikipedia.org/wiki/ISCSI%27" tppabs="http://en.wikipedia.org/wiki/ISCSI" target="_top">http://en.wikipedia.org/wiki/ISCSI</a></p>
+   <p>Мы предположим, что у нас уже имеется устройство iSCSI, созданное в некотором удалённом узлепри помощи FreeNAS или 
+   любого прочего дистрибутива Linux. Для добавления такого устройства в Proxmox мы собираемся применить имеющийся 
+   встраиваемый модуль iSCSI, который мы можем обнаружить, переместившись в меню
+   <span class="term"><strong class="userinput">Datacenter | Storage | Add</strong></span>. 
+   Как это показано на приводимом далее снимке экрана, мы можем добавить некий таргет iSCSI с названием 
+   <span class="term"><code>test1-iSCSI</code></span>, который настроен в удалённом узле
+   <span class="term"><code>172.16.2.10</code></span>:</p>
+	 <div class="figure"><a id="Fig0416"> </a>
+	  <p class="title"><strong>Рисунок 4-16</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0416.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0416.jpg" width="569" height="188"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Отметим, что непосредственное использование LUN не рекомендуется, хотя и имеется вариант их разрешения. Известны 
+   варианты, вызывающие ошибки iSCSI при прямом подключении.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0403"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LVM</span></h4>
+   </div></div></div>
+   <p><span class="term"><strong class="userinput">Logical Volume Management</strong></span> 
+   (<span class="term"><strong class="userinput">LVM</strong></span>) предоставляют метод выделения пространства хранения 
+   путём применения одного или более разделов или устройств в качестве лежащих в основе хранилищ. Хранилище LVM 
+   требует наличия установки и надлежащей работы некоторого лежащего в его основе хранилища.Мы можем создать хранилище 
+   LVM с помощью локального устройства в качестве основополагающего, либо сетевого устройства, расположенного на 
+   устройствах iSCSI. LVM делает возможным масштабирование пространства хранения, так как само базовое хранилище может 
+   находиться на самом том же самом узле, либо на некотором отличном от него. Хранилище LVM поддерживает только формат 
+   образов виртуальных дисков RAW. В LVM хранилище мы можем размещать только образы виртуальных дисков или 
+   контейнеры.</p>
+   <p>Для получения дополнительных подробностей об LVM воспользуйтесь ссылкой:
+   <a class="link" href="javascript:if(confirm(%27http://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)%27" tppabs="http://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)" 
+   target="_top">http://en.wikipedia.org/wiki/Logical_Volume_Manager_(Linux)</a>.</p>
+   <p>Если ваш дисковый массив LVM настроен с применением локально подключённых в этом узле дисков, хранимые в таком 
+   LVM ВМ не могут выполнять миграцию в реальном масштабе времени без отключения питания. Однако, подключая
+   устройства iSCSI с удалённого узла и после этого создавая соответствующее хранилище LVM поверх таких томов iSCSI, 
+   мы сможем выполнять миграцию в реальном времени, так как это хранилище теперь рассматривается как совместно 
+   используемое. FreeNAS является исключительным вариантом для создания LVM плюс совместно используемого хранилища iSCSI
+   без лицензионной стоимости. Он поставляется совместно с великолепным графическим интерфейсом пользователя и многими 
+   свойствами, которые выходят далеко за рамки простых LVM или iSCSI.</p>
+   <p>Чтобы добавить хранилище LVM проследуйте в <span class="term"><strong class="userinput">Datacenter | Storage | 
+   Add</strong></span> и выберите подключаемый модуль хранения <span class="term"><strong class="userinput">LVM</strong></span>.
+   Приводимый далее снимок экрана отображает блок диалога такого LVM, в котором для создания хранилища LVM применяется 
+   устройство iSCSI <span class="term"><code>test1-iscsi</code></span>, которое мы добавили в своём предыдущем 
+   разделе:</p>
+	 <div class="figure"><a id="Fig0417"> </a>
+	  <p class="title"><strong>Рисунок 4-17</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0417.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0417.jpg" width="586" height="210"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0404"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">NFS</span></h4>
+   </div></div></div>
+   <p><span class="term"><strong class="userinput">Network File System</strong></span>
+   (<span class="term"><strong class="userinput">NFS</strong></span>), если говорить кратко, является достаточно зрелым 
+   протоколом файловой системы, первоначально разработанным Sun Microsystems в 1984. В настоящее время действует версия 
+   4 данного протокола NFS. Однако она не настолько широко применяется, как версия 3 из- за проблем совместимости. 
+   Однако, этот пробел между версиями 3 и 4 закрывается достаточно быстро. По умолчанию Proxmox применяет версию 3 данного 
+   протокола NFS, хотя администраторы могут изменить его на версию 4, воспользовавшись опцией в 
+   <span class="term"><code>storage.cfg</code></span>. Хранилище NFS может содержать все форматы образов 
+   <span class="term"><code>.qcow2</code></span>, <span class="term"><code>.raw</code></span> и 
+   <span class="term"><code>.vmdk</code></span>, предоставляя в кластерной среде разнообразие и гибкость. NFS к тому же 
+   является самым простым способом установки и требует самых низких затрат в оборудовании, что делает возможными 
+   бюджетные решения для малого бизнеса или домашних пользователей с тем, чтобы они своими руками попробовали стабильную 
+   совместно используемую систему хранения в своём кластере Proxmox.</p>
+	 <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Совет"><tr><td rowspan="2" align="center" valign="top" width="25">
+        <img alt="[Совет]" src="tip.png" tppabs="http://onreader.mdl.ru/common/images/admon/tip.png"/></td><th align="left">Совет</th></tr><tr><td align="left" valign="top">
+        <p>Следует с осторожностью применять в Proxmox версию 4 NFS вместо версии 3. Всё ещё имеются некоторые ошибки 
+		из NFSv4, такие как тревога ядра при запуске системы при монтировании соответствующего совместного ресурса 
+		NFSv4.</p></td></tr></table>
+     </div>
+   <p>Конкретный сервер NFS может быть настроен просто поверх дюбого дистрибутива Linux с последующим его подключением 
+   к кластеру Proxmox. Совместный ресурс NFS является ни чем иным, как просто точкой монтирования в вашем сервере 
+   NFS, которая считывается подключаемым модулем NFS Proxmox. Также вы можем применять FreeNAS для работы в качестве 
+   такого сервера NFS и тем самым предоставляя все преимущества FreeNAS и его GUI для более простого мониторинга и 
+   совместного использования хранилища. Благодаря простоте настройки NFS, это вероятно наиболее широко применяемый вариант 
+   хранения в сегодняшнем мире виртуализации. Почти все сетевые администраторы применяли какой- нибудь сервер NFS 
+   хотя бы раз в своей карьере.</p>
+   <p>На следующем снимке экрана мы подключаем некое хранилище NFS с названием <span class="term"><code>nfs-01</code></span>
+   <span class="term"><code>172.16.2.10</code></span>:</p>
+	 <div class="figure"><a id="Fig0418"> </a>
+	  <p class="title"><strong>Рисунок 4-18</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0418.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0418.jpg" width="580" height="208"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>После введения соответствующего IP адреса вашего удалённого сервера, ваше ниспадающее меню 
+   <span class="term"><strong class="userinput">Export</strong></span> просканирует этот удалённый сервер на наличие всех 
+   его совместных ресурсов NFS и отобразит их в своём списке. В нашем примере соответствующей точкой монтирования, найденной 
+   в этом блоке диалога является <span class="term"><code>/nfs-vol/nfs-01</code></span>.</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0405"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">ZFS</span></h4>
+   </div></div></div>
+   <p>ZFS изначально разрабатывалась Sun Microsystems. Хранилище ZFS является комбинацией файловой системы и LVM, которое 
+   предоставляет хранилище высокой ёмкости с важными функциями, такими как защищённость данных, сжатие данных, 
+   самостоятельное восстановление, а также моментальные снимки. ZFS имеет встроенный программно определяемый RAID, что 
+   устраняет необходимость использования RAID с аппаратной поддержкой. Массив дисков с RAID ZFS может выполнять миграцию 
+   на полностью другой узел с последующим импортом без перестроения всего имеющегося массива целиком. В подобном 
+   хранилище ZFS мы можем располагать только образы виртуального диска в формате 
+   <span class="term"><code>.raw</code></span>. Для получения дополнительных сведений по хранилищу ZFS обратитесь к
+   <a class="link" href="javascript:if(confirm(%27http://en.wikipedia.org/wiki/ZFS.  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://en.wikipedia.org/wiki/ZFS.%27" tppabs="http://en.wikipedia.org/wiki/ZFS." target="_top">http://en.wikipedia.org/wiki/ZFS.</a>
+   {<span class="emphasis"><em>Прим. пер.: а также к нашим переводам 
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/AdvancedZFS/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/AdvancedZFS/content/index.html%27" tppabs="http://onreader.mdl.ru/AdvancedZFS/content/index.html" 
+   target="_top">Мастерство FreeBSD: ZFS для профессионалов</a></em>,
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/FreeBSDMasteryZFS/content/Afterword.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/FreeBSDMasteryZFS/content/Afterword.html%27" tppabs="http://onreader.mdl.ru/FreeBSDMasteryZFS/content/Afterword.html" 
+   target="_top">Мастерство FreeBSD: ZFS</a></em>,
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/VirtualizationComplete/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/VirtualizationComplete/content/index.html%27" tppabs="http://onreader.mdl.ru/VirtualizationComplete/content/index.html" 
+   target="_top">Полная виртуализация. Базовая коммерческая редакция: Proxmox-freeNAS-Zentyal-pfSense</a></em>,
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/IntroducingZfsLinux/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/IntroducingZfsLinux/content/index.html%27" tppabs="http://onreader.mdl.ru/IntroducingZfsLinux/content/index.html" 
+   target="_top">Введение в ZFS для Linux.</a></em>.</span>}</p>
+   <p>В Proxmox VE 4.1 встраиваемый модуль хранилища ZFS уже включён, что существенно усилило применение ZFS 
+   естественным образом в узлах кластера Proxmox. Пул ZFS поддерживает следующие типы RAID:</p>
+  	<div class="itemizedlist">
+	<ul class="itemizedlist" type="disc">
+	 <li class="listitem">
+	 <p><span class="term"><strong class="userinput">Пул RAID-0</strong></span>: требует по крайней мере один 
+	 диск.</p>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Пул RAID-1</strong></span>: требует по крайней мере двух 
+	 дисков.</p>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Пул RAID-10</strong></span>: требует по крайней мере четыре 
+	 диска.</p>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Пул RAIDZ-1</strong></span>: требует по крайней мере три 
+	 диска.</p>
+	 </li><li class="listitem">
+	 <p><span class="term"><strong class="userinput">Пул RAIDZ-2</strong></span>: требует по крайней мере четыре 
+	 диска.</p>
+	 </li>
+    </ul>
+    </div>
+   <p>Для определения хранилища ZFS применяет пулы. Пулы могут быть созданы только через CLI. В Proxmox VE 5.0 
+   не существует опций управления ZFS через GUI. Все операции создания и управления ZFS следует осуществлять через 
+   CLI. После того как необходимые пулы создан, они могут подключаться к proxmox через GUI Proxmox. Для нашего примера 
+   мы намереваемся создать пул зеркала RAID1 с названием <span class="term"><code>zfspool1</code></span> и подключить его 
+   к Proxmox. Для создания такого пула ZFS применяется следующая команда:</p>
+		<pre class="screen"><code><strong>
+# zpool create &lt;pool_name&gt; &lt;raid_type&gt; &lt;dev1_name&gt; &lt;dev2_name&gt; ...
+		</strong></code></pre>
+   <p>Следовательно, для создаваемого нами определённого пула команды выглядит так:</p>
+		<pre class="screen"><code><strong>
+# zpool create zfspool1 mirror /dev/vdd /dev/vde
+		</strong></code></pre>
+   <p>Для допустимых типов RAID доступны следующие опции:</p>
+        <table rules="all" width="300" style="text-align:left; border-style:none;" id="table0406">
+        <caption>Таблица 4-6.</caption>
+		<col width="25%"/><col width="75%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Тип RAID</th>
+          <th style="border-bottom:1;border-top:1;">Применяемая строка опции</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">RAID0</strong></span></p></td>
+          <td style="border-style:none;"><p>нет строки</p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">RAID1</strong></span></p></td>
+          <td style="border-style:none;"><p><span class="term"><code>mirror</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">RAIDZ-1</strong></span></p></td>
+          <td style="border-style:none;"><p><span class="term"><code>raidz1</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">RAIDZ-2</strong></span></p></td>
+          <td style="border-style:none;"><p><span class="term"><code>raidz2</code></span></p></td>
+        </tr></tbody></table>
+   <p>Для проверки того, что наш пул создан, исполните следующую команду:</p>
+		<pre class="screen"><code><strong>
+# zpool list
+		</strong></code></pre>
+   <p>Приводимый далее снимок экрана отображает тот перечень пула ZFS, который возникает в случае нашего примера 
+   узла ZFS:</p>
+	 <div class="figure"><a id="Fig0419"> </a>
+	  <p class="title"><strong>Рисунок 4-19</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0419.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0419.jpg" width="523" height="37"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Мы можем применять этот пул напрямую или мы можем создать некий набор данных (dataset) внутри такого пула и 
+   подключить такой набор данных к Proxmox отдельно как некоторое индивидуальное хранилище. Преимущество такого подхода 
+   состоит в изоляции отдельных типов хранимых данных в своих наборах данных. Например, если мы создаём некий набор 
+   данных для размещения образов данных и другой набор данных для сохранения файлов резервных копий, мы можем включить 
+   сжатие для своего набора данных образов ВМ и в то же самое время воздерживаться от сжатия своего набора данных, 
+   содержащего резервные копии, поскольку сами файлы резервных копий уже сжаты, и тем самым сбережём значительные ресурсы. 
+   Всякий набор данных ZFS может настраиваться индивидуально, со своим собственным набором опций настроек. Если мы сравним 
+   <span class="term"><code>zpool</code></span> с неким каталогом, наборы данных будут сродни подкаталогам внутри 
+   своего основного каталога. Для создания некоего набора данных внутри пула ZFS применяется следующая команда:</p>
+		<pre class="screen"><code><strong>
+# zfs create &lt;zpool_name&gt;/&lt;zfs_dataset_name&gt;
+		</strong></code></pre>
+   <p>Перед тем как он может быть использован, некий набор данных должен быть смонтирован в некотором каталоге. 
+   По умолчанию всякий новый пул <span class="term"><code>zfs</code></span> монтируется в корневом каталоге. 
+   Приводимая ниже команда установит новую точку монтирвоания для своего набора данных:</p>
+   <p></p>
+		<pre class="screen"><code><strong>
+# zfs set mountpoint=/mnt/zfs-vm zfspool1/zfs-vm
+		</strong></code></pre>
+   <p>Для осуществления сжатия в этом наборе данных мы можем выполнить следующую команду:</p>
+		<pre class="screen"><code><strong>
+# zfs set compression=on zfspool1/zfs-vm
+		</strong></code></pre>
+   <p>Данный пул ZFS будет работать только в том узле, в котором это пул создан. Прочие узлы вашего кластера Proxmox не будут иметь 
+   возможности совместного применения данного хранилища. Смонтировав некий пул ZFS локально и создав определённый 
+   совместный ресурс NFS, становится возможным разделять данный пул ZFS между всеми имеющимися узлами Proxmox.
+   Мы можем смонтировать некий набор данных <span class="term"><code>zfs</code></span> и применить этот каталог для 
+   настройки данного узла Proxmox в качестве конкретного сервера NFS.</p>
+   <p>Такой процесс монтирования и издания в совместное использование необходимо осуществлять исключительно через CLI. 
+   Из GUI Proxmox мы можем только подключать имеющийся совместный ресурс NFS с лежащим в его основе пулом ZFS. Для того, 
+   чтобы выполнять обслуживание такого совместного ресурса NFS нам следует установить требуемый сервер NFS в этом узле 
+   Proxmox воспользовавшись такой командой:</p>
+		<pre class="screen"><code><strong>
+# apt-get install nfs-kernel-server
+		</strong></code></pre>
+   <p>В код <span class="term"><code>/etc/exports</code></span> введите следующую строку:</p>
+		<pre class="screen"><code>
+/mnt/zfs/ 172.16.0.71/24(rw,nohide,async,no_root_squash)
+		</stro</code></pre>
+   <p>Запустите полученную службу NFS применив следующую команду:</p>
+		<pre class="screen"><code><strong>
+# service nfs-kernel-server start
+		</strong></code></pre>
+   <p>Для совместного использования пула ZFS с включённым в NFS GUI Proxmox, мы можем просто повторить все те шаги, 
+   которые мы выполнили для своего хранилища NFS в предыдущем разделе. Чтобы добавить пул или набор данных ZFS в 
+   свой кластер Proxmox c помощью GUI, нам потребуется зарегистрироваться в этом GUI в том узле, в котором создан 
+   наш пул ZFS. В нашем примере кластера с двумя узлами у нас имеются пулы ZFS в узле 
+   <span class="term"><code>#1</code></span>, поэтому нам придётся выполнить доступ к своему GUI в этом узле. 
+   В противном случае эти пулы или наборы данных ZFS не смогут быть добавлены из GUI другого узла. Мы можем обнаружить 
+   опцию подключаемого модуля своего хранилища ZFS переместившись в меню 
+   <span class="term"><strong class="userinput">Datacenter | Storage | Add</strong></span>. Кликните по подключаемому модулю 
+   <span class="term"><strong class="userinput">ZFS</strong></span> чтобы открыть требуемый блок диалога. На снимке внизу 
+   представлен соответствующий блок диалога хранилища ZFS с нашим примером пула 
+   <span class="term"><code>zfs</code></span> и набором данных в отобразившемся ниспадающем меню:</p>
+	 <div class="figure"><a id="Fig0420"> </a>
+	  <p class="title"><strong>Рисунок 4-20</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0420.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0420.jpg" width="619" height="166"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Комбинируя создаваемые пулы ZFS с неким совместным ресурсом NFS мы можем создавать некий разделяемый ресурс, 
+   хранения с полным набором свойств ZFS, тем самым создавая достаточно гибкое совместное хранилище для его применения 
+   во всех имеющихся в данном кластере узлах Proxmxox. Применяя данную технику, мы можем создать некий узел резервного 
+   копирования, который также управляется через GUI Proxmox. Таким образом, при возникновении кризиса узлов, мы 
+   сможем также выполнить временную миграцию ВМ в имеющийся узел резервных копий. Все предыдущие шаги применимы к к любому 
+   дистрибутиву Linux, а не только к некоторому узлу Proxmox. Например, мы можем установить некий сервер 
+   <span class="emphasis"><em>ZFS+NFS</em></span> при помощи Linux Ubuntu или CentOS для хранения образов или шаблонов 
+   виртуальных дисков. Если вы применяете FreeNAS или аналогичную систему хранения, тогда все приводимые в данном 
+   разделе шаги по сопровождению ZFS вам не потребуются. Весь процесс создания ZFS выполняется при помощи GUI FreeNAS/</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0406"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Ceph RBD</span></h4>
+   </div></div></div>
+   <p>Хранилище <span class="term"><strong class="userinput">RBD</strong></span>
+   (<span class="term"><strong class="userinput">RADOS Block Device</strong></span>) предоставляется распределённой 
+   системой хранения Ceph. Это наиболее сложная система хранения, которая требует установки множества узлов. 
+   По своей архитектуре Ceph является распределённой системой хранения и может быть распространена на несколько 
+   десятков узлов. Хранилище RBD может размещать только образы формата <span class="term"><code>.raw</code></span>. 
+   Для расширения кластера Ceph мы просто добавляем новый жёсткий диск или узел и извещаем Ceph об этом новом добавлении. 
+   Ceph автоматически выполнит балансировку данных для размещения такого нового жёсткого диска или узла. Ceph может 
+   масштабироваться до размеров нескольких Петабайт и даже больше. Ceph также допускает создание множества пулов для 
+   различных дисковых устройств. Например, образы ВМ серверов баз данных в пулах на основе SSD, а образы сервера 
+   резервного копирования в дисковом пуле более медленных шпиндельных дисков. Ceph рекомендуется применять для кластерных 
+   сред в диапазоне от средних до крупных благодаря его устойчивости к потере данных и простоте в расширяемости 
+   хранения.</p>
+   <p>В версии 4.1 Proxmox сервер Ceph был интегрирован в Proxmox для совместного существования в одном и том же узле. 
+   Также была добавлена возможность управления кластерами Ceph через GUI Proxmxox. Позднее, в следующей главе, мы изучим как 
+   создавать кластер Ceph и интегрировать его с Proxmox. Ceph является истинной системой хранения корпоративного уровня 
+   с некоторой зависимостью от обучения. Когда механика Ceph становится понятной, его сопровождение будет более простым. 
+   Для получения дополнительных сведений по Ceph отсылаем вас к 
+   <a class="link" href="javascript:if(confirm(%27http://ceph.com/docs/master/start/intro/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://ceph.com/docs/master/start/intro/%27" tppabs="http://ceph.com/docs/master/start/intro/" target="_top">http://ceph.com/docs/master/start/intro/</a>.
+   Некоторые сведения приводятся в <a class="link" href="Ch05.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch05.html" target="_top">Главе 5, Установка и настройка Ceph</a>.
+   {<span class="emphasis"><em>Прим. пер.: также рекомендуем наши переводы 
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/CephCookbook.2ed/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/CephCookbook.2ed/content/index.html%27" tppabs="http://onreader.mdl.ru/CephCookbook.2ed/content/index.html" 
+   target="_top"> Книга рецептов Ceph, 2е издание</a>, 
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/LearningCeph2ed/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/LearningCeph2ed/content/index.html%27" tppabs="http://onreader.mdl.ru/LearningCeph2ed/content/index.html" 
+   target="_top">Изучаем Ceph, 2е издание</a>,
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/MasteringCeph/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/MasteringCeph/content/index.html%27" tppabs="http://onreader.mdl.ru/MasteringCeph/content/index.html" 
+   target="_top">Полное руководство Ceph</a>,
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/CephCookbook/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/CephCookbook/content/index.html%27" tppabs="http://onreader.mdl.ru/CephCookbook/content/index.html" 
+   target="_top"> Книга рецептов Ceph</a>, 
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/LearningCeph/content/index.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/LearningCeph/content/index.html%27" tppabs="http://onreader.mdl.ru/LearningCeph/content/index.html" 
+   target="_top">Изучаем Ceph</a>.</em></span>}</p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0407"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">GlusterFS</span></h4>
+   </div></div></div>
+   <p>GlusterFS является мощной распределённой файловой системой, которая может масштабироваться до нескольких 
+   Петабайт в единой точке монтирования. Glustar является сравнительно новым добавлением в Proxmox, которое 
+   позволило пользователям GlusterFS воспринять все преимущества кластера Proxmox. GlustarFS применяет для хранения 
+   файлов чередование, репликацию или распределённый режим. Хотя распределённый режим и предлагает наличие опции 
+   масштабирования, отметим, что в режиме с чередованием при выходе из строя какого- то узла GlusterFS все файлы в таком 
+   сервере становятся недоступными. Это означает, что если определённый файл сохраняется транслятором GlusterFS 
+   в данном сервере, только этот узел хранит все данные такого файла. Даже несмотря на то, что все прочие узлы 
+   будут продолжать работать, этот определённый файл больше не будет доступен. GlusterFS может масштабироваться до 
+   Петабайт внутри единой точки монтирования. Данное хранилище GlusterFS может быть установлено всего на двух узлах и 
+   поддерживать NFS, тем самым позволяя нам сохранять любые форматы файлов образов.</p>
+   <p>Для получения дополнительных сведений по GlusterFS посетите следующую ссылку:
+   <a class="link" href="javascript:if(confirm(%27http://onreader.mdl.ru/​/​docs.​gluster.​org/​en/​latest/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://onreader.mdl.ru/​/​docs.​gluster.​org/​en/​latest/%27" tppabs="http://onreader.mdl.ru/​/​docs.​gluster.​org/​en/​latest/" target="_top">http:/​/​docs.​gluster.​org/​en/​latest/</a>.</p>
+   <p>Мы можем установить GlusterFS в том же самом узле, что и Proxmox, либо в некотором удалённом узле, применив 
+   только дистрибутив Linux для создания некоего совместного хранилища. Gluster является великолепным вариантом для некоторой 
+   стабильной системы хранения из двух узлов, такой как DRBD. Самое основное отличие состоит в том, что он может 
+   выполнять горизонтальное масштабирование для увеличения общего пространства [хранения. Gluster может быть исключительным 
+   выбором для виртуальной среды со скромным бюджетом и требованиями избыточности. При установке с двумя узлами оба 
+   узла осуществляют синхронизацию друг с другом и, в случае если один из узлов становится недоступным, другой узел 
+   просто принимает всё на себя. Сама установка Gluster достаточно сложна.</p>
+   <p>Для информации о том, как устанавливать кластер GlusterFS посетите следующую ссылку:
+   <a class="link" href="javascript:if(confirm(%27http://gluster.readthedocs.org/en/latest/Quick-Start-Guide/Quickstart/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://gluster.readthedocs.org/en/latest/Quick-Start-Guide/Quickstart/%27" tppabs="http://gluster.readthedocs.org/en/latest/Quick-Start-Guide/Quickstart/" 
+   target="_top">http://gluster.readthedocs.org/en/latest/Quick-Start-Guide/Quickstart/</a>.</p>
+   <p>В этом разделе мы рассмотрим как подключать некий кластер GlusterFS к Proxmox при помощи имеющегося встраиваемого 
+   модуля Gluster. Мы можем отыскать этот подключаемый модуль переместившись в 
+   <span class="term"><strong class="userinput">Datacenter | Storage | Add</strong></span>. Кликните по подключаемому 
+   модулю <span class="term"><strong class="userinput">GlusterFS</strong></span> чтобы открыть необходимый блок диалога 
+   создания требуемого хранилища, как это показано на снимке экрана внизу:</p>
+	 <div class="figure"><a id="Fig0421"> </a>
+	  <p class="title"><strong>Рисунок 4-21</strong></p>
+	  <div class="figure-contents"><div class="mediaobject">
+	  <img src="Fig0421.jpg" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/figures/Fig0421.jpg" width="595" height="249"/><br />
+	  <span></span>
+	  </div></div>
+	 </div><br class="figure-break"/>
+   <p>Следующая таблица отображает те типы информации, которые нам понадобятся и значения, применяемые для нашего 
+   примера подключения GlusterFS:</p>
+        <table rules="all" width="700" style="text-align:left; border-style:none;" id="table0407">
+        <caption>Таблица 4-7.</caption>
+		<col width="24%"/><col width="38%"/><col width="38%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;">Элементы</th>
+          <th style="border-bottom:1;border-top:1;">Тип значения</th>
+          <th style="border-bottom:1;border-top:1;">Пример значения</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">ID</strong></span></p></td>
+          <td style="border-style:none;"><p>Новое название хранилища</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>gluster</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Server</strong></span></p></td>
+          <td style="border-style:none;"><p>IP адрес первого узла Gluster</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>172.16.0.171</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Second Server</strong></span></p></td>
+          <td style="border-style:none;"><p>IP адрес второго узла Gluster</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>172.16.0.172</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Volume name</strong></span></p></td>
+          <td style="border-style:none;"><p>Ниспадающее меню для выбора доступных томов в данном узле Gluster</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>gfsvol11</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Content</strong></span></p></td>
+          <td style="border-style:none;"><p>Выбор типа подлежащих ранению файлов</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>VZDump backup file</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Nodes</strong></span></p></td>
+          <td style="border-style:none;"><p>Выбор узлов, которые могут осуществлять доступ к данному хранилищу.</p></td>
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">All (No restrictions)</strong></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Enable</strong></span></p></td>
+          <td style="border-style:none;"><p>Включить или выключить данное хранилище</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>Enabled</code></span></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Max Backups</strong></span></p></td>
+          <td style="border-style:none;"><p>Максимальное число хранимых последних файлов резервных копий. Более старые 
+		  резервные копии будут удалены автоматически в новом процессе резервного копирования.</p></td>
+          <td style="border-style:none;"><p><span class="term"><code>2</code></span></p></td>
+        </tr></tbody></table>
+   <p>Так как Gluster не имеет встроенных опций программно определяемого RAID, каждый узел Glustar нуждается в некотором 
+   виде RAID для создания избыточности дисков в узле. Как и со случаем NFS поверх ZFS, который мы изучили ранее в этой главе, 
+   мы также можем поместить Gluster поверх ZFS и предоставить избыточность дисков таким образом. Отметим, однако, что 
+   это создаст некие дополнительные накладные расходы, поскольку ZFS будет потреблять некие ресурсы.</p>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Некоммерческие и коммерческие опции хранения</h3>
+   </div></div></div>
+   <p>Мы обсудили какие форматы образов виртуальных машин и типы хранения поддерживаются в Proxmox. Для получения лучшего 
+   представления нами самими для целей работ тестирования или практического применения, сейчас мы собираемся рассмотреть 
+   какие некоммерческие и коммерческие опции имеются у нас для установки системы хранения в нашей среде кластеров Proxmox. 
+   Под некоммерческими я подразумеваю здесь те, что не имеют оплаты и при этом не создают ограничений на использование 
+   функций, а также без каких -либо ограничений на использование с целью тестирования.</p>
+   <p>Эти некоммерческие опции будут вам доступны для установки в полностью рабочеспособной системе совместного хранения 
+   при выполнении некоторой существенной работы. Коммерческие версии обычно поступают с полной поддержкой от самой компании 
+   производителя и, в определённых случаях, как требующего продления поддержки контаракта на
+   <span class="term"><strong class="userinput">SLA</strong></span>
+   (<span class="term"><strong class="userinput">service-level agreement</strong></span>, Соглашение об уровне поддержки).
+   Приводимый ниже перечень, без всяких сомнений, не является исчерпывающим, однако может позлужить для вас неким 
+   руководством в тех направлениях, в которых вам нужно планировать и реализовывать среду кластера Proxmox. Каждый из этих 
+   продуктов способен предоставить всё что вам необходимо для установки совместно используемого хранилища:</p>
+        <table rules="all" width="700" style="text-align:left; border-style:none;" id="table0408">
+        <caption>Таблица 4-8.</caption>
+		<col width="20%"/><col width="30%"/><col width="20%"/><col width="30%"/><thead><tr valign="top">
+          <th style="border-bottom:1;border-top:1;" colspan="2">Некоммерческие</th>
+          <th style="border-bottom:1;border-top:1;" colspan="2">Коммерческие</th>
+        </tr></thead><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Solaris+napp-IT</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.napp-it.org/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.napp-it.org/%27" tppabs="http://www.napp-it.org/" target="_top">www.napp-it.org</a></p></td>
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Nexenta</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.nexenta.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.nexenta.com/%27" tppabs="http://www.nexenta.com/" target="_top">www.nexenta.com</a></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">FreeNAS</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.freenas.org/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.freenas.org/%27" tppabs="http://www.freenas.org/" target="_top">www.freenas.org</a></p></td>
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Falconstor</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.falconstor.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.falconstor.com/%27" tppabs="http://www.falconstor.com/" target="_top">www.falconstor.com</a></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">GlusterFS</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.gluster.org/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.gluster.org/%27" tppabs="http://www.gluster.org/" target="_top">www.gluster.org</a></p></td>
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">EMC2</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.emc.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.emc.com/%27" tppabs="http://www.emc.com/" target="_top">www.emc.com</a></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Ceph</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.ceph.org/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.ceph.org/%27" tppabs="http://www.ceph.org/" target="_top">www.ceph.org</a></p></td>
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">Open-E DSS</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.open-e.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.open-e.com/%27" tppabs="http://www.open-e.com/" target="_top">www.open-e.com</a></p></td>
+        </tr><tr valign="top">
+          <td style="border-style:none;" colspan="2"><p>&nbsp;</p></td>
+          <td style="border-style:none;"><p><span class="term"><strong class="userinput">NetApp</strong></span></p></td>
+          <td style="border-style:none;"><p><a class="link" href="javascript:if(confirm(%27http://www.netapp.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?%27))window.location=%27http://www.netapp.com/%27" tppabs="http://www.netapp.com/" target="_top">www.netapp.com</a></p></td>
+        </tr></tbody></table>
+   <p>Наиболее часто задаваемым вопросом является &quot;Могу ли я установить кластер Proxmox промышленного уровня с 
+   применением только некоммерческих решений?&quot;. Кратким ответом является 
+   <span class="emphasis"><em>да!</em></span></p>
+   <p>на самом деле, имеется возможность создания всего комплекса кластера Proxmox с применением только некоммерческих 
+   решений хранения. Однако, вы должны быть готовы к не ожидаемому вами и затратному в отношении значительного количества 
+   времени 	на изучение такой системы. При принятии стороны коммерческого применения, тем не менее, простое изучение 
+   системы снабдит администратора преимуществами, проявляющимися при возникновении непредвиденных проблем. Основная 
+   разница между коммерческим и некоммерческим решением состоит в том на какую поддержку полагается данная компания. 
+   Как правило, некоммерческие решения имеют только продвигаемую сообществом поддержку через форумы и доски объявлений. 
+   Коммерческие предложения поступают с технической поддержкой и с установленным временем отклика, колеблющегося в пределах 
+   от непосредственного до осуществляемого в течении 24 часов.</p>
+	 <div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;">
+        <table border="0" summary="Совет"><tr><td rowspan="2" align="center" valign="top" width="25">
+        <img alt="[Совет]" src="tip.png" tppabs="http://onreader.mdl.ru/common/images/admon/tip.png"/></td><th align="left">Совет</th></tr><tr><td align="left" valign="top">
+        <p>Компромиссом для применения некоммерческого решения с открытым исходным кодом является сохранение средств, 
+		которое обычно замещается тем временем, которое тратится на изыскания и ошибки.</p></td></tr></table>
+     </div>
+  </div>
+
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Выводы</h3>
+   </div></div></div>
+   <p>В этой главе мы рассмотрели те варианты хранения, которые поддерживаются Proxmox, а также их преимущества и недостатки. 
+   Мы также рассмотрели все типы файлов виртуальных образов, которые могут применяться в Proxmxox и то, когда какие из них 
+   применять. Мы исследовали как настраивать различные варианты хранения, такие как NFS, ZFS, RBD и Gluster в качестве 
+   основы для хранилища. Хранилище является важнейшим компонентом для кластера Proxmox, поскольку это именно то место, в 
+   котором виртуальные машины создаются и где они работают. При надлежащем планировании различных требований хранения 
+   и при выборе правильного формата и вариантов применения в последствии можно минимизировать большую часть препятствий и 
+   крушений надежд.</p>
+   <p>В своей следующей главе мы рассмотрим как устанавливать и настраивать систему хранения Ceph и интегрировать с ней 
+   кластер Proxmox.</p>
+  </div>
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>

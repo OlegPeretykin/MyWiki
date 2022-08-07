@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:ng="http://docbook.org/docbook-ng" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="font-awesome.css" tppabs="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<title>Глава 2. Создание кластера и применение GUI Proxmox - Proxmox. Полное руководство. 3е изд.</title>
+<meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"/>
+<meta name="mavenGroupId" content="www.mdl.ru"/>
+<meta name="MasteringProxmox3ed"/>
+<meta name="mavenVersionId" content="1.0.0"/>
+<link rel="home" href="index.html" title="Proxmox. Полное руководство. 3е изд."/>
+<link rel="up" href="index.html" title="Proxmox. Полное руководство. 3е изд."/>
+<link rel="prev" href="Ch01.html" title="Глава 1. Понимание Proxmox VE и расширенная установка"/>
+<link rel="next" href="Ch03.html" title="Глава 3. Под капотом Proxmox"/>
+<meta name="git-sha" content=""/>
+<meta name="buildTime" content=""/>
+<script type="text/javascript">
+            //The id for tree cookie
+            var treeCookieId = "mastering-proxmox-3ed";
+            var language = "en";
+            var w = new Object();
+            //Localization
+            txt_filesfound = 'Results';
+            txt_enter_at_least_1_char = "You must enter at least one character.";
+            txt_browser_not_supported = "Please enable JavaScript.";
+            txt_please_wait = "Please wait. Search in progress...";
+            txt_results_for = "Results for: ";
+</script>
+<style type="text/css">
+            input {
+            margin-bottom: 5px;
+            margin-top: 2px;
+            }
+
+            .folder {
+            display: block;
+            height: 22px;
+            padding-left: 20px;
+            background: transparent url(folder.gif)/*tpa=http://onreader.mdl.ru/common/jquery/treeview/images/folder.gif*/ 0 0px no-repeat;
+            }
+</style>
+<link rel="shortcut icon" href="MdlLogo.gif" tppabs="http://onreader.mdl.ru/MdlLogo.gif" type="image/gif"/>
+<link rel="stylesheet" type="text/css" href="positioning.css" tppabs="http://onreader.mdl.ru/common/css/positioning.css"/>
+<link rel="stylesheet" type="text/css" href="custom.css" tppabs="http://onreader.mdl.ru/common/css/custom.css"/>
+<link rel="canonical" href="http://onreader.mdl.ru/MasteringProxmox3ed/content/index.html"/>
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="ie.css" tppabs="http://onreader.mdl.ru/common/css/ie.css"/>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.2.custom.css" tppabs="http://onreader.mdl.ru/common/jquery/theme-redmond/jquery-ui-1.8.2.custom.css"/>
+<link rel="stylesheet" type="text/css" href="jquery.treeview.css" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="jquery-1.11.0.min.js" tppabs="http://code.jquery.com/jquery-1.11.0.min.js"><!----></script>
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery-ui-1.8.2.custom.min.js"><!----></script>
+<script type="text/javascript" src="jquery.cookie.js" tppabs="http://onreader.mdl.ru/common/jquery/jquery.cookie.js"><!----></script>
+<script type="text/javascript" src="jquery.treeview.min.js" tppabs="http://onreader.mdl.ru/common/jquery/treeview/jquery.treeview.min.js"><!----></script>
+<link rel="stylesheet" type="text/css" href="jquery.qtip.min-1.css" tppabs="http://cdn.jsdelivr.net/qtip2/2.2.0/jquery.qtip.min.css"/>
+<script type="text/javascript" src="jquery.qtip.min.js" tppabs="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js">
+<!--jQuery plugin for glossary popups. --></script>
+<script type="text/javascript" src="htmlFileList.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/htmlFileList.js"><!----></script>
+<script type="text/javascript" src="htmlFileInfoList.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/htmlFileInfoList.js"><!----></script>
+<script type="text/javascript" src="nwSearchFnt.js" tppabs="http://onreader.mdl.ru/common/search/nwSearchFnt.js"><!----></script>
+<script type="text/javascript" src="en_stemmer.js" tppabs="http://onreader.mdl.ru/common/search/stemmers/en_stemmer.js">
+<!--//make this scalable to other languages as well.--></script>
+<script type="text/javascript" src="index-1.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-1.js"><!----></script>
+<script type="text/javascript" src="index-2.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-2.js"><!----></script>
+<script type="text/javascript" src="index-3.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/search/index-3.js"><!----></script>
+<script type="text/javascript">
+	    var _gaq = _gaq || [];
+	    _gaq.push(['_setAccount', 'UA-17511903-1']);
+	    
+	    _gaq.push(['_setDomainName', '.openstack.org']);	        
+</script>
+<script type="text/javascript" src="ga.js" tppabs="http://onreader.mdl.ru/common/ga.js"><!----></script>
+<script language="javascript" src="common.js" tppabs="http://onreader.mdl.ru/js/common.js"></script>
+<link rel="stylesheet" href="googlecode.css" tppabs="http://onreader.mdl.ru/common/css/googlecode.css">
+<script src="highlight.pack.js" tppabs="http://onreader.mdl.ru/common/highlight.pack.js"></script>
+</head>
+<body>
+<!----><script type="text/javascript"><!--
+hljs.initHighlightingOnLoad();
+HeaderName = 'Глава 2. Создание кластера и применение GUI Proxmox';
+PrevRef = 'Ch01.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch01.html*/;
+UpRef = 'index.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/index.html*/;
+NextRef = 'Ch03.html'/*tpa=http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch03.html*/;//--></script>
+<!----><script type="text/javascript" src="HeaderAndToolbar.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/HeaderAndToolbar.js">
+</script><script type="text/javascript"><!--
+document.write(HeaderAndToolbar); //-->
+</script>
+<div id="content">
+ <div class="part">
+  <div xmlns="" class="titlepage"><div><div><h1 xmlns="http://www.w3.org/1999/xhtml" class="title">
+   Глава 2. Создание кластера и применение GUI Proxmox
+  </div></div></div>
+
+  <div class="toc"><p><strong>Содержание</strong></p>
+   <dl>
+     <dt><span class="chapter"><a href="Ch02.html" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html">Глава 2. Создание кластера и применение GUI Proxmox</a></span></dt>
+     <dd><dl>
+       <dt><span class="chapter"><a href="Ch02.html#01" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#01">Создание кластера Proxmox</a></span></dt>
+       <dt><span class="chapter"><a href="Ch02.html#02" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#02">Применение GUI Proxmox</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch02.html#0201" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0201">Система меню GUI</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0202" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0202">Обзор дерева кластера</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0203" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0203">Просмотр сервера</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0204" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0204">Просмотр папки</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0205" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0205">Обзор хранилища</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0206" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0206">Просмотр пула</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch02.html#03" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#03">Меню центра данных</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch02.html#0301" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0301">Datacenter | Search</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0302" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0302">Datacenter | Summary</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0303" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0303">Datacenter | Options</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0304" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0304">Datacenter | Storage</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0305" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0305">Datacenter | Backup</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0306" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0306">Datacenter | Permissions</a></span></dt>
+         <dd><dl>
+           <dt><span class="chapter"><a href="Ch02.html#030601" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030601">Datacenter | Users</a></span></dt>
+           <dt><span class="chapter"><a href="Ch02.html#030602" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030602">Datacenter | Groups</a></span></dt>
+           <dt><span class="chapter"><a href="Ch02.html#030603" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030603">Datacenter | Roles</a></span></dt>
+           <dt><span class="chapter"><a href="Ch02.html#030604" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030604">Datacenter | Authentication</a></span></dt>
+       </dl></dd>
+         <dt><span class="chapter"><a href="Ch02.html#0307" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0307">Datacenter | HA</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0308" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0308">Datacenter | Firewall</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0309" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0309">Datacenter | Support</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch02.html#03" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#03">Меню узла</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch02.html#0301" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0301">Node | Search</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0302" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0302">Node | Summary</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0303" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0303">Node | System</a></span></dt>
+         <dd><dl>
+           <dt><span class="chapter"><a href="Ch02.html#030301" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030301">Node | Network</a></span></dt>
+           <dt><span class="chapter"><a href="Ch02.html#030302" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030302">Node | DNS</a></span></dt>
+           <dt><span class="chapter"><a href="Ch02.html#030303" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030303">Node | Time</a></span></dt>
+           <dt><span class="chapter"><a href="Ch02.html#030304" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#030304">Node | Syslog</a></span></dt>
+       </dl></dd>
+         <dt><span class="chapter"><a href="Ch02.html#0304" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0304">Node | Updates</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0305" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0305">Node | Firewall</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0306" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0306">Node | Disks</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0307" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0307">Node | Ceph</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0308" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0308">Node | Task History</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0309" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0309">Node | Subscription</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch02.html#04" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#04">Меню KVM</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch02.html#0401" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0401">KVM VM | Summary</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0402" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0402">KVM | Console</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0403" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0403">KVM | Hardware</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0404" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0404">KVM | Options</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0405" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0405">KVM VM | Task History</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0406" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0406">KVM | Monitor</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0407" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0407">KVM | Backup</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0408" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0408">KVM VM | Snapshot</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0409" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0409">KVM | Firewall</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0410" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0410">KVM | Permissions</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch02.html#05" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#05">Меню контейнеров LXC</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch02.html#0501" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0501">LXC Container | Summary</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0502" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0502">LXC Container | Resources</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0503" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0503">LXC Container | Network</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0504" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0504">LXC Container | DNS</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0505" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0505">LXC Container | Options</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0506" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0506">LXC Container | Task History</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0507" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0507">LXC Container | Backup</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0508" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0508">LXC Container | Snapshots</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0509" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0509">LXC Container | Firewall</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0510" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0510">LXC Container | Permissions</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch02.html#06" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#06">Меню пула</a></span></dt>
+       <dd><dl>
+         <dt><span class="chapter"><a href="Ch02.html#0601" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0601">Pool | Summary</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0602" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0602">Pool | Members</a></span></dt>
+         <dt><span class="chapter"><a href="Ch02.html#0603" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#0603">Pool | Permissions</a></span></dt>
+       </dl></dd>
+       <dt><span class="chapter"><a href="Ch02.html#07" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/Ch02.html#07">Выводы</a></span></dt>
+     </dl></dd>
+   </dl>
+  </div>
+   <p></p>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="01"> </a>Создание кластера Proxmox</h3>
+   </div></div></div>
+   <p></p>
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="02"> </a>Применение GUI Proxmox</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0201"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Система меню GUI</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0202"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Обзор дерева кластера</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0203"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Просмотр сервера</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0204"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Просмотр папки</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0205"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Обзор хранилища</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0206"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Просмотр пула</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Меню центра данных</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0301"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Search</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0302"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Summary</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0303"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Options</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0304"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Storage</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0305"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Backup</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0306"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Permissions</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <a id="030601"> </a>
+   <p class="title"><strong>Datacenter | Users</strong></p>
+   <p></p>
+
+   <a id="030602"> </a>
+   <p class="title"><strong>Datacenter | Groups</strong></p>
+   <p></p>
+
+   <a id="030603"> </a>
+   <p class="title"><strong>Datacenter | Roles</strong></p>
+   <p></p>
+
+   <a id="030604"> </a>
+   <p class="title"><strong>Datacenter | Authentication</strong></p>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0307"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | HA</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0308"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Firewall</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0309"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Datacenter | Support</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="03"> </a>Меню узла</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0301"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Search</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0302"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Summary</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0303"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | System</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <a id="030301"> </a>
+   <p class="title"><strong>Node | Network</strong></p>
+   <p></p>
+
+   <a id="030302"> </a>
+   <p class="title"><strong>Node | DNS</strong></p>
+   <p></p>
+
+   <a id="030303"> </a>
+   <p class="title"><strong>Node | Time</strong></p>
+   <p></p>
+
+   <a id="030304"> </a>
+   <p class="title"><strong>Node | Syslog</strong></p>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0304"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Updates</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0305"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Firewall</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0306"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Disks</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0307"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Ceph</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0308"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Task History</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0309"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Node | Subscription</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="04"> </a>Меню KVM</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0401"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM VM | Summary</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0402"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Console</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0403"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Hardware</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0404"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Options</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0405"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM VM | Task History</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0406"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Monitor</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0407"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Backup</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0408"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM VM | Snapshot</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0409"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Firewall</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0410"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">KVM | Permissions</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="05"> </a>Меню контейнеров LXC</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0501"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Summary</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0502"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Resources</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0503"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Network</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0504"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | DNS</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0505"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Options</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0506"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Task History</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0507"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Backup</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0508"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Snapshots</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0509"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Firewall</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0510"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">LXC Container | Permissions</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="06"> </a>Меню пула</h3>
+   </div></div></div>
+   <p></p>
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0601"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Pool | Summary</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0602"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Pool | Members</span></h4>
+   </div></div></div>
+   <p></p>
+
+   <div xmlns="" class="titlepage"><div><div>
+    <h4 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="0603"> </a>
+	<span  style="color:#FEFEFE; background-color:#888888; padding:0.5em;">Pool | Permissions</span></h4>
+   </div></div></div>
+   <p></p>
+
+  </div>
+  <div class="section">
+   <div xmlns="" class="titlepage"><div><div>
+    <h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="07"> </a>Выводы</h3>
+   </div></div></div>
+   <p></p>
+  </div>
+
+ </div>
+
+<!----><script type="text/javascript" src="FooterAndSidebar.js" tppabs="http://onreader.mdl.ru/MasteringProxmox.3ed/content/FooterAndSidebar.js">
+</script><script type="text/javascript"><!--</div id="content"> is inside next code
+document.write(FooterAndSidebar);//-->
+</script>
+
+</body></html>
