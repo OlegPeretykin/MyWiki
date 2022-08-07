@@ -27,6 +27,14 @@ Check the permissions are set correctly:
 
  # ls -l /dev/net/tun
  crw-rw-rw- 1 100000 100000 10, 200 Dec 22 13:26 /dev/net/tun
-Finally start the container:
+Finally start the container
+------------------------------------
+
+echo "deb http://download.zerotier.com/debian/bullseye bullseye main" >/etc/apt/sources.list.d/zerotier.list
+$SUDO chown 0 /etc/apt/sources.list.d/zerotier.list
+$SUDO chgrp 0 /etc/apt/sources.list.d/zerotier.list
+
+sudo apt install -y zerotier-one
+-----------------------------------
 
 
