@@ -1,0 +1,108 @@
+Basic NFS Security – NFS, no_root_squash and SUID
+by admin
+
+I have come across many wide-open NFS servers, which could be made a little more secure and safer with a couple of quick changes. This is a quick, make things a bit more secure guide. This is by no means a complete guide for securing NFS, but it can make things a little more secure without a lot of effort. To go to another level you want to look at implementing NFSv4 and Kerberos.
+
+Basic options for exports can include:
+
+no_all_squash: This option disables all squashing.
+rw: This option enables the NFS server to use both read and write requests on a NFS volume.
+ro: This option enables the NFS server to use read-only requests on a NFS volume.
+sync: This option enables the NFS server to reply to requests only after the changes have been committed to stable storage.
+async: This option enables the NFS server to violate the NFS protocol and reply to requests before any changes have been committed to stable storage.
+secure: This option requires that requests originate on an Internet port.
+insecure: This option accepts any or all ports.
+wdelay: This option enables the NFS server to delay committing a write request to a disc if it suspects that another related write request may be in progress or may arrive soon.
+no_wdelay: This option enables the NFS server to allow multiple write requests to be committed to disc within a single operation. This feature can improve performance, but if an NFS server receives many small requests, this behavior can serve to degrade performance. You should be aware that this option has no effect if async is also set.
+subtree_check: This option enables subtree checking.
+no_subtree_check: This option disables subtree checking, which has some implied security issues, but it can improve reliability.
+anonuid=UID: These options explicitly set the uid and gid of the anonymous account; this can be useful when you want all requests to appear as though they are from a single user.
+anongid=GID: This option will disable anonuid=UID.
+What is root_squash?
+root_squash will allow the root user on the client to both access and create files on the NFS server as root. Technically speaking, this option will force NFS to change the client’s root to an anonymous ID and, in effect, this will increase security by preventing ownership of the root account on one system migrating to the other system. This is needed if you are hosting root filesystems on the NFS server (especially for diskless clients); with this in mind, it can be used (sparingly) for selected hosts, but you should not use no_root_squash unless you are aware of the consequences.
+
+SUID and NFS
+suid is a method of a user assuming the rights of the owner of a file when it is executed by the user. Why do I care about this? Imagine if a user was able to copy a file onto the NFS volume, enable to suid bit on the file, then run that on the NFS server or client effectively elevating themselves to root in the process?
+
+Here is an example demonstrating the risks.
+
+NFS Server hostname is server, NFS client hostname is client. The subnet on the example network is 192.168.1.0/24. This example also assumes that both systems are running the same OS versions (i.e. both are RHEL 7, or both are SLES 12), as long as the OS major versions match.
+
+1. On an NFS server create a temporary directory (/export/test) and export with the following options (substitute 192.168.1.0/255.255.255.0 with your own network/netmask):
+
+server# vi /etc/exports
+/export/test  192.168.1.0/255.255.255.0(no_root_squash,insecure,rw)
+2. Restart the nfs server. This various depending on the flavour of linux..
+
+RHEL:
+
+server# systemctl restart nfs
+SUSE:
+
+server# systemctl restart nfsserver
+3. On the client machine, mount the export:
+
+client# mkdir /mnt/nfstest
+client# mount -t nfs server:/export/test /mnt/nfstest
+4. On the client, as root user, copy the vi binary to the NFS mount.
+
+client# which vi
+—— output ———
+/usr/bin/vi
+client# cp /usr/bin/vi /mnt/nfstest
+5. Set the suid bit on the copied binary.
+
+client# chmod u+s /mnt/nfstest/vi
+6. SSH onto the nfs server as a non privileged user. As the none privileged user run the vi located in the exported mount on the server:
+
+server$ /export/test/vi /etc/passwd
+7. Find the non privileged account in the password file and change the UID to 0, save, logout then log back in as the non privileged user. The user is now root.
+
+The same will work on the client, if you execute the vi from the NFS mount as a regular user, you can point it at any file on the host and will be able to edit as root. It will work with any binary you can think of.
+
+How to Avoid this?
+1. First of all delete the vi file from the export directory :), then enable root_squash on the nfs export. On the server edit the /etc/exports again modify the no_root_squash to root_squash:
+
+server# vi /etc/exports
+/export/test  192.168.1.0/255.255.255.0(root_squash,insecure,rw)
+2. Restart the nfs server, remount the filesystem on the client:
+
+server# systemctl restart nfs
+client# umount /mnt/test
+client# mount -t nfs server:/export/test /mnt/nfstest
+3. From the client, as root create some files on the NFS mount, check the permissions:
+
+client# touch /mnt/nfstest/{test1,test2,test3}
+Depending on the permissions set on /export/test, you will either get permission denied or if the directory is world writable, the permissions on the files will look similar to:
+
+-rw-r--r--  1 65534  65534     0 Nov  6  2015 test1
+-rw-r--r--  1 65534  65534     0 Nov  6  2015 test2
+-rw-r--r--  1 65534  65534     0 Nov  6  2015 test3
+The root_squash is remapping the root UID to be the uid of an anonymous user. This uid is configurable in the exports file, man /etc/exports for more information. Copy the vi command again (if permitted) as root on the client to the nfs volume and repeat the steps above (ssh to server run vi on /etc/passwd). This time you will not have permission to save the file the permissions are elevated to a non privileged account.
+
+That is a bit more secure, however we are not done yet. Another step you can take is to mount the exported filesystem on the NFS server with the nosuid option.
+
+server# vi /etc/fstab
+4. Find the mount point for /export/, change the options column defaults to.
+
+/dev/mapper/sys_vg-export_lv     /export    ext3    defaults      0       0
+/dev/mapper/sys_vg-export_lv     /export    ext3    nosuid        0       0
+5. Remount the mount:
+
+server# mount -o remount /export
+6. Dump the vi file on the mount, set the suid bit, switch to a non privileged account and try again:
+
+server# cp /usr/bin/vi /export/test; chmod u+s /export/test/vi
+server# su - someuser
+server$ /export/test/vi /etc/passwd
+After making a change to the passed file, you will not be permitted to save the change.
+
+7. Jump on the client as a non privileged user and try the same:
+
+client$ /export/test/vi /etc/passwd
+It still works, the client needs to also be remount with the nosuid option:
+
+client# mount -t nfs -o nosuid server:/export/test /mnt/nfstest
+Test it again with the non privileged account, it should fail.
+
+There are a couple of other options that can be specified on mount point to further restrict what can be run from them, check out the noexec (no executable files), nodev (no device files). If further security is required, look into Kerberos and NFSv4.

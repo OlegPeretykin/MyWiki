@@ -1,0 +1,62 @@
+Настройка NFS в Debian 11 и Ubuntu Server 21.04
+ 25.08.2021  admin  Linux
+Краткое руководство по быстрой установке и настройке NFS (Network File System) на сервере и клиенте на ОС Debian GNU/Linux 11 и Ubuntu Server 21.04.
+
+Исходные данные
+IP-адрес сервера: 192.168.1.45
+IP-адрес клиента: 192.168.1.55
+Необходимо открыть доступ клиенту на сервере в директории /srv/nfs/share/
+
+Установка и настройка NFS на сервере
+Устанавливаем пакеты nfs-common и nfs-kernel-server
+
+# apt install nfs-common nfs-kernel-server
+Запускаем службу nfs-server и включаем её в автозагрузку
+
+# systemctl start nfs-server
+# systemctl enable nfs-server
+Создадим каталог /srv/nfs/share/
+
+# mkdir -p /srv/nfs/share/
+Открываем файл /etc/exports
+
+# nano /etc/exports
+и пропишем в него строчку:
+
+/srv/nfs/share    192.168.1.0/24(rw,no_root_squash)
+для всех клиентов данной подсети
+
+/srv/nfs/share    192.168.1.55(rw,no_root_squash)
+для клиента с IP-адресом 192.168.1.55
+
+Перезапускаем службу nfs-server
+
+# systemctl restart nfs-server
+Установка и настройка NFS на клиенте
+Устанавливаем пакет nfs-common
+
+# apt install nfs-common
+Создаём каталог /mnt/nfs/share/
+
+# mkdir -p /mnt/nfs/share/
+Проверим монтирование ресурса NFS
+
+# mount -t nfs 192.168.1.45:/srv/nfs/share/ /mnt/nfs/share/
+Если примонтировался без проблем, можно создавать там каталоги и файлы — все они будут находиться на сервере.
+
+Если необходимо монтирование во время загрузки, то размонтируем ресурс
+
+# umount /mnt/nfs/share/
+открываем файл /etc/fstab
+
+# nano /etc/fstab
+добавим такую строчку:
+
+192.168.1.45:/srv/nfs/share/    /mnt/nfs/share/    nfs    rw    0 1
+и монтируем всё, что в нём прописано
+
+# mount -a
+Можно перезагрузить машину
+
+# shutdown -r now
+и убедиться, что монтирование во время загрузки системы работает.
