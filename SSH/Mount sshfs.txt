@@ -1,0 +1,2 @@
+sshfs [user@]host:[dir] mountpoint [options]
+sshfs adm@192.168.3.55:/ /home/RemoteSource/E5500iot/d/
