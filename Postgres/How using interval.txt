@@ -1,0 +1,9 @@
+Просто умножьте значение на интервал:
+
+select create_ts + num_of_day * interval '1' day 
+from abc_company;
+
+Начиная с Postgres 9.4 это проще сделать с помощью make_interval() функции:
+
+select create_ts + make_interval(days => num_of_day)
+from abc_company;

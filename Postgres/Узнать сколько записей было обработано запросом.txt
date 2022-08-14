@@ -1,0 +1,3 @@
+Find out how many records were processed by the request
+
+GET diagnostics QtyDel := ROW_COUNT;
