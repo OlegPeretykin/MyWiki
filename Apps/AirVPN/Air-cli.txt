@@ -1,0 +1,1 @@
+sudo eddie-cli connect 'login=lkjgbugtc5hgd' 'password=SDGIUL23453467457fdkjlk' 'remember=true'
