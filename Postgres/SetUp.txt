@@ -1,0 +1,81 @@
+Как установить PostgreSQL на Debian 11 Bullseye
+Опубликовано: вторник, 24 мая 2022 г. by Джошуа Джеймс
+
+PostgreSQL — это высокостабильная и надежная система управления базами данных, которая используется уже более 20 лет. Он поддерживается активным сообществом, которое вкладывает свое время в его развитие, что приводит к более высоким уровням устойчивости, целостности и правильности. PostgreSQL используется во многих веб-приложениях, в том числе в хранилище геопространственных данных Google Earth Engine для аналитического программного обеспечения, такого как наборы инструментов прогнозного моделирования, созданные с использованием алгоритмов машинного обучения, созданных в пакетах R/Rapidminer.
+
+В следующем руководстве вы узнаете, как установить PostgreSQL на Debian 11 Bullseye, используя терминал командной строки и основные советы по настройке и настройке.
+
+Содержание
+Обновить Дебиан
+Установить необходимые пакеты
+Импортировать репозиторий PostgreSQL
+Импорт стабильной версии PostgreSQL (рекомендуется)
+Импортировать тестирование PostgreSQL
+Установка PostgreSQL
+Сервисные команды для PostgreSQL
+Настроить сервер PostgreSQL
+Переход на учетную запись Postgres
+Альтернатива переключению учетной записи Postgres
+Создать пользователя и базу данных
+Настройка брандмауэра UFW
+Удаленный доступ к PostgreSQL
+Комментарии и заключение
+Обновить Дебиан
+Во-первых, обновите свою систему с помощью следующей команды, чтобы убедиться, что все пакеты обновлены, чтобы избежать конфликтов.
+
+sudo apt update && sudo apt upgrade -y
+
+Установить необходимые пакеты
+Следующие пакеты должны быть установлены для облегчения установки программного обеспечения базы данных.
+
+sudo apt install software-properties-common apt-transport-https wget -y
+
+Импортировать репозиторий PostgreSQL
+Advertisement
+
+Во-первых, вам нужно будет импортировать GPG-ключ PostgreSQL, чтобы проверить подлинность установочного пакета.
+
+sudo wget -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql.gpg
+
+Затем вы можете импортировать либо стабильный, либо тестовый репозиторий в зависимости от желаемой установки. Для производственного использования используйте стабильный репозиторий, так как он часто быстро обновляется, поскольку вы устанавливаете его непосредственно из репозиториев PostgreSQL. Тестирование для тестирования, так как иногда оно может отставать или опережать, непригодно для производства.
+
+Импорт стабильной версии PostgreSQL (рекомендуется)
+echo deb [arch=amd64,arm64,ppc64el signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main | sudo tee /etc/apt/sources.list.d/postgresql.list
+
+Импортировать тестирование PostgreSQL
+echo deb [arch=amd64,arm64,ppc64el signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg-testing main | sudo tee /etc/apt/sources.list.d/postgresql-testing.list
+
+Установка PostgreSQL
+Теперь, когда вы импортировали стабильный или тестовый репозиторий PostgreSQL, вам нужно обновить список источников вашего репозитория, чтобы отразить новое добавление, с помощью следующей команды.
+
+sudo apt-get update
+
+Теперь приступайте к установке PostgresSQL следующим образом.
+
+sudo apt install postgresql-client postgresql -y
+
+Затем проверьте статус, чтобы убедиться, что программное обеспечение установлено и активировано без ошибок, используя следующую команду.
+
+systemctl status postgresql
+
+Как установить PostgreSQL на Debian 11 Bullseye
+Сервисные команды для PostgreSQL
+Advertisement
+
+Сервер базы данных PostgreSQL работает как служба под именем «Постгрес SQL», которыми можно управлять с помощью systemd с помощью следующих примеров команд.
+
+Остановить сервер PostgreSQL
+
+sudo systemctl stop postgresql
+Запустите сервер PostgreSQL
+
+sudo systemctl start postgresql
+Перезапустите сервер PostgreSQL.
+
+sudo systemctl restart postgresql
+Перезагрузите сервер PostgreSQL.
+
+sudo systemctl reload postgresql
+Проверить статус PostgreSQL
+
+systemctl status postgresql
