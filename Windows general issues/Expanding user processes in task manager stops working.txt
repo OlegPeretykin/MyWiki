@@ -1,0 +1,3 @@
+Чтобы это исправить, нужно просто убрать отображение "Сеанс".
+
+To fix this, you just need to remove the "Session" display.

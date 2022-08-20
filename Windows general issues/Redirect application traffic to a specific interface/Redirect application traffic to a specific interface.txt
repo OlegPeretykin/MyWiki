@@ -1,0 +1,7 @@
+For exemple:
+
+"C:\Program Files (x86)\ForceBindIP\ForceBindIP.exe" 10.55.55.50 "c:\Program Files\1cv8\8.3.21.1393\bin\1cv8c.exe" /IBNAME PSK
+-----------------------------
+
+https://r1ch.net/projects/forcebindip
+VC_redist - needen, x32 and x64
