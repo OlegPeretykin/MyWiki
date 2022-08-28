@@ -1,0 +1,9 @@
+Fix the problem in my case the following string:
+
+ACTION=="add|change", KERNEL=="dm-*", OPTIONS:="nowatch"
+
+in file /etc/udev/rulesd/90-fixdm.rules
+
+and then command:
+
+systemctl restart udev
