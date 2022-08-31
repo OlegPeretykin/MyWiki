@@ -1,0 +1,189 @@
+Ключи командной строки утилиты control.exe
+Приложение control.exe, входящее в состав современных версий операционных систем Windows (а также в ряд предыдущих) предназначено для вызова Панели управления. В этом легко убедиться, просто запустив control.exe. Однако, приложение это "понимает" ряд параметров командной строки и способно отобразить конкретный мастер или диалог или даже вызвать определенный шаг мастера. Об этом мы сейчас и поговорим.
+
+Содержание  скрыть 
+Ключи командной строки для вызова стандартных диалогов
+Набор ключей вида /NAME
+Опция /PAGE
+Рассмотрим возможные внутренние имена страниц для некоторых мастеров.
+Центр обновления Windows
+Счетчики и средства производительности
+Родительский контроль
+Центр специальных возможностей
+Программы по умолчанию
+Windows Sideshow
+Персонализация
+Электропитание
+Учетные записи пользователей
+Ключи командной строки для вызова стандартных диалогов
+Синтаксис вызова этих диалогов весьма прост:
+[code]control.exe какая-либо-опция[/code]
+Перечень возможных ключей представлен ниже:
+
+USERPASSWORDS2. Учетные записи пользователей
+UPDATE. Центр обновления Windows
+SYSTEM. Система
+SCANNERCAMERA. Сканеры и камеры
+USERPASSWORDS. Учетные записи пользователей
+INFRARED. Инфракрасные устройства
+NETCONNECTIONS. Сетевые подключения
+SCHEDTASKS. Оснастка Планировщик заданий
+ADMINTOOLS. Папка Администрирование
+TELEPHONY. Телефон и модем
+FOLDERS. Свойства папки
+FONTS. Шрифты
+PRINTERS. Принтеры
+KEYBOARD. Свойства: Клавиатура
+MOUSE. Свойства: Мышь
+INTERNATIONAL. Язык и региональные стандарты
+PORTS. Свойства системы
+DATE/TIME. Дата и время
+COLOR. Параметры оформления
+DESKTOP. Персонализация
+Например, можно быстро открыть папку со шрифтами, напечатав в командной строке это:
+[code]control.exe FONTS[/code]
+
+Набор ключей вида /NAME
+Кроме опций, описанных выше, в программе control.exe можно использовать опцию /name. С ее помощью можно вызвать диалог или мастер, создаваемый ActiveX-объектом. Для этого достаточно воспользоваться синтаксисом вида control.exe /name «внутреннее имя ActiveX-объекта», где внутренние имена ActiveX-объектов представлены ниже:
+
+Microsoft.GetProgramsOnline. Открывает http://g.msn.com/WMHFUSEN/101724
+Microsoft.SyncCenter. Центр синхронизации
+Microsoft.NetworkAndSharingCenter. Центр управления сетями и общим доступом
+Microsoft.iSCSIInitiator. Свойства: Инициатор iSCSI
+Microsoft.MobilityCenter. Центр устройств Windows Mobile
+Microsoft.WindowsUpdate. Центр обновления Windows
+Microsoft.WindowsFirewall. Брандмауэр Windows
+Microsoft.WindowsDefender. Защитник Windows
+Microsoft.CardSpace. Windows CardSpace
+Microsoft.UserAccounts. Учетные записи пользователей
+Microsoft.System. Система
+Microsoft.ProgramsAndFeatures. Программы и компоненты
+Microsoft.ProblemReportsAndSolutions. Отчеты о проблемах и их решениях
+Microsoft.PowerOptions. Электропитание
+Microsoft.PerformanceInformationAndTools. Счетчики и средства производительности
+Microsoft.ParentalControls. Родительский контроль
+Microsoft.Fonts. Шрифты
+Microsoft.EaseOfAccessCenter. Центр специальных возможностей
+Microsoft.DefaultPrograms. Программы по умолчанию
+Microsoft.BitLockerDriveEncryption. Шифрование диска BitLocker
+Microsoft.BackupAndRestoreCenter. Центр архивации и восстановления
+Microsoft.AdministrativeTools. Администрирование
+Microsoft.WindowsSideShow. Windows Sideshow
+Microsoft.WindowsSidebarProperties. Свойства боковой панели Windows
+Microsoft.WelcomeCenter. Центр начальной настройки
+Microsoft.TaskbarAndStartMenu. Панель задач и меню ''Пуск''
+Microsoft.SpeechRecognitionOptions. Speech Recognition Options
+Microsoft.Personalization. Персонализация
+Microsoft.FolderOptions. Свойства папки
+Microsoft.ColorManagement. Управление цветом
+Microsoft.AutoPlay. Автозапуск
+Microsoft.ScannersAndCameras. Сканеры и камеры
+Microsoft.Printers. Принтеры
+Microsoft.DeviceManager. Диспетчер устройств
+Microsoft.AddHardware. Установка оборудования
+В качестве примера - открытие параметров брандмауэра:
+[code]control.exe /NAME Microsoft.WindowsFirewall[/code]
+
+Опция /PAGE
+Используется совместно с опцией /NAME, чтобы вызвать определенный шаг мастера. Синтаксис вызова таков:
+[code]control.exe /name «внутреннее имя ActiveX-объекта» /PAGE «внутреннее имя страницы»[/code]
+
+Рассмотрим возможные внутренние имена страниц для некоторых мастеров.
+ЦЕНТР ОБНОВЛЕНИЯ WINDOWS
+[code]control.exe /Name Microsoft.WindowsUpdate /page «имя страницы» [/code]
+
+pageCustomInstall. Открывает шаг Просмотр доступных обновлений
+pageSettings. Открывает шаг Изменить параметры
+pageUpdateHistory. Открывает шаг Просмотр журнала обновлений
+pageHiddenUpdates. Открывает шаг Восстановить скрытые обновления
+СЧЕТЧИКИ И СРЕДСТВА ПРОИЗВОДИТЕЛЬНОСТИ
+[code]control.exe /Name Microsoft.PerformanceInformationAndTools /page «имя страницы» [/code]
+
+PerfCenterAdvTools. Открывает шаг Дополнительные инструменты
+РОДИТЕЛЬСКИЙ КОНТРОЛЬ
+[code]control.exe /Name Microsoft.ParentalControls /page «имя страницы» [/code]
+
+pageUserHub. Открыть страницу родительского контроля
+pageUserHub\pageGamesHub. Открыть шаг Средства управления играми
+pageUserHub\pageGamesHub\pageGameRestrictions. Открыть шаг Ограничения на игры
+pageUserHub\pageGamesHub\pageGameOverrides. Открыть шаг Особые ограничения на отдельные игры
+pageUserHub\pageWebRestrictions. Открыть шаг Ограничения на просмотр веб-страниц
+pageUserHub\pageWebRestrictions\pageWebAllowBlock. Открыть шаг Разрешить запрещенные веб-страницы
+pageUserHub\pageTimeRestrictions. Открыть шаг Ограничения по времени
+pageUserHub\pageAppRestrictions. Открыть шаг Ограничения на приложения
+pageUserHub\pageActivityViewer. Открыть шаг Средство просмотра действий пользователя
+pageNotifications. Открыть шаг Параметры семейной безопасности
+pageGameRatingSystems. Открыть шаг Системы оценки игр
+pageUserAdd. Открыть шаг Создать пользователя
+pageEnsurePasswords. Открыть шаг Обеспечить пароли
+ЦЕНТР СПЕЦИАЛЬНЫХ ВОЗМОЖНОСТЕЙ
+[code]control.exe /Name Microsoft.EaseOfAccessCenter /page «имя страницы» [/code]
+
+pageQuestionsEyesight. Узнать, как настроить этот компьютер для людей с ограничениями по зрению
+pageQuestionsDexterity. Узнать, как настроить этот компьютер для людей с ограничениями подвижности
+pageQuestionsHearing. Узнать, как настроить этот компьютер для людей с ограничениями слуха
+pageQuestionsSpeech. Узнать, как настроить этот компьютер для людей с ограничениями речи
+pageQuestionsCognitive. Узнать, как настроить этот компьютер для людей, испытывающих затруднения при работе с текстом
+pageNoVisual. Использование компьютера без экрана
+pageEasierToSee. Оптимизация изображения на экране
+pageEasierToClick. Облегчение работы с мышью
+pageKeyboardEasierToUse. Облегчение работы с клавиатурой
+pageNoMouseOrKeyboard. Использование компьютера без мыши или клавиатуры
+pageEasierWithSounds. Использование текста или зрительных образов вместо звуков
+pageEasierToReadAndWrite. Облегчение сосредоточения на задачах
+pageMouseKeysSettings. Настроить кнопки мыши
+pageFilterKeysSettings. Настроить кнопки фильтра
+pageRepeatRateSlowKeysSettings. Настроить повторные и медленные нажатия клавиш
+pageRecommendations. Рекомендуемые параметры
+pageAdminSettings. Параметры администрирования
+pageStickyKeysSettings. Настроить залипание клавиш
+ПРОГРАММЫ ПО УМОЛЧАНИЮ
+[code]control.exe /Name Microsoft.DefaultPrograms /page «имя страницы» [/code]
+
+pageDefaultProgram. Выбор программ по умолчанию
+pageDefaultProgram\pageAdvancedSettings. Сопоставление программ
+pageDefaultProgram\pageAdvancedSettingsRedirect. Сопоставление программ
+pageFileAssoc. Задать сопоставления
+WINDOWS SIDESHOW
+[code]control.exe /Name Microsoft.WindowsSideShow /page «имя страницы» [/code]
+
+pageDevice. Изменение параметров устройства
+pageChangeSettingsDeviceSelector. Выбор устройства
+pageReorderGadgetsDeviceSelector. Выбор устройства
+pageGadgetOrder. Изменение порядка мини-приложений
+pageAutoWake. Автоматическое пробуждение
+ПЕРСОНАЛИЗАЦИЯ
+[code]control.exe /Name Microsoft.Personalization /page «имя страницы» [/code]
+
+pageColorization. Цвет и внешний вид окна
+pageWallpaper. Фоновый рисунок рабочего стола
+ЭЛЕКТРОПИТАНИЕ
+[code]control.exe /Name Microsoft.PowerOptions /page «имя страницы» [/code]
+
+pageCreateNewPlan. Создать план электропитания
+pagePlanSettings. Изменить параметры плана
+pageGlobalSettings. Системные параметры
+УЧЕТНЫЕ ЗАПИСИ ПОЛЬЗОВАТЕЛЕЙ
+[code]control.exe /Name Microsoft.UserAccounts /page «имя страницы» [/code]
+
+pageRenameMyAccount. Изменение своего имени
+pageChangeMyChoices. Изменение своей учетной записи (только домен)
+pageChangeMyPassword. Изменение своего пароля
+pagePickMyPicture. Изменение своего рисунка
+pageCreateMyPassword. Создание своего пароля
+pageRemoveMyPassword. Удаление своего пароля
+pageChangeMyAccountType. Изменение типа своей учетной записи
+pageChangeSecuritySettings. Включение или отключение контроля учетных записей (UAC).Эта страница присутствует только в Windows Vista. Для Windows 7+ можно воспользоваться командой UserAccountControlSettings.exe.
+pageAdminTasks. Управление учетными записями
+pageAdminTasks\pageNameNewAccount. Создание новой учетной записи
+pageAdminTasks\pageChangeChoices. Изменение учетной записи
+pageAdminTasks\pageChangeChoices\pagePickPicture. Выбор рисунка
+pageAdminTasks\pageChangeChoices\pageRenameAccount. Переименование учетной записи
+pageAdminTasks\pageChangeChoices\pageChangePassword. Сменить пароль
+pageAdminTasks\pageChangeChoices\pageChangeAccountType. Изменение типа учетной записи
+pageAdminTasks\pageChangeChoices\pageCreatePassword. Создать пароль
+pageAdminTasks\pageChangeChoices\pageRemovePassword. Удалить пароль
+pageAdminTasks\pageTurnOnGuestAccount. Включение учетной записи гостя
+pageAdminTasks\pageChangeGuestChoices. Изменение параметров гостя
+pageAdminTasks\pageDeleteAccount. Удаление учетной записи
+pagedminTasks\pageDeleteAccount\pageConfirmDeleteAccount. Подтверждение удаления
