@@ -1,0 +1,5 @@
+sudo apt purge code
+rm -r ~/.config/Code
+
+extensions:
+~/.vscode

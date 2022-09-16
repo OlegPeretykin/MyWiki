@@ -1,2 +1,20 @@
 for i in $(pip list -o | awk 'NR > 2 {print $1}'); do sudo pip install -U $i; done
+----------------
 
+pip help - помощь по доступным командам.
+
+pip install package_name - установка пакета(ов).
+
+pip uninstall package_name - удаление пакета(ов).
+
+pip list - список установленных пакетов.
+
+pip show package_name - показывает информацию об установленном пакете.
+
+pip search - поиск пакетов по имени.
+
+pip --proxy user:passwd@proxy.server:port - использование с прокси.
+
+pip install -U - обновление пакета(ов).
+
+pip install --force-reinstall - при обновлении, переустановить пакет, даже если он последней версии.
