@@ -1,0 +1,54 @@
+How To Install XRDP (Remote Desktop) on Fedora
+RahulBy RahulJune 13, 20214 Mins ReadUpdated:June 15, 2021
+Remote Desktop Protocol (RDP) is a protocol that allows users to access desktops on remote systems. The XRDP service provides you a graphical login to the remote machines using Microsoft RDP (​Remote Desktop Protocol). The XRDP also supports two-way clipboard transfer (text, bitmap, file), audio redirection, and drive redirection (mount local client drives on the remote machines).
+
+This tutorial helps you to Install XRDP Server (Remote Desktop) on a Fedora Linux system. Also provides the instructions to install a Desktop environment on your system.
+
+Step 1 – Install Desktop Environment
+Fedora workstation comes with a default desktop environment. In case you have installed Fedora minimal version or server edition will not have desktop installed. The XRDP server is designed to controls only desktop systems. So you will need to add a desktop environment to your system.
+
+Open a terminal and upgrade all installed packages with the following command:
+
+sudo dnf upgrade 
+Once your system is updated, install search for the available Desktop environment for your system.
+
+sudo dnf grouplist -v 
+Choose a desktop environment to be installed on your system. The below command will install KDE Plasma desktop on your Fedora system.
+
+sudo dnf install @kde-desktop-environment 
+Make sure to use “@” before the package name as you are going to install a group of packages.
+
+Once the installation finished, restart your system to apply the changes.
+
+Step 2 – Install Xrdp (Remote Desktop) on Fedora
+The Xrdp packages are available under the default system repositories. You can install the remote desktop service (xrdp) on your Fedora system by executing the following command.
+
+sudo dnf install xrdp -y 
+Once the packages installed successfully, start the xrdp service and enable it to auto-start with system boots.
+
+sudo systemctl enable xrdp 
+sudo systemctl start xrdp 
+Verify the service is started successfully.
+
+sudo systemctl status xrdp 
+Running XRDP on Fedora (Remote Desktop Service)
+Running XRDP Service on Fedora
+The above output shows the Xrdp service is up and running.
+
+Step 3 – Adjust Firewall
+The XRDP service uses a standard remote desktop protocol port ie 3389. The fedora systems come with the active FireallD service. So you need to allow access on port 3389 in the firewall for the remote systems.
+
+Execute the following command to open firewall access:
+
+sudo firewall-cmd --permanent --add-port=3389/tcp 
+Reload the new rules.
+
+sudo firewall-cmd --reload 
+All right, Your system is ready to access over RDP protocol.
+
+Step 4 – Manage SELinux
+The systems have SELinux enforcing required to apply SELinux context on xrdp binaries. The following commands will allow the XRDP service to be accessible for remote users.
+
+sudo chcon --type=bin_t /usr/sbin/xrdp 
+sudo chcon --type=bin_t /usr/sbin/xrdp-sesman 
+At this stage, your system is ready with Remote desktop service. Now connect to your system using any RDP client.

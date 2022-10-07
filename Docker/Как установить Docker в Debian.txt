@@ -63,3 +63,15 @@ sudo apt install docker-compose
 
 systemctl start docker
 
+!!!!!!!!!!!!!!!!!!!
+For Proxmox
+
+надо:
+1. Nesting нужен для возможности управлять cgroup’ами 
+2. руками поправить конфигурационный файл контейнера (/etc/pve/lxc/CONTAINERNUMBER.conf), добавив следующее:
+
+lxc.apparmor.profile: unconfined
+lxc.cgroup.devices.allow: a
+lxc.cap.drop:
+
+Первая строчка выключает apparmor для контейнера (а это нужно так как Docker внутри будет “развлекаться” с фаерволом и сетью), вторая - разрешает делать всякое со всеми нодами в /dev, третья выключает сброс ядерных capabilities.
