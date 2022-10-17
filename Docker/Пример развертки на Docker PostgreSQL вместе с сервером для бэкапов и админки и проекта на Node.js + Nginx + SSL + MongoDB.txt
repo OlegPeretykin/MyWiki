@@ -1,0 +1,225 @@
+Пример развертки на Docker PostgreSQL вместе с сервером для бэкапов и админки и проекта на Node.js + Nginx + SSL + MongoDB
+Опубликовано 23.02.2022 Автор: Дмитрий Поляков / Нет комментариев
+
+Dockerfile — для бэкапов
+Для начала создадим образ через Dockerfile, для бэкапов, для остального будем использовать образы из Docker Hub
+
+Создаем в папке два файла Dockerfile и файл скрипта для автоматического бэкапа баз.
+
+Файл Dockerfile:
+
+FROM postgres:alpine
+
+COPY db-backup.sh /usr/local/bin/db-backup.sh
+
+RUN echo '0  23  *  *  *    /usr/local/bin/db-backup.sh' > /etc/crontabs/root
+
+CMD ["crond", "-f", "-d", "0"]
+В этом файле говорится, что образ будет создаваться на основании postgres:alpine
+
+В него копируется скрипт для копирования, под название db-backup.sh
+
+Устанавливается команда для cron, которая говорит, что скрипт нужно запускать каждый день в 23 часа.
+
+И запускается cron на переднем плане.
+
+Сам файлик для бэкапа db-backup.sh может быть таким:
+
+#!/bin/sh
+
+now=$(date +"%d-%m-%Y_%H-%M")
+
+DB_BASE=`/bin/su postgres -c "/usr/local/bin/psql -h db -qAt -c 'SELECT datname FROM pg_database;'" | \
+     cut -d"|" -f1 | /bin/grep -v template | /bin/grep -v postgres`
+
+echo $DB_BASE
+
+for DB_NAME in $DB_BASE
+  do
+    /usr/local/bin/pg_dump -h db -U postgres ${DB_NAME} > "/backup/db_${DB_NAME}_$now.sql"
+    /usr/local/bin/pg_dump -Fc -h db -U postgres ${DB_NAME} > "/backup/db_${DB_NAME}_$now.dump"
+done
+
+find /backup -name "*.sql" -type f -mtime +30 -delete
+find /backup -name "*.dump" -type f -mtime +30 -delete
+
+exit 0
+Для того чтобы скомпоновать образ, можно запустить команду:
+
+docker build . -t localhost:5000/cron:latest
+Dockerfile — для проекта Node.js
+В папке проекта на Node.js, создаем Dockerfile, примерно с таким содержимым:
+
+FROM node
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 5001
+
+# Для приложения написанного на Node.js
+CMD ["node", "app.js"]
+Для его компоновки, можем использовать команду:
+
+docker build . -t localhost:5000/api:latest
+Docker файл для Nginx
+FROM nginx:alpine
+
+RUN apk add --update python3 py3-pip
+
+RUN apk add --no-cache certbot
+
+RUN pip install certbot-nginx
+Для его компоновки можем использовать команду:
+
+docker build . -t localhost:5000/proxy
+Файл docker-compose.yml
+Далее можно в другой папке, создаем файл docker-compose.yml:
+
+version: '3.1'
+
+services:
+  proxy:
+    image: localhost:5000/proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - 'letsencrypt:/etc/letsencrypt'
+      - './nginx.conf:/etc/nginx/nginx.conf'
+
+  api:
+    image: localhost:5000/api
+    environment:
+      EMAIL_PORT: 465
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - 'mongodb:/data/db'
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: Сюда пароль пишем :)
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+
+  db-backup:
+    image: localhost:5000/cron
+    environment:
+      PGPASSWORD: Сюда тоже пароль пишем
+    volumes:
+      - './backup:/backup'
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  pgdata:
+    external: true
+
+  letsencrypt:
+    external: true
+
+  mongodb:
+    external: true
+Далее нам нужно создать volume, его будем использовать для базы данных:
+
+docker volume create pgdata
+Еще один volume, для сертификатов ssl
+
+docker volume create letsencrypt
+Еще volume, для mongo
+
+docker volume create mongodb
+Первоначальный файл nginx.conf
+В той же папке где и docker-compose.yml
+
+
+user nginx;
+worker_processes auto;
+
+error_log /var/log/nginx/error.log notice;
+pid       /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+	    root /var/www/html;
+
+	    # Add index.php to the list if you are using PHP
+	    index index.html index.htm index.nginx-debian.html;
+
+	    server_name api.polyakovdmitriy.ru;
+
+	    location / {
+		    # First attempt to serve request as file, then
+		    # as directory, then fall back to displaying a 404.
+
+		    proxy_pass http://api:5001;
+		    proxy_http_version 1.1;
+		    proxy_set_header Upgrade $http_upgrade;
+		    proxy_set_header Connection 'upgrade';
+		    proxy_set_header Host $host;
+		    proxy_cache_bypass $http_upgrade;
+	    }
+      }
+}
+Запуск docker compose:
+docker-compose up -d
+Который разворачивает все контейнеры.
+
+Дальше нужно зайти в контейнер proxy и получить сертификат
+Входим в контейнер:
+
+docker exec -it <Контейнер> /bin/sh
+Получаем сертификат:
+
+certbot --nginx -d api.polyakovdmitriy.ru
+Остановка docker compose, производится командой:
+docker-compose down
+Создать копию базы mongo, можно командой:
+docker exec some-mongo sh -c 'exec mongodump -d <database_name> --archive' > /some/path/on/your/host/all-collections.archive
+
