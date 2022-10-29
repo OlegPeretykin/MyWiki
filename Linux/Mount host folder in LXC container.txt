@@ -1,0 +1,3 @@
+sudo pct set 140 -mp0 /test01,mp=/test01
+
+
