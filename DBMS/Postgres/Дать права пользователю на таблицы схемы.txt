@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for table in `echo "SELECT schemaname || '.' || relname FROM pg_stat_user_tables;" | psql -A -t my_database_name`;
+do
+    echo "GRANT SELECT ON TABLE $table to my_new_user;"
+    echo "GRANT SELECT ON TABLE $table to my_new_user;" | psql my_database_name
+done
