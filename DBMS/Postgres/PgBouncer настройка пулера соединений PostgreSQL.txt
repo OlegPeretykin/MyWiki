@@ -1,0 +1,80 @@
+PgBouncer настройка пулера соединений PostgreSQL
+Добавить комментарий
+ 4 519
+PgBouncer (https://pgbouncer.github.io/) это пулер соединений для PostgreSQL. Если планируется что к базам будет много одновременных
+коннектов, то необходимо настраивать пулер соединений, т.к. PostgreSQL на каждое соединение создает отдельный процесс и общая
+производительность СУБД начинает деградировать с увеличением числа коннектов. Если планируется более 500-1000 соединений, то
+настраивается пулер, например, pgbouncer.
+
+Устанавливаем на сервер PostgreSQL pgbouncer и выдаем права на директории конфигов и логов:
+
+?
+1
+2
+3
+sudo yum install pgbouncer
+chown -R postgres:postgres /etc/pgbouncer
+chmod 755 /var/log/pgbouncer
+
+Так же необходимо выдать пользователю postgres права на выполнение команд sudo /bin/systemctl start/status/stop pgbouncer.
+Далее, если будет достаточно много коннектов, возможно потребуется увеличить лимит на количество открытых файлов pgbouncer. Для
+задания нового лимита редактируем файл /etc/systemd/system/pgbouncer.service.d/override.conf прописывая следующее:
+
+?
+1
+2
+[Service]
+LimitNOFILE=8192
+И перечитываем конфигурацию сервиса:
+
+?
+1
+sudo /bin/systemctl daemon-reload
+Редактируем файл конфига /etc/pgbouncer/pgbouncer.ini:
+
+
+[databases]
+; fallback connect string
+* = host=localhost port=5432
+ 
+[pgbouncer]
+logfile = /var/log/pgbouncer/pgbouncer.log
+pidfile = /var/run/pgbouncer/pgbouncer.pid
+listen_addr = *
+listen_port = 6432
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+admin_users = postgres
+stats_users = stats, postgres
+pool_mode = transaction
+server_reset_query = DISCARD ALL
+ignore_startup_parameters = extra_float_digits
+max_client_conn = 5000
+default_pool_size = 100
+Подробно настройки описаны в доке https://pgbouncer.github.io/config.html
+
+Теперь, необходимо настроить доступ для пользователей которые ходят в PostgreSQL. Для этого смотрим список пользователей и хеши
+md5 их паролей (колонка passwd), выполнив в PostgreSQL запрос:
+
+?
+1
+select * from pg_shadow;
+Создаем файл /etc/pgbouncer/userlist.txt и вносим туда пользователей и md5 хеши (ниже пример заполнения):
+
+?
+1
+vi /etc/pgbouncer/userlist.txt
+?
+1
+2
+3
+"postgres" "md5098f6bcd4621d373cade4e832627b4f6"
+"zabbix" "md5ad0234829205b9033196ba818f7a872b"
+"grafana" "md58ad8757baa8564dc136c1e07507f4a98"
+Запускаем pgbouncer:
+
+?
+1
+sudo /bin/systemctl start pgbouncer
+Пробуем подключиться, смотрим логи pgbouncer и PostgreSQL.
+
