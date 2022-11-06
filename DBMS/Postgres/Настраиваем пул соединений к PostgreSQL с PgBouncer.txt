@@ -1,0 +1,118 @@
+Настраиваем пул соединений к PostgreSQL с PgBouncer
+17 января 2018
+
+Типичные веб-проекты, разрабатываемые на чем-то вроде Python или PHP, характерны тем, что создают большое количество соединений к СУБД — по одному, а иногда и по несколько, на каждый HTTP-запрос. Имея классическую архитектуру «один процесс на соединение», PostgreSQL не очень хорошо справляется с большим (условно, больше 100) количеством соединений. Решить проблему позволяет пулер соединений под названием PgBouncer. Благодаря использованию библиотеки libevent, PgBouncer может поддерживать большое количество (тысячи) соединений, которые проксируются на несколько (пара десятков) соединений непосредственно к PostgreSQL.
+
+Данная заметка предполагает, что на сервере у вас используется Ubuntu Linux, так как сегодня это, по всей видимости, наиболее популярный серверный дистрибутив Linux. Отличия описанный далее шагов для других дистрибутивов будут минимальными. Также предполагается, что на сервере уже установлен PostgreSQL. Установка и начальная настройка PostgreSQL ранее подробно рассматривались в статье Начало работы с PostgreSQL.
+
+Устанавливается PgBouncer очень просто:
+
+sudo apt-get install pgbouncer
+По умолчанию прокси слушает порт 6432. Логи можно почитать так:
+
+less /var/log/postgresql/pgbouncer.log.
+Конфигурационный файл называется /etc/pgbouncer/pgbouncer.ini. Рассмотрим основные параметры.
+
+;; database name = connect string
+;;
+;; connect string params:
+;;   dbname= host= port= user= password=
+;;   client_encoding= datestyle= timezone=
+;;   pool_size= connect_query=
+;;   auth_user=
+[databases]
+
+* = host=localhost port=5432
+Здесь мы можем указать, на каких серверах какие базы нужно искать. Звездочкой обозначается дэфолтный сервер. Кстати, это хоть еще и примитивный, но все-таки уже шардинг.
+
+Не менее важная настройка:
+
+; When server connection is released back to pool:
+;   session      - after client disconnects
+;   transaction  - after transaction finishes
+;   statement    - after statement finishes
+pool_mode = transaction
+По умолчанию стоит в session, то есть, сессия будет удерживаться клиентом до тех пор, пока он не закроет соединение. Чаще всего значение имеет смысл заменить на transaction. В этом случае соединение будет возвращаться в общий пул после завершения транзакции. Значение statement означает, что соединение будет освобождаться после выполнения каждого отдельного выражения, чего вы почти наверняка не должны хотеть.
+
+Настройки размера пула:
+
+; total number of clients that can connect
+max_client_conn = 1000
+
+; default pool size.  20 is good number when transaction pooling
+; is in use, in session pooling it needs to be the number of
+; max clients you want to handle at any moment
+default_pool_size = 20
+
+;; Minimum number of server connections to keep in pool.
+;min_pool_size = 0
+Здесь я увеличил максимальное количество клиентских соединений до 1000. Значение, используемое по умолчанию, равно 100.
+
+Настройки аутентификации:
+
+; any, trust, plain, crypt, md5, cert, hba, pam
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+… и доступа к админке pgbouncer:
+
+;;;
+;;; Users allowed into database 'pgbouncer'
+;;;
+
+; comma-separated list of users, who are allowed to change settings
+admin_users = eax
+
+; comma-separated list of users who are just allowed to use
+;    SHOW command
+;stats_users = stats, root
+Важно! Параметр auth_type по умолчанию имеет значение trust. То есть, PgBouncer будет пускать всех в базу данных без запроса пароля. Вы почти наверняка этого не хотите.
+
+Файл /etc/pgbouncer/userlist.txt содержит имена пользователей и пароли, с которыми PgBouncer подключается к базе. Например:
+
+"eax" "qwerty"
+Пароли не обязательно хранить открытым текстом:
+
+"eax" "md5175c641eaed0b6c05ae8444b73d789f0"
+Здесь хэш 175c641e... был посчитан как MD5 от пароля, следом за которым записано имя пользователя:
+
+echo -n 'qwertyeax' | md5sum
+Теперь, когда PgBouncer настроен, можно перезапустить его:
+
+sudo service pgbouncer restart
+… и ломиться в базу:
+
+psql -p 6432 -U eax
+Если все было сделано правильно, PgBouncer запросит пароль. В приведенном примере пароль, с которым пользователь ходит в PostgreSQL напрямую, и пароль, запрашиваемый PgBouncer — это один и тот же пароль. Если вдруг что-то не работает, рекомендую начать с проверки настройки аутентификации самого PostgreSQL (файл pg_hba.conf).
+
+Выше пользователь eax был добавлен в admin_users, что дает ему доступ в админку PgBouncer. Вход в админку осуществляется так:
+
+psql -p 6432 -U eax pgbouncer
+Наиболее интересная из доступных команд — это перечитывание конфигурации без перезапуска сервера:
+
+RELOAD;
+Информацию о других доступных командах можно посмотреть так:
+
+SHOW HELP;
+Пример вывода:
+
+DETAIL:
+    SHOW HELP|CONFIG|DATABASES|POOLS|CLIENTS|SERVERS|VERSION
+    SHOW FDS|SOCKETS|ACTIVE_SOCKETS|LISTS|MEM
+    SHOW DNS_HOSTS|DNS_ZONES
+    SHOW STATS|STATS_TOTALS|STATS_AVERAGES
+    SET key = arg
+    RELOAD
+    PAUSE [<db>]
+    RESUME [<db>]
+    DISABLE <db>
+    ENABLE <db>
+    KILL <db>
+    SUSPEND
+    SHUTDOWN
+Проверяем, что все работает, запустив pgbench с 900 соединенинями:
+
+pgbench -i
+pgbench -p 6432 -c 900 -C -T 60 -P 1
+Если все было сделано правильно, pgbench будет превосходно работать, а команда SHOW CLIENTS;, выполненная в админке PgBouncer, покажет 900 соединений. При этом вывод ps wuax | grep postgres покажет, что реально запущено лишь 20 бэкендов PostgreSQL.
+
+Как видите, пользоваться PgBouncer легко и приятно. А вы боялись!
