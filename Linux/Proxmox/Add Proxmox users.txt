@@ -1,0 +1,4 @@
+adduser <name>
+pveum useradd <name>@pam
+pveum passwd <name>@pam
+pveum aclmod / -user <name>@pam -role Administrat
