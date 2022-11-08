@@ -1,0 +1,6 @@
+For Windows 10:
+
+go to Edit language and keyboard options -> Advanced Keyboard Settings -> Language Bar Options -> Advanced Key Settings
+select Change Key Sequence for Between Input Languages
+change "Switch Keyboard Layout" to "Not Assigned"
+enjoy the good life.  The Windows+Space option still works; if you want that, see the upvoted answer.
