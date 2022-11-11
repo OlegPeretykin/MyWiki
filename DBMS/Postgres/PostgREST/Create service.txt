@@ -1,0 +1,29 @@
+#создаю файл сервиса
+nano /etc/systemd/system/postgrest.service
+
+#Содержимое файла
+
+[Unit]
+Description=REST API for any Postgres database
+After=postgresql.service
+
+[Service]
+Type=simple
+User=pgadmin
+ExecStart=/home/pgadmin/postgrest /home/pgadmin/postgrest.conf
+ExecReload=/bin/kill -SIGUSR1 $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+
+#Обновляю список сервисов
+systemctl daemon-reload
+
+#Запускаю сервис
+systemctl start postgrest
+
+#Проверяю корректность запуска
+systemctl status postgrest
+
+#Устанавливаю атозапуск
+systemctl enable postgrest
