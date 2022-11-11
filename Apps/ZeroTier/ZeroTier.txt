@@ -34,10 +34,15 @@ Finally start the container
 ------------------------------------
 
 echo "deb http://download.zerotier.com/debian/bullseye bullseye main" >/etc/apt/sources.list.d/zerotier.list
-$SUDO chown 0 /etc/apt/sources.list.d/zerotier.list
-$SUDO chgrp 0 /etc/apt/sources.list.d/zerotier.list
+chown 0 /etc/apt/sources.list.d/zerotier.list
+chgrp 0 /etc/apt/sources.list.d/zerotier.list
 
 sudo apt install -y zerotier-one
 -----------------------------------
 
+If you’re willing to rely on SSL to authenticate the site, a one line install can be done with:
+curl -s https://install.zerotier.com | sudo bash
 
+If you have GPG installed, a more secure option is available:
+curl -s 'https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg' | gpg --import && \
+if z=$(curl -s 'https://install.zerotier.com/' | gpg); then echo "$z" | sudo bash; fi
