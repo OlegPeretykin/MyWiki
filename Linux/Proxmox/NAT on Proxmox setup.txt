@@ -1,0 +1,56 @@
+1. Настройка Proxmox для NAT.
+1.1. В сетевых настройках Proxmox вы видите интерфейс, например vmbr0 с типом Linux Bridge, у которого ip-адресом является внешний адрес вашего сервера, по которому вы и подключаетесь к вашему серверу.
+Для настройка NAT Proxmox необходим еще один Linux Bridge интерфейс, который будет является внутренней сетью для виртуальных машин. Создадим его и назовем например, vmbr100, с адресом 192.168.100.0/24 (поле IPv4/CIDR) и Comment NAT.
+
+Proxmox_network
+1.2. Теперь подключаемся в Linux-машине (Debian), на которой развернут Proxmox и настроим сетевой интерфейс аналогично настройкам в Proxmox, который будет являться шлюзом виртуальных машин, для выхода в интернет.
+Настройки сетевого интерфейса выполняем в /etc/network/interfaces, которые выглядят примерно так:
+
+auto vmbr0
+iface vmbr0 inet static
+	address 4X.XX.XX.X4/26
+	gateway 4X.XX.XX.XX
+	bridge-ports enp0sXXX
+	bridge-stp off
+	bridge-fd 1
+	pointtopoint 4X.XX.XX.XX
+	bridge_hello 2
+	bridge_maxage 12
+	
+auto vmbr100
+iface vmbr100 inet manual
+	bridge-ports none
+	bridge-stp off
+	bridge-fd 0
+где iface vmbr0 — это внешний интерфейс сервера, который трогать нельзя, а iface vmbr100 — это созданный нам в proxmox интерфейс для NAT, который требуется настроить со статическим адресом 192.168.100.1, с пробросом трафика, настройками NAT и привести к такому виду:
+
+auto vmbr0
+iface vmbr0 inet static
+	address 4X.XX.XX.X4/26
+	gateway 4X.XX.XX.XX
+	bridge-ports enp0sXXX
+	bridge-stp off
+	bridge-fd 1
+	pointtopoint 4X.XX.XX.XX
+	bridge_hello 2
+	bridge_maxage 12
+	
+auto vmbr100
+iface vmbr100 inet static
+	address 192.168.100.1
+	netmask 255.255.255.0
+	bridge-ports none
+	bridge-stp off
+	bridge-fd 0
+	
+#NAT
+post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+post-up iptables -t nat -A POSTROUTING -s '192.168.100.0/24' -o vmbr0 -j MASQUERADE
+post-down iptables -t nat -D POSTROUTING -s '192.168.100.0/24' -o vmbr0 -j MASQUERADE
+Проброс портов мы выполнили строчкой post-up echo 1 > /proc/sys/net/ipv4/ip_forward, можно аналогично выполнить настройку в файле /etc/sysctl.conf, дописав в него строчку:
+
+net.ipv4.ip_forward=1
+Перезагружаем сервер:
+
+sudo reboot
+На этом настройка сервера завершена.
