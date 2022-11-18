@@ -1,0 +1,5 @@
+CREATE TABLE duplicate_table_name AS (SELECT * FROM table_name);
+
+CREATE TABLE table_name AS (SELECT * FROM table_name) with no data;
+
+CREATE TABLE table_to_be_duplicated AS TABLE table_to_be_copied_from;
