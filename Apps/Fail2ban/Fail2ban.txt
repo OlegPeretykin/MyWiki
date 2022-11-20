@@ -1,0 +1,31 @@
+Fail2ban
+Jump to navigationJump to search
+Protecting the web interface with fail2ban
+apt install fail2ban
+Create, if does not exist, the file jail.local (settings in this file takes precedence over identical settings of jail.conf. Use jail.conf as a template, copying and enabling into jail.local what you are interested in. Note that jail.conf could be overwritten by fail2ban package updates, jail.local will not)
+
+The following configuration works, unchanged, for Proxmox VE > 3.x (last test with 7.1)
+
+Add the following string to the end of this file /etc/fail2ban/jail.local :
+
+[proxmox]
+enabled = true
+port = https,http,8006
+filter = proxmox
+logpath = /var/log/daemon.log
+maxretry = 3
+# 1 hour
+bantime = 3600
+Create the file /etc/fail2ban/filter.d/proxmox.conf :
+
+[Definition]
+failregex = pvedaemon\[.*authentication failure; rhost=<HOST> user=.* msg=.*
+ignoreregex =
+You can test your configuration trying to GUI login with a wrong password or user, and then issue the command :
+
+fail2ban-regex /var/log/daemon.log /etc/fail2ban/filter.d/proxmox.conf
+You should have *at least* a "Failregex: 1 total" at the top of the "Results" section (and "1 matched" at the bottom)
+
+Restart fail2ban:
+
+systemctl restart fail2ban
