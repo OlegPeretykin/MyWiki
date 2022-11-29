@@ -1,0 +1,5 @@
+vim /etc/ssh/sshd_config
+
+И для параметра PermitRootLogin изменить значение с no на yes:
+
+PermitRootLogin yes
