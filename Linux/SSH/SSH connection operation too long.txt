@@ -1,0 +1,23 @@
+Открываем конфиг с настройками  сервера SSH:
+  # vim /etc/ssh/sshd_config
+
+Устанавливаем опцию UseDNS и ее параметр в «no»:
+  [...]
+  UseDNS no
+  [...]
+
+Устанавливаем параметр GSSAPIAuthentication и ее опцию в «no» :
+  [...]
+  GSSAPIAuthentication no
+  [...]
+
+Ребутим сервер OpenSSH для того чтобы применились все изменения.
+  # service sshd restart
+
+В ИТОГЕ ПОРЯДОК ДЕЙСТВИЙ, КОТОРЫЕ ПРИВЕЛИ К УДАЧЕ:
+    1. Подключаемся к серверу: ssh -vvv user@host -p port
+    2. Смотрим на чем происходит зависание.
+    3. Если зависание на "pledge network" в конфигурационном файле: /etc/ssh/sshd_config ставим свойство UsePAM no
+    4. service sshd restart
+Бывает полезно глянуть что вообще с SSH:
+  journalctl -u sshd -r
