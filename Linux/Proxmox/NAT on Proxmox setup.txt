@@ -43,11 +43,12 @@ iface vmbr100 inet static
 	bridge-stp off
 	bridge-fd 0
 	
-#NAT
+#NAT   !!! этот блок надо просто добавить и изменить адреса !!!
 post-up echo 1 > /proc/sys/net/ipv4/ip_forward
 post-up iptables -t nat -A POSTROUTING -s '192.168.100.0/24' -o vmbr0 -j MASQUERADE
 post-down iptables -t nat -D POSTROUTING -s '192.168.100.0/24' -o vmbr0 -j MASQUERADE
-Проброс портов мы выполнили строчкой post-up echo 1 > /proc/sys/net/ipv4/ip_forward, можно аналогично выполнить настройку в файле /etc/sysctl.conf, дописав в него строчку:
+Проброс портов мы выполнили строчкой post-up echo 1 > /proc/sys/net/ipv4/ip_forward,
+можно аналогично выполнить настройку в файле /etc/sysctl.conf (!!! тут строку надо расблокировать !!!), дописав в него строчку:
 
 net.ipv4.ip_forward=1
 Перезагружаем сервер:
