@@ -1,0 +1,19 @@
+
+1. check if pip exists
+python3 -m pip --version
+
+   if pip not exist:
+   sudo apt install python3-pip python3-venv
+
+2. create v-env
+python3 -m venv ansible
+source ansible/bin/activate
+
+3. update python instal system
+python -m pip install --upgrade pip setuptools wheel
+
+4. install and check Ansible
+python -m pip install --upgrade ansible
+ansible --version
+python3 -m pip show ansible
+
