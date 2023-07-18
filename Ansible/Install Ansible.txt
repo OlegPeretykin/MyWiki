@@ -1,3 +1,8 @@
+sudo apt install ansible
+sudo apt install ansible-lint
+
+
+=====================================
 
 1. check if pip exists
 python3 -m pip --version
