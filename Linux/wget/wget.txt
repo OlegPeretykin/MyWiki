@@ -1,0 +1,14 @@
+сделать зеркало сайта:
+wget -r https://www.yoursite.com
+
+сделать копию сайта и локализовать ссылки:
+wget --convert-links -r https://www.yoursite.com
+
+сделать оффлайн-зеркало с локализацией ссылок:
+wget --mirror --convert-links --adjust-extension --page-requisites --no-parent https://www.yoursite.com
+
+сохранить зеркало сайта как .html:
+wget --html-extension -r https://www.yoursite.com
+
+загрузить изображения:
+wget -A "*.jpg" -r https://www.yoursite.com

@@ -1,12 +1,7 @@
-sudo -i -u postgres
-psql
-
 CREATE USER debadm PASSWORD 'superator33moderator';
 ALTER USER debadm SUPERUSER; 
 
-CREATE DATABASE "debadm";
+sudo su - postgres -c "createdb debadm"
 
 GRANT ALL PRIVILEGES ON DATABASE debadm TO debadm; 
 GRANT ALL PRIVILEGES ON DATABASE postgres TO debadm;
-
-
