@@ -1,0 +1,18 @@
+Proxmox — принудительное выключение VM
+Если VM не выключается штатным образом через Web-интерфейс Proxmox:
+
+1. Определите PID процесса виртуальной машины (VMID — номер VM в Proxmox):
+
+root@proxmox ~ # ps aux | grep "/usr/bin/kvm -id VMID"
+
+2. Завершите процесс (PID — полученный номер процесса):
+
+root@proxmox ~ # kill -9 PID
+
+3. Запустить машину снова можно командой:
+
+root@proxmox ~ # qm start VMID
+
+4. Убедитесь, что Вы теперь можете остановить машину из web-интерфейса или CLI:
+
+root@proxmox ~ # qm stop VMID

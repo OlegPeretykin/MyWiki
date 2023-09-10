@@ -1,0 +1,21 @@
+Check
+dpkg -l | grep resolvconf
+
+if exist
+apt-get remove resolvconf
+
+sudo nano /etc/resolv.conf
+
+===
+nameserver 192.168.1.1
+nameserver 8.8.8.8
+nameserver 1.1.1.1
+===
+
+if resolvconf need
+
+add
+sudo nano /etc/network/interfaces
+
+===
+dns-nameservers 192.168.1.1 8.8.8.8 1.1.1.1

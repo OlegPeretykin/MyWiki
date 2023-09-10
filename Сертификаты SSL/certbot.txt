@@ -1,0 +1,3 @@
+apt install certbot
+
+certbot certonly --standalone --preferred-challenges http -d quantumc.cc

@@ -1,0 +1,5 @@
+File:
+
+/var/run/reboot-required
+
+is exist
