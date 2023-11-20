@@ -1,0 +1,16 @@
+https://nnmclub.to/forum/viewtopic.php?t=1677776&sid=2a8d71397a4815d60a6c5cbca3f3fd21
+------------------------
+
+Способ 1 — PowerShell (рекомендуется)
+В Windows 8.1/10/11 щелкните правой кнопкой мыши меню «Пуск» Windows и выберите PowerShell или Терминал (не CMD).
+Скопируйте и вставьте приведенный ниже код и нажмите Enter.
+Код: выделить все
+irm https://massgrave.dev/get | iex
+Вы увидите варианты активации и следуйте инструкциям на экране.
+Вот и все.
+------------------
+
+[1]: https://discord.gg/gjJEfq7ux8
+[2]: https://t.me/Microsoft_Activation_Scripts
+[3]: https://twitter.com/massgravel
+[4]: https://www.reddit.com/r/MAS_Activator

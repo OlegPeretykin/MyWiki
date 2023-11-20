@@ -1,0 +1,3 @@
+Example, search in current directory:
+
+find . -type d -name "test"
