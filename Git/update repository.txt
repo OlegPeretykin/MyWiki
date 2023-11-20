@@ -1,0 +1,6 @@
+Checking:
+git remote -v
+
+------------------------------
+Updating (main or master or etc.):
+git pull origin main
