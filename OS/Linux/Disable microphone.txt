@@ -1,0 +1,15 @@
+View existing microphones:
+
+cat /proc/asound/modules
+--------------
+
+Disable selected microphone:
+
+sudo nano /etc/modprobe.d/pve-blacklist.conf
+or, if clear Debian:
+sudo nano /etc/modprobe.d/blacklist.conf
+------------
+add to end file:
+
+blacklist !Your_driver!
+
