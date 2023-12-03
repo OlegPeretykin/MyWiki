@@ -1,0 +1,238 @@
+HTML 
+---------
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    Калькулятор стоимости услуг бухгалтерской компании ПрофУчет.
+  </title>
+  <meta name="description"
+    content="Бухгалтерские, юридические и консультационные услуги компании ПрофУчет. Постоянное ведение учета. Сдача отчетности. Кадровый учет. Военный учет. Расчет заработной платы. Цена. Калькулятор цен." />
+  <link href="/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <link rel="icon" type="image/x-icon" href="favicon-32x32.png" />
+  <script src="/js/calc.js"></script>
+</head>
+
+<body onload="calc()">
+  
+  <div class="container my-5" id="calc_main">
+    <!-- Блок выбора типа хозяйствующего субьекта -->
+    <select onchange="calc()" id="type_of_bussines_entity">
+      <option value="0">Индивидуальный предприниматель</option>
+      <option value="1">Общество с ограниченной ответственностью</option>
+    </select><br />
+
+    <!-- Блок выбора системы налогообложения -->
+    <select onchange="calc()" id="type_of_taxation_system">
+      <option value="1">УСНО 6% / ПАТЕНТ (ИП)</option>
+      <option value="2">УСН 15%</option>
+      <option value="3">ОСНО</option>
+    </select><br />
+
+    <!-- Блок выбора количества документов/операций -->
+    <select onchange="calc()" id="quantity_of_document">
+      <option value="1">от 1 до 5 </option>
+      <option value="2">от 6 до 15 </option>
+      <option value="3">от 16 до 30 </option>
+      <option value="4">от 31 до 60 </option>
+      <option value="5">от 61 до 90 </option>
+      <option value="6">от 91 до 120 </option>
+    </select><span> операций (документов) в месяц</span><br />
+
+    <!-- Блок выбора количества первичных документов -->
+    <select onchange="calc()" id="quantity_of_primary_accounting_document">
+      <option value="0">0</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="300">300</option>
+    </select><span> изготовление документов первичного бухгалтерского учета в месяц</span><br />
+
+    <!-- Блок выбора количества работающих граждан РФ -->
+    <select onchange="calc()" id="number_of_russian_citizens">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="30">30</option>
+    </select><span> граждан РФ</span><br />
+
+    <!-- Блок выбора количества работающих иностранных граждан -->
+    <select onchange="calc()" id="number_of_foreign_citizens">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="30">30</option>
+    </select><span> иностранных граждан</span><br /><br>
+
+    <input type="checkbox" onchange="calc()" id="is_varios_VAT" />
+    <label for="is_varios_VAT"> применяются различные ставки НДС</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_leasing" />
+    <label for="is_leasing"> лизинг</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_transactions_with_securities" />
+    <label for="is_transactions_with_securities"> операции с ценными бумагами</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_2_marketplaces" />
+    <label for="is_2_marketplaces"> маркетплейсы, до двух</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_over_2_marketplaces" />
+    <label for="is_over_2_marketplaces"> маркетплейсы, больше двух</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_over_10_product" />
+    <label for="is_over_10_product"> больше 10 товаров в номенклатуре</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_universalism" />
+    <label for="is_universalism"> наличие разных видов деятельности (например торговля и производство), разные системы
+      налогообложения. Наличие производства.</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_alcohl" />
+    <label for="is_alcohl"> операции с алкоголем</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_branches" />
+    <label for="is_branches"> наличие филиалов</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_export_import_currency" />
+    <label for="is_export_import_currency"> экспорт, импорт, операции с иностранной валютой</label> <br>
+
+    <input type="checkbox" onchange="calc()" id="is_foreign_economic_activity" />
+    <label for="is_foreign_economic_activity"> ВЭД (мы отправляем отчеты в банк)</label> <br>
+    <br>
+    <div>Полная стоимость месячного обслуживания: <span id="result">0</span> руб.</div>
+    <br>
+
+  </div>
+</body>
+
+</html>
+-------------------------
+
+JS 
+------
+
+function calc() {
+
+  // Блок констант
+  const price_of_one_primary_document = 150;
+  const russian_citizens_cost = 1200;
+  const foreign_citizens_cost = 1500;
+
+  const varios_VAT = 1.2;
+  const leasing = 1.2;
+  const transactions_with_securities = 1.2;
+  const exist2_marketplaces = 1.2;
+  const over_2_marketplaces = 1.5;
+  const over_10_product = 1.5;
+  const universalism = 1.5;
+  const alcohl = 1.5;
+  const branches = 1.5;
+  const export_import_currency = 2;
+  const foreign_economic_activity = 3;
+
+  // ИП
+  const ip6 = 1500;
+  const ip15 = 3000;
+  const ip_osno = 4000;
+
+  // ООО
+  const ooo6 = 2500;
+  const ooo15 = 3000;
+  const ooo_osno = 4000;
+
+  // Начали считать ...
+
+  // Устанавливаем значение Базовая стоимость
+  var tots = +document.getElementById("type_of_taxation_system").value;
+  if (document.getElementById("type_of_bussines_entity").value == 0) {
+    if (tots == 1) {
+      var base_cost = ip6;
+    } else if (tots == 2) {
+      var base_cost = ip15;
+    } else if (tots == 3) {
+      var base_cost = ip_osno;
+    }
+  } else {
+    if (tots == 1) {
+      var base_cost = ooo6;
+    } else if (tots == 2) {
+      var base_cost = ooo15;
+    } else if (tots == 3) {
+      var base_cost = ooo_osno;
+    }
+  }
+
+  // Формируем из Базовой цены значение Эффективная цена применяя коефициенты услуг
+  var effective_prise = document.getElementById("is_varios_VAT").checked ? base_cost * varios_VAT : base_cost;
+  effective_prise *= document.getElementById("is_leasing").checked ? leasing : 1;
+  effective_prise *= document.getElementById("is_transactions_with_securities").checked ? transactions_with_securities : 1;
+  effective_prise *= document.getElementById("is_2_marketplaces").checked ? exist2_marketplaces : 1;
+  effective_prise *= document.getElementById("is_over_2_marketplaces").checked ? over_2_marketplaces : 1;
+  effective_prise *= document.getElementById("is_over_10_product").checked ? over_10_product : 1;
+  effective_prise *= document.getElementById("is_universalism").checked ? universalism : 1;
+  effective_prise *= document.getElementById("is_alcohl").checked ? alcohl : 1;
+  effective_prise *= document.getElementById("is_branches").checked ? branches : 1;
+  effective_prise *= document.getElementById("is_export_import_currency").checked ? export_import_currency : 1;
+  effective_prise *= document.getElementById("is_foreign_economic_activity").checked ? foreign_economic_activity : 1;
+
+  // Формируем полную цену с учетом количества первичных документов и работников обоих типов
+  var total_cost = effective_prise; 
+  total_cost += +document.getElementById("quantity_of_primary_accounting_document").value * price_of_one_primary_document;
+  total_cost += +document.getElementById("number_of_russian_citizens").value * russian_citizens_cost;
+  total_cost += +document.getElementById("number_of_foreign_citizens").value * foreign_citizens_cost;
+
+  // Вывод округляем до сотен рублей в меньшую сторону. 99 округлится как 0
+  result.innerHTML = Math.floor(total_cost/100)*100;
+}
+
+===========================================================================================
+<head>
+        <title>Калькулятор на JavaScript</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+        <script type="text/javascript">
+       /*
+        * Функция подсчета стоимости услуг на создания дизайна сайта
+        */
+        function calc() {
+            //получаем ссылку на элемент Select (Тип дизайна)
+            var type_design = document.getElementById("type_design");
+            //получаем ссылку на чекбокс (Требуется верстка?)
+            var is_html = document.getElementById("is_html");
+            //получаем ссылку на элемент input (Кол-во вариантов)
+            var count = document.getElementById("count");
+            //получаем ссылку на элемент span, в него будем писать стоимость дизайна
+            var result = document.getElementById("result"); 
+ 
+            var price = 0;
+            price += parseInt(type_design.options[type_design.selectedIndex].value);
+            price += (is_html.checked == true) ? parseInt(is_html.value) : 0;
+            price = parseInt(count.value) * price;
+ 
+            result.innerHTML = price;
+        }
+ 
+</script>
+    </head>
+    <body>
+        <b>Тип дизайна:</b><br/>
+        <select onchange="calc()" id="type_design">
+            <option value="0">Выбрать</option>
+            <option value="5000">Простой дизайн сайта</option>
+            <option value="7000">Сложный дизайн сайта</option>
+            <option value="10000">Дизайн интернет-магазина</option>
+        </select><br/>
+        <input type="checkbox" onchange="calc()" value="3000" id="is_html" />
+        <label for="is_html">Требуется верстка?</label>
+        <br/>
+        Кол-во вариантов: <input type="text" id="count" value="1" onchange="calc()" />
+        <div>Стоимость дизайна сайта: <span id="result">0</span> руб.</div>
+    </body>
+</html>
