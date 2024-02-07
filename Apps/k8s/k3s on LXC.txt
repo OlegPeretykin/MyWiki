@@ -1,0 +1,52 @@
+Code:
+## k3s in lxc on proxmox
+# proxmox
+# enable modules
+cat << 'EOF' >> /etc/modules
+rbd
+fuse
+ip_vs
+ip_vs_rr
+ip_vs_wrr
+ip_vs_sh
+overlay
+br_netfilter
+iptable_nat
+EOF
+
+# enable forwarding / optimization
+cat << 'EOF' > /etc/sysctl.d/k3s.conf
+kernel.dmesg_restrict=0
+
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+net.bridge.bridge-nf-call-iptables=1
+
+kernel.pid_max=100000
+user.max_user_namespaces=15000
+vm.compact_memory=1
+vm.overcommit_memory=1
+EOF
+
+# create privileged lxc (uncheck unprivileged)
+# adjust lxc id in script => 107
+
+cat << 'EOF' >> /etc/pve/lxc/107.conf
+lxc.apparmor.profile = unconfined
+lxc.cgroup2.devices.allow: c 1:11 rwm
+lxc.mount.entry = /dev/kmsg dev/kmsg none defaults,bind,create=file
+swap: 0
+EOF
+
+apt install fuse-overlayfs
+reboot
+
+# start lxc and enter it
+pct start 107
+pct enter 107
+
+cat << 'EOF' >> /root/.bashrc
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+EOF
+
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--snapshotter fuse-overlayfs" sh -

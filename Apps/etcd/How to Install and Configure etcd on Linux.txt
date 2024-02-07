@@ -1,0 +1,169 @@
+How to Install and Configure etcd on Linux
+Buildbot Technologies Private Limited
+Buildbot Technologies Private Limited
+
+·
+Follow
+
+4 min read
+·
+Jun 27, 2023
+1
+
+
+
+
+etcd is a distributed key-value store that is used to store data across a cluster of machines. It is often used as a core component of distributed systems such as Kubernetes. In this tutorial, we will show you how to install and configure etcd on Linux.
+
+Prerequisites
+
+Before you begin, make sure you have the following:
+
+A Linux system with root access
+Basic knowledge of Linux command-line interface (CLI)
+Step 1 — Install from Binary
+
+The first step is to download the etcd binary from the official website. You can use the wget command to download the binary:
+
+wget <https://github.com/etcd-io/etcd/releases/download/v3.4.26/etcd-v3.4.26-linux-amd64.ar.gz>t
+Step 2 — Untar the zip
+
+Once downloaded, use the tar command to extract the contents of the archive:
+
+tar xvf etcd-v3.4.26-linux-amd64.tar.gz
+Step 3 — Move the etcd and etcdctl to /usr/local/bin/folder
+
+After extracting the contents of the archive, move the etcd and etcdctl binaries to the /usr/local/bin/ directory:
+
+sudo mv etcd /usr/local/bin
+
+sudo mv etcdctl /usr/local/bin
+Step 4 — Verify the Installation
+
+To verify that the installation was successful, run the following command:
+
+$ etcdctl version
+
+**Output:**
+ 
+etcdctl version: 3.4.26
+ 
+API version: 3.4
+Step 5 — Create etcd config and data directories
+
+Now create etcd config and data directories using the following commands:
+
+sudo mkdir /etc/etcd # This is for configuration
+ 
+sudo mkdir /var/lib/etcd # This is for data
+Step 6 — Making etcd as System Service
+
+It is a good practice to add a separate user and group for each service in the system.So let’s create a separate group and user for etcd
+
+sudo groupadd --system etcd
+
+sudo useradd -s /sbin/nologin --system -g etcd etcd
+ 
+sudo chown -R etcd:etcd /var/lib/etcd/
+Step 6.1 — Create a systemd Service File
+
+Create a new systemd service file /etc/systemd/system/etcd.service with the following contents:
+
+[Unit]
+ 
+Description=etcd service
+ 
+Documentation=https://github.com/etcd-io/etcd
+ 
+After=network.target
+ 
+After=network-online.target
+ 
+Wants=network-online.target
+ 
+[Service]
+ 
+User=etcd
+ 
+Type=notify
+ 
+Environment=ETCD_DATA_DIR=/var/lib/etcd
+ 
+Environment=ETCD_NAME=%m
+ 
+ExecStart=/usr/local/bin/etcd
+ 
+Restart=always
+ 
+RestartSec=10s
+ 
+LimitNOFILE=40000
+ 
+[Install]
+ 
+WantedBy=multi-user.target
+This is a systemd service file for running etcd as a system service. Here are the attributes and what they do:
+
+Description: A brief description of the service.
+Documentation: A link to the official documentation of the service.
+After: The target to start the service after. In this case, it’s the network target and network-online target.
+The network target is generally reached when the network interfaces are configured, while the network-online target is reached when the network is actually available.
+
+So, the network-online target includes the network target and additionally ensures that the network is actually available for use by checking the connectivity to some well-known public internet hosts.
+
+In summary, the network-online target waits for the network to be fully online, while the network target only waits for the network interfaces to be configured.
+
+Wants: The targets that should be started before starting the service.
+User: The user to run the service as.
+Type: The process type. Here, it’s “notify,” which means the service will send a notification to systemd when it’s ready to receive requests.
+Environment: Environment variables that should be set for the service.
+ExecStart: The command to run to start the service.
+Restart: Specifies when the service should be restarted. Here, it’s set to “always” for restarting on failure.
+RestartSec: The amount of time to wait before restarting the service.
+LimitNOFILE: The maximum number of open files allowed for the service.
+The recommended value for LimitNOFILE can vary depending on the specific requirements of the service and the system it’s running on. However, generally speaking, a higher value is better than a lower value.
+
+For example, the default value for LimitNOFILE on most Linux systems is 1024, but many services require a much higher limit. A common recommendation is to set the limit to at least 65536, which is the maximum number of file descriptors that the Linux kernel allows by default.
+
+That being said, it’s important to note that setting the limit too high can also cause issues, such as running out of available memory. So it’s important to strike a balance between allowing enough file descriptors for the service to operate efficiently, while not setting the limit so high that it causes other issues.
+
+In summary, it’s generally recommended to set LimitNOFILE to a value that is appropriate for the specific requirements of the service and the system it’s running on, keeping in mind the potential risks of setting the value too high or too low.
+
+Step 6.2 — Reload the Daemon
+
+After creating the service file, reload the systemd daemon with the following command:
+
+sudo systemctl daemon-reload
+This is necessary to ensure that systemd has up-to-date information about the unit files.
+
+Step 6.3 — Start the Daemon
+
+Start the etcd service with the following command:
+
+sudo systemctl start etcd.service
+Step 6.4 — Check the Status
+
+Check the status of the etcd service with the following command:
+
+sudo systemctl status etcd.service
+Step 6.5 — Do a Sanity Check
+
+Finally, do a sanity check by running the following commands:
+
+$ etcdctl put name partha
+ 
+OK
+
+$ etcdctl get name
+ 
+name
+ 
+partha
+ 
+OK
+Congratulations! You have successfully installed and configured etcd on your Linux system.
+
+1
+
+
+

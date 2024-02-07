@@ -1,0 +1,293 @@
+Привет Хабр! Сегодня развернем и рассмотрим кластер K3s
+
+Немного теории
+
+K3s - проект, созданный Rancher Labs, который представляет собой легковесную и простую в установке версию Kubernetes. K3s предлагает решение для разработчиков, которые хотят использовать Kubernetes в своих проектах, но не хотят сталкиваться со сложностью установки и управления полной версией Kubernetes.
+
+K3s - это дистрибутив Kubernetes, разработанный так, чтобы быть максимально легковесным, простым в установке и подходящим для развертывания на ресурсоограниченных системах. В отличие от полной версии Kubernetes, K3s стремится минимизировать использование ресурсов, что делает его идеальным выбором для развертывания на одном узле, в краевых сетях, IoT-устройствах и в других ситуациях, где ограничены вычислительные ресурсы.
+
+Тут, все понятно, легкий кубер, погнали разворачивать.
+
+Сперва скачаем shell-скрипт и запустим его.
+
+curl -sfL https://get.k3s.io | sh -
+
+Проверяем
+
+k3s --version
+k3s kubectl version
+
+Эта первая установка представляет собой кластер с одним узлом. Что часто идеально подходит для быстрой разработки, экспериментов, проверки и обучения. Проверим состояние узла кластера:
+
+k3s kubectl get nodes | grep -z 'STATUS\|Ready'
+
+Теперь инструменты командной строки K3s и kubectl установлены. Если у вас ранее не был установлен контекст kubectl, K3s kubectl станет вашим основным инструментом. Вы можете использовать те же команды, что и всегда, используя только kubectl:
+
+kubectl get nodes -o wide
+
+Мы проверяем статус мастера Kubernetes (устаревшая функция, которая все еще работает):
+
+{ echo -e "\n==== Kubernetes Status ====\n" && \
+  kubectl get --raw '/healthz?verbose' && \
+  kubectl version --short && \
+  kubectl get nodes && \
+  kubectl cluster-info;
+} | grep -z 'Ready\| ok\|passed\|running'
+
+
+Давайте создадим псевдоним с завершением командной строки.
+
+Завершение командной строки (также завершение с помощью табуляции или автозаполнение) — это обычная функция интерпретаторов командной строки, в которых программа автоматически заполняет частично введенные команды. Некоторые ненавидят командную строку и ее инструменты из-за всех правильно написанных команд, переключателей и правил синтаксиса, которые необходимо помнить. При автодополнении с помощью табуляции обычно бывает достаточно нескольких начальных букв команды или параметра, чтобы автозаполнение поняло, что вы имеете в виду, а остальное заполняет быстрый запрос клавиши Tab.
+
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+echo 'complete -F __start_kubectl k' >>~/.bashrc
+source ~/.bashrc
+Это делает работу с CLI более продуктивной. Вместо полного ввода «k get events» (как показано ниже), вы можете ввести k get ev и нажать Tab.
+
+
+Мы рассмотрим несколько команд инструментов k3s и kubectl, чтобы проверить состояние кластера.
+
+Во-первых, мы взглянем на весь кластер с помощью команды cluster-info:
+
+
+Мы видим, что Kubernetes API открыт на порту 6443, а стандартный CoreDNS и сервер Metrics присутствуют. Давайте проверим состояние мастера:
+
+kubectl get pods,services --all-namespaces
+
+Доступны компоненты и службы control plane или же мастера. При запущенном сервере метрик вы можете получить доступ к некоторым данным метрик с помощью команды top:
+
+kubectl top nodes && kubectl top pods -n kube-system
+
+Если вас беспокоит объем памяти K3s, то:
+
+top -o %MEM -b -n1 | head -n 24
+
+Проверяем неймспейсы
+
+kubectl get namespaces
+
+На стороне Linux все библиотеки K3s находятся в каталоге lib:
+
+tree -L 2 /var/lib/rancher/k3s
+
+K3s работает как служба Linux и может быть проверена с помощью systemctl:
+
+systemctl status k3s --no-pager
+
+Статус K3s можно проверить:
+
+k3s check-config
+
+
+
+
+
+В Kubelet механизм выполнения контейнера containerd генерирует логи:
+
+tail /var/lib/rancher/k3s/agent/containerd/containerd.log
+
+Закончили проверять кластер, все хорошо, идем дальше.
+
+Чтобы также показать вам, что K3s действительно похож на другие кластеры Kubernetes, давайте запустим стандартное приложение. Здесь нет ничего уникального для K3 и стандартного Kubernetes.
+
+Создадим Deployment:
+
+kubectl create deployment my-nginx --image=nginx
+И как же без сервисов
+
+kubectl expose deployment my-nginx --type=NodePort --port=80
+И проверяем
+
+k get pods,services
+
+Получим значение NodePort, назначенное сервису:
+
+PORT=$(kubectl get service my-nginx  -o jsonpath="{.spec.ports[0].nodePort}") && echo $PORT
+
+И проверим респонсы самого Nginx
+
+curl http://host01:$PORT | grep -C1 "successfully"
+
+Чтобы увидеть страницу-пример NGINX во всей красе «hello, world», мы открываем Service для определенного NodePort, такого как 32001:
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+	app: my-nginx
+  name: public-nginx
+spec:
+  ports:
+  - nodePort: 32001
+	port: 80
+	protocol: TCP
+	targetPort: 80
+  selector:
+	app: my-nginx
+  type: NodePort
+
+kubectl apply -f public-nginx.yaml
+Откроем в браузере
+
+
+Поскольку это обычный Kubernetes, мы можем установить другие полезные приложения, такие как Dashboard Kubernetes. Обычный способ установки панели мониторинга Kubernetes — через чарм Helm.
+
+Добавим чарм
+
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ && helm repo list
+
+Установим
+
+helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard \
+  --version=5.11.0 \
+  --namespace kubernetes-dashboard \
+  --create-namespace \
+  --values dash-values.yaml
+
+
+
+После того, как Dashboard pod сообщит о статусе «Running», к нему можно будет получить доступ:
+
+kubectl get services,pods -n kubernetes-dashboard -l app.kubernetes.io/name=kubernetes-dashboard
+
+Мы добавляем учетную запись службы администратора, чтобы предоставить Dashboard роли для доступа к ресурсам и объектам кластера, мы создаем файл dash-auth:
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+Создаем
+
+kubectl apply -f dash-auth.yaml
+
+
+Ну и когда нам кластер больше не нужен, можно будет его удалить с помощью скрипта uninstall_k3s.sh:
+
+#!/bin/sh
+set -x
+[ $(id -u) -eq 0 ] || exec sudo $0 $@
+
+/usr/local/bin/k3s-killall.sh
+
+if command -v systemctl; then
+	systemctl disable k3s
+	systemctl reset-failed k3s
+	systemctl daemon-reload
+fi
+if command -v rc-update; then
+	rc-update delete k3s default
+fi
+
+rm -f /etc/systemd/system/k3s.service
+rm -f /etc/systemd/system/k3s.service.env
+
+remove_uninstall() {
+	rm -f /usr/local/bin/k3s-uninstall.sh
+}
+trap remove_uninstall EXIT
+
+if (ls /etc/systemd/system/k3s*.service || ls /etc/init.d/k3s*) >/dev/null 2>&1; then
+	set +x; echo 'Additional k3s services installed, skipping uninstall of k3s'; set -x
+	exit
+fi
+
+for cmd in kubectl crictl ctr; do
+	if [ -L /usr/local/bin/$cmd ]; then
+    	rm -f /usr/local/bin/$cmd
+	fi
+done
+
+rm -rf /etc/rancher/k3s
+rm -rf /run/k3s
+rm -rf /run/flannel
+rm -rf /var/lib/rancher/k3s
+rm -rf /var/lib/kubelet
+rm -f /usr/local/bin/k3s
+rm -f /usr/local/bin/k3s-killall.sh
+
+if type yum >/dev/null 2>&1; then
+	yum remove -y k3s-selinux
+	rm -f /etc/yum.repos.d/rancher-k3s-common*.repo
+elif type rpm-ostree >/dev/null 2>&1; then
+	rpm-ostree uninstall k3s-selinux
+	rm -f /etc/yum.repos.d/rancher-k3s-common*.repo
+elif type zypper >/dev/null 2>&1; then
+	uninstall_cmd="zypper remove -y k3s-selinux"
+	if [ "${TRANSACTIONAL_UPDATE=false}" != "true" ] && [ -x /usr/sbin/transactional-update ]; then
+    	uninstall_cmd="transactional-update --no-selfupdate -d run $uninstall_cmd"
+	fi
+	$uninstall_cmd
+	rm -f /etc/zypp/repos.d/rancher-k3s-common*.repo
+fi
+К3s удален
+
+Однако Kubernetes лучше всего работает в компании со многими рабочими узлами. На рабочих нодах размещаются поды. Давайте еще установим K3s с подключим к нему рабочую ноду с хоста node01.
+
+Для начала на первом хосте выполним:
+
+curl -sfL https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true sh -
+
+Запустим k3s сервер
+
+k3s server > /var/log/k3s_server.log 2>&1 &
+И проверим наш, пока, одноузловой кластер
+
+k3s kubectl get nodes | grep -z 'STATUS\|Ready'
+
+Чтобы подключить рабочий узел к мастеру, нам потребуется токен узла K3s для доступа. Следующая команда получит токен и скопирует его как переменную среды bash для node01:
+
+ssh -q node01 "echo \"export K3S_TOKEN=$(cat /var/lib/rancher/k3s/server/node-token)\" >> ~/.bashrc"
+Теперь переходим на хост где будет наш воркер.
+
+Установим k3s CLI
+
+curl -sfL https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true sh -
+
+На этом node01 мы запустим агент K3s. Команде требуется два бита информации, чтобы присоединить node01 в качестве рабочего узла к мастеру:
+
+URL-адрес API Kubernetes на узле мастере.
+
+Токен узла для доступа к плоскости управления.
+
+API Kubernetes находится здесь:
+
+export K3S_URL=https://$(dig controlplane a +short | tail -n1):6443 && echo $K3S_URL
+Мы получаем токен доступа из файла ~/.bashrc, который мы обновили несколькими командами выше:
+
+source ~/.bashrc
+Теперь у вас есть эти два бита информации для агента:
+
+echo -e "\n\u001b[1;32mK3S_URL\u001b[0m=$K3S_URL\n\u001b[1;32mK3S_TOKEN\u001b[0m=$K3S_TOKEN\n"
+Давайте установим и запустим агент:
+
+k3s agent --server $K3S_URL --token $K3S_TOKEN > /var/log/k3s_agent.log 2>&1 &
+
+Вернемся на хост с мастером и проверим ноды
+
+k3s kubectl get nodes | grep -z 'STATUS\|Ready'
+
+Запустим под на воркере
+
+kubectl create deployment my-nginx --image=nginx
+
+kubectl get pods -o wide
+
+K3s - это гибкое и простое в установке решение для развертывания Kubernetes, которое подходит для различных сценариев. Он идеально подходит для ресурсоограниченных сред, тестирования, разработки, демонстраций и работы с краевыми сетями. Однако, стоит помнить, что наиболее подходящее решение зависит от ваших конкретных потребностей и требований к кластеру Kubernetes. K3s предоставляет отличный вариант для тех, кто ищет легковесное и быстрое решение для своих проектов.
+
+Статья подготовлена в преддверии старта курса Инфраструктурная платформа на основе Kubernetes. По ссылке вы сможете подробнее узнать о курсе, а также зарегистрироваться на бесплатный вебинар.
+
