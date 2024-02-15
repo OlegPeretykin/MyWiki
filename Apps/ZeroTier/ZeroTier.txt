@@ -19,8 +19,9 @@ OpenVPN in LXC
 # nano /etc/pve/lxc/123.conf
 Add the following lines at the end (if you're using PVE < 7.0, change `cgroup2` with `cgroup`)
 
- lxc.cgroup2.devices.allow: c 10:200 rwm
- lxc.mount.entry: /dev/net dev/net none bind,create=dir
+lxc.cgroup2.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net dev/net none bind,create=dir
+
 Press Ctrl-X and answer "Y" for saving and press Enter.
 
 For your unprivileged container to be able to access the /dev/net/tun from your host, you need to set the owner by running:
