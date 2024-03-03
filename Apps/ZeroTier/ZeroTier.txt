@@ -4,14 +4,13 @@ sudo apt install apt-transport-https ca-certificates gpg curl
 
 sudo curl -s https://install.zerotier.com | sudo bash
 
-AlternativeAdm
-cc7c9baafbd6eafb
+Uninstall:
+apt remove zerotier-one
 
-Maestro
-cc7c9baafb0ada0d
+If you want to blow away the config it created:
+dpkg -P zerotier-one
 
-KDL
-cc7c9baafbe2adce
+cc7c9baafbf58b46
 ----------------------------------------------------
 
 OpenVPN in LXC

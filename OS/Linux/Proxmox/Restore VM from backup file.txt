@@ -1,2 +1,3 @@
 sudo pct restore 160 /mnt/nfs/NAS55/2TB/CDL/2023-01-03/vzdump-lxc-160-2023_01_03-10_02_25.tar.zst -storage local-lvm
 
+qmrestore /root/vzdump-qemu-105-2021_12_10-16_47_51.vma 105 -storage local-lvm

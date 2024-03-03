@@ -1,0 +1,35 @@
+Проброс портов (Port forwarding)
+Далее, если необходимо пробросить определенные порты на нужные виртуальные машины. Это можно сделать с помощью iptables:
+
+iptables -A PREROUTING -t nat -i vmbr0 -p tcp -d %ext_ip_on_vmbr0% --dport %ext_port% -j DNAT --to %int_ip_on_vmbr1%:%int_port%
+Где
+
+%ext_ip_on_vmbr0%  — внешний IP-адрес, который находится на vmbr0 . Если не указать этого параметра, то порт будет пробрасываться со всех адресов на этом бридже.
+%ext_port%  — внешний порт по которому будут обращаться к серверу из интернета.
+%int_ip_on_vmbr1%  — внутренний IP виртуальной машины на vmbr1 .
+%int_port%  — внутренний порт, на котором будет работать сервис в виртуальной машине.
+
+
+iptables-save > /etc/iptables.up.rules
+
+Создадим скрипт загрузки правил:
+nano /etc/network/if-pre-up.d/iptables
+
+И впишем в него команду загрузки правил из сохраненного ранее файла:
+-------------
+#!/bin/bash
+/sbin/iptables-restore < /etc/iptables.up.rules
+-------------
+
+Не забудем дать права на исполнение этому файлу:
+chmod +x /etc/network/if-pre-up.d/iptables
+
+Более простой альтернативой будет установка пакета iptables-persistent 
+-----------------------------------------------------
+
+registry.acqproject.com
+Login: acq_dev_ro
+Password: gldt-Dm2sX2u2D-MQs_C6syMc
+---------------------------------
+
+
