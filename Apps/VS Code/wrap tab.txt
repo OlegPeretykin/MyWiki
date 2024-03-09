@@ -1,0 +1,2 @@
+Wrap tabs
+A new setting workbench.editor.wrapTabs lets editor tabs wrap instead of showing a scrollbar.

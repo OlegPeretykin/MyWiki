@@ -1,0 +1,63 @@
+Для исправления ситуации и вынесения логов в отдельный файл нужно сделать следующее. Открываем и редактируем файл /etc/rsyslog.conf
+
+# mcedit /etc/rsyslog.conf
+Ищем строку:
+
+cron.*                                  /var/log/cron.log
+И раскомментируем ее. Если такой нет, то добавляем. Чтобы логи не писались в общий файл, ищем строку с
+
+*.*
+и добавляем туда cron.none. Должно получиться так:
+
+*.*;auth,authpriv.none,cron.none        -/var/log/syslog
+После этого перезапускаем rsyslog и cron:
+
+# systemctl restart rsyslog
+# systemctl restart cron
+Проверяем, появился ли файл с логом.
+
+# ls -l /var/log/cron.log
+-rw-r----- 1 root adm 159 Aug 12 14:53 /var/log/cron.log
+Все в порядке. Теперь надо настроить ротацию этого файла. Редактируем файл /etc/logrotate.d/rsyslog
+
+# mcedit /etc/logrotate.d/rsyslog
+Раскомментируем или добавим, если у вас нет, строчку /var/log/cron.log Файл должен выглядеть примерно так:
+
+/var/log/syslog
+{
+	rotate 7
+	daily
+	missingok
+	notifempty
+	delaycompress
+	compress
+	postrotate
+		/usr/lib/rsyslog/rsyslog-rotate
+	endscript
+}
+
+/var/log/mail.info
+/var/log/mail.warn
+/var/log/mail.err
+/var/log/mail.log
+/var/log/daemon.log
+/var/log/kern.log
+/var/log/auth.log
+/var/log/user.log
+/var/log/lpr.log
+/var/log/cron.log
+/var/log/debug
+/var/log/messages
+{
+	rotate 4
+	weekly
+	missingok
+	notifempty
+	compress
+	delaycompress
+	sharedscripts
+	postrotate
+		/usr/lib/rsyslog/rsyslog-rotate
+	endscript
+}
+Теперь файл логов cron будет ротироваться как и все остальные системные логи. На этом настройка логов cron на Debian закончена.
