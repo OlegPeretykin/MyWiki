@@ -1,0 +1,3 @@
+deleting empty and comment line from output:
+
+grep -vE "(^#|^$)"
