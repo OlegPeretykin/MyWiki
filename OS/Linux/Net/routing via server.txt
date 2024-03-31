@@ -1,0 +1,17 @@
+on server:
+
+nano /etc/sysctl.conf
+------------  uncomment
+net.ipv4.ip_forward=1
+---------------------------
+
+nano /etc/network/interfaces
+----------------------- add to end
+pre-up iptables -t nat -I POSTROUTING -s 10.10.33.0/24 -j MASQUERADE
+--------------------------------
+==========
+
+on client:
+
+sudo ip route add 10.203.189.0/24 via 10.10.33.144
+                  <net of dest.>  <endpoint on local>
