@@ -1,0 +1,14 @@
+OpenVAS installation
+
+wget https://raw.githubusercontent.com/Kastervo/OpenVAS-Installation/master/openvas_install.sh && chmod +x openvas_install.sh
+
+./openvas_install.sh
+
+Grab the admin password right after the "Creating the admin user." message:
+
+
+Service status:
+sudo systemctl status notus-scanner
+sudo systemctl status ospd-openvas
+sudo systemctl status gvmd
+sudo systemctl status gsad

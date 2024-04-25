@@ -1,0 +1,14 @@
+Get secret name:
+kubectl --namespace kubernetes-dashboard get secret
+
+---------  for example ---------
+admin-user-secret                    kubernetes.io/service-account-token   3      24h
+dashboard-k8s-prod.acq.dc63.ru-tls   kubernetes.io/tls                     2      24h
+kubernetes-dashboard-certs           Opaque                                0      24h
+kubernetes-dashboard-csrf            Opaque                                1      24h
+kubernetes-dashboard-key-holder      Opaque                                2      24h
+-----------------------------------------------
+
+                !!!!    admin-user-secret   !!!
+                
+kubectl --namespace kubernetes-dashboard describe secret admin-user-secret

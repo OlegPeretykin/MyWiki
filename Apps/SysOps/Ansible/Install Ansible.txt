@@ -1,3 +1,13 @@
+var_dist='jammy'
+
+echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu $var_dist main" | sudo tee /etc/apt/sources.list.d/ansible.list > /dev/null
+sudo apt-key --keyring /etc/apt/trusted.gpg.d/ansible.gpg adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+sudo apt update && sudo apt install -y gnupg software-properties-common
+
+sudo apt update && sudo apt install -y ansible
+
+
+=====================================
 sudo apt install ansible
 sudo apt install ansible-lint
 
