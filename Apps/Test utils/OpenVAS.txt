@@ -12,3 +12,41 @@ sudo systemctl status notus-scanner
 sudo systemctl status ospd-openvas
 sudo systemctl status gvmd
 sudo systemctl status gsad
+
+http://<server_ip>:9392
+
+=================================================
+
+Настройка OpenVAS
+
+После установки OpenVAS необходимо настроить его:
+
+Создать пользователя GVM: https://docs.greenbone.net/
+Настроить базу данных Greenbone: https://docs.greenbone.net/
+Синхронизировать фиды уязвимостей: https://github.com/greenbone/greenbone-feed-sync
+Запуск сканирования уязвимостей
+
+Существует несколько способов запустить сканирование уязвимостей с OpenVAS:
+
+Используя веб-интерфейс: https://docs.greenbone.net/GSM-Manual/gos-21.04/en/web-interface.html
+Используя командную строку: https://docs.greenbone.net/
+Используя API: https://docs.greenbone.net/
+Просмотр результатов сканирования
+
+Результаты сканирования OpenVAS отображаются в веб-интерфейсе.
+
+Вы можете просмотреть список обнаруженных уязвимостей, их описание, уровень серьезности и рекомендации по исправлению.
+Исправление уязвимостей
+
+Исправление уязвимостей - это процесс устранения ошибок безопасности, которые были обнаружены OpenVAS.
+
+Точные шаги по исправлению уязвимостей будут зависеть от характера уязвимости и вашей системы.
+Дополнительные ресурсы
+
+Официальная документация OpenVAS: https://docs.greenbone.net/
+Сообщество пользователей OpenVAS: https://forum.greenbone.net/
+Список инструментов для исправления уязвимостей: https://docs.greenbone.net/GSM-Manual/gos-21.04/en/reports.html
+---------------------------------
+
+
+
