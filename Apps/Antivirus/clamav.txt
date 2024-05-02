@@ -1,0 +1,10 @@
+  402  sudo apt install clamav
+  403  sudo freshclam
+  404  sudo freshclam
+  405  sudo /etc/init.d/clamav-freshclam stop
+  406  sudo freshclam
+  407  sudo /etc/init.d/clamav-freshclam start
+  408  sudo clamscan /
+  409  sudo clamscan /*
+
+

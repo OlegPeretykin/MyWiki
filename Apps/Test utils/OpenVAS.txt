@@ -48,5 +48,6 @@ http://<server_ip>:9392
 Список инструментов для исправления уязвимостей: https://docs.greenbone.net/GSM-Manual/gos-21.04/en/reports.html
 ---------------------------------
 
+NVTs by Severity Class
 
 
