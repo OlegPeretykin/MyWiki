@@ -1,0 +1,48 @@
+/etc/ntpsec/ntp.conf
+------------
+
+ntp.conf:
+
+server 0.pool.ntp.org
+server 1.pool.ntp.org
+server 2.pool.ntp.org
+server 3.pool.ntp.org
+fudge 127.127.1.0 stratum 2
+restrict default kodist
+restrict 10.203.189.0 mask 255.255.255.0 nomodify notrap
+restrict 10.10.0.0 mask 255.255.255.0 nomodify notrap
+
+
+----------------
+
+ntp.conf:
+
+server 10.203.189.59 # IP-адрес главного сервера NTP
+server 10.10.0.59
+fudge 127.127.1.0 stratum 2
+restrict default kodist
+restrict 10.203.189.0 mask 255.255.255.0 nomodify notrap
+restrict 10.10.0.0 mask 255.255.255.0 nomodify notrap
+
+-------------------
+
+Open port  UDP 123 
+--------------------
+
+*/6 * * * * service ntpd restart
+---------------------
+
+# /etc/ntpsec/ntp.conf, configuration for ntpd; see ntp.conf(5) for help
+
+echo "driftfile /var/lib/ntpsec/ntp.drift
+leapfile /usr/share/zoneinfo/leap-seconds.list
+tos maxclock 11
+pool 0.debian.pool.ntp.org iburst
+pool 1.debian.pool.ntp.org iburst
+pool 2.debian.pool.ntp.org iburst
+pool 3.debian.pool.ntp.org iburst
+restrict 127.0.0.1
+restrict ::1" > /etc/ntpsec/ntp.conf
+----------------
+
+ntpq -p

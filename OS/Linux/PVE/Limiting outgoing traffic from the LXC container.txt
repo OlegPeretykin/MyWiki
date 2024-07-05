@@ -1,0 +1,96 @@
+# Заблокировать исходящий трафик из контейнера с ID 100 в сеть 10.203.189.0/24 на интерфейсе vmbr1
+iptables -t mangle -A POSTROUTING -o vmbr1 -s 10.203.189.44 -j DROP
+
+# Разрешить исходящий трафик из контейнера с ID 100 на его собственный IP-адрес (10.203.189.44)
+iptables -t mangle -A POSTROUTING -o vmbr1 -s 10.203.189.44 -d 10.203.189.44 -j ACCEPT
+===========================
+
+# Разрешить исходящий трафик для установленных соединений из контейнера с ID 100
+iptables -t mangle -A POSTROUTING -o vmbr1 -j CONNMARK --set-mark 10
+
+# Создать правило MARK, которое разрешает трафик с меткой 10
+iptables -t nat -A POSTROUTING -m mark --mark 10 -j ACCEPT
+=============================================================
+
+# Заблокировать исходящие TCP-пакеты из контейнера с ID 100
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -s 10.203.189.44 -j DROP
+
+# Заблокировать исходящие UDP-пакеты из контейнера с ID 100
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -s 10.203.189.44 -j DROP
+
+# Разрешить исходящие TCP-пакеты, являющиеся ответом на установленные извне соединения
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Разрешить исходящие UDP-пакеты, являющиеся ответом на установленные извне соединения
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+-------------
+# Удалить правило блокировки TCP-пакетов
+iptables -t mangle -D POSTROUTING -o vmbr1 -p tcp -s 10.203.189.44 -j DROP
+
+# Удалить правило блокировки UDP-пакетов
+iptables -t mangle -D POSTROUTING -o vmbr1 -p udp -s 10.203.189.44 -j DROP
+
+# Удалить правило разрешения исходящих TCP-пакетов для установленных соединений
+iptables -t mangle -D POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Удалить правило разрешения исходящих UDP-пакетов для установленных соединений
+iptables -t mangle -D POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+-------------------------
+
+# Заблокировать исходящие TCP-пакеты из контейнера с ID 100
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -s 10.203.189.42 -j DROP
+
+# Заблокировать исходящие UDP-пакеты из контейнера с ID 100
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -s 10.203.189.42 -j DROP
+
+# Разрешить исходящие TCP-пакеты, являющиеся ответом на установленные извне соединения
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Разрешить исходящие UDP-пакеты, являющиеся ответом на установленные извне соединения
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+# Разрешить исходящие TCP-пакеты на адрес 10.203.189.42
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.44 -j ACCEPT
+
+# Разрешить исходящие UDP-пакеты на адрес 10.203.189.42
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.44 -j ACCEPT
+
+# Разрешить исходящие TCP-пакеты на адрес 10.203.189.4
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.43 -j ACCEPT
+
+# Разрешить исходящие UDP-пакеты на адрес 10.203.189.4
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.43 -j ACCEPT
+---------------------------
+=======================================
+For 10.203.189.42
+
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.43 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.43 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.44 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.44 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -s 10.203.189.42 -j DROP
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -s 10.203.189.42 -j DROP
+
+For 10.203.189.43
+
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.44 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.44 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -s 10.203.189.43 -j DROP
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -s 10.203.189.43 -j DROP
+
+For 10.203.189.44
+
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.43 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.43 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -s 10.203.189.44 -j DROP
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -s 10.203.189.44 -j DROP
