@@ -1,0 +1,3 @@
+lsblk
+
+sudo e4defrag /dev/your_hdd_partition
