@@ -64,12 +64,12 @@ iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.43 -j ACCEPT
 =======================================
 For 10.203.189.42
 
-iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.43 -j ACCEPT
-iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.43 -j ACCEPT
-iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.44 -j ACCEPT
-iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.44 -j ACCEPT
-iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.43 -s 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.43 -s 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -d 10.203.189.44 -s 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -d 10.203.189.44 -s 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -m conntrack --ctstate NEW,ESTABLISHED -s 10.203.189.42 -j ACCEPT
+iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -m conntrack --ctstate NEW,ESTABLISHED -s 10.203.189.42 -j ACCEPT
 iptables -t mangle -A POSTROUTING -o vmbr1 -p tcp -s 10.203.189.42 -j DROP
 iptables -t mangle -A POSTROUTING -o vmbr1 -p udp -s 10.203.189.42 -j DROP
 
