@@ -1,3 +1,6 @@
+ntpq -p
+-------------
+
 /etc/ntpsec/ntp.conf
 ------------
 
@@ -45,4 +48,3 @@ restrict 127.0.0.1
 restrict ::1" > /etc/ntpsec/ntp.conf
 ----------------
 
-ntpq -p

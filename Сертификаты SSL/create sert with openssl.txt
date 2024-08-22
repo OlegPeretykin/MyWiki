@@ -1,0 +1,5 @@
+в случае Linux просто проверяем, что у нас установлен openssl. И делаем немного консольной магии:
+
+Создаём ключи: openssl ecparam -genkey -name prime256v1 | openssl ec -out private.key
+Создаём сертификат по ключу: openssl req -new -x509 -days 3650 -key private.key -out public.crt
+

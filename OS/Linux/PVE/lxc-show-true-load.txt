@@ -1,0 +1,15 @@
+nano /lib/systemd/system/lxcfs.service
+
+add "-l" flag to ExecStart
+--------------------
+...
+ExecStart=/usr/bin/lxcfs -l /var/lib/lxcfs
+...
+--------------------------
+
+systemctl daemon-reload
+systemctl restart lxcfs
+
+and stop/start all lxc
+
+
