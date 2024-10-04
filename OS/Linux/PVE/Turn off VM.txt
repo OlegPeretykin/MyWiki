@@ -16,3 +16,7 @@ root@proxmox ~ # qm start VMID
 4. Убедитесь, что Вы теперь можете остановить машину из web-интерфейса или CLI:
 
 root@proxmox ~ # qm stop VMID
+
+==================================== LXC ==========
+
+sudo lxc-stop 121
