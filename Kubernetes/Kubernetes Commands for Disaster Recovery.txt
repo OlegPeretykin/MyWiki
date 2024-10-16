@@ -1,0 +1,35 @@
+kubectl get pods --all-namespaces Проверить статус всех подов во всех неймспейсах, чтобы найти сбои.
+
+kubectl describe pod pod_name Получить подробную информацию о неудачном поде.
+
+kubectl logs pod_name -c container_name Просмотреть логи конкретного контейнера в поде для устранения проблем.
+
+kubectl get events --all-namespaces --sort-by='.metadata.creationTimestamp Просмотреть последние события для нахождения ошибок и сбоев.
+
+kubectl get nodes Проверить статус нод в кластере и выявить возможные сбои на нодах.
+
+kubectl drain node_name --ignore-daemonsets Безопасно эвакуировать и изолировать ноду для восстановления.
+
+kubectl cordon node_name Пометить ноду как недоступную для планирования новых подов во время восстановления.
+
+kubectl delete pod pod_name --grace-period=0 --force Принудительно удалить сбойный под, чтобы перезапустить его или освободить ресурсы для восстановления.
+
+kubectl rollout undo deployment deployment_name Откатить деплоймент, если новый релиз вызывает сбои.
+
+kubectl exec -it pod_name -- /bin/sh Получить доступ к контейнеру для отладки и решения проблем прямо внутри пода.
+
+kubectl get componentstatuses Проверить здоровье ключевых компонентов кластера, таких как etcd и kube-apiserver.
+
+kubectl top nodes Мониторить использование ресурсов нод, чтобы выявить проблемы с исчерпанием ресурсов.
+
+kubectl top pods --all-namespaces Проверить использование ресурсов подов во всех неймспейсах для выявления узких мест.
+
+kubectl delete node node_name Удалить неработающую ноду из кластера для восстановления.
+
+etcdctl --endpoints=https://etcd-server:2379 snapshot restore backup.db Восстановить etcd из снимка в случае сбоя.
+
+kubectl apply -f backup.yaml Применить конфигурации из резервной копии во время восстановления.
+
+kubectl taint nodes node_name key=value Запретить планирование подов на ноду, которая имеет проблемы, в процессе восстановления.
+
+kubectl get endpoints service_name Проверить конечные точки сервиса, чтобы убедиться в их корректной работе во время восстановления.

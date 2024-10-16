@@ -1,0 +1,23 @@
+{
+    "rules": [
+        {
+            "domain_suffix": [
+                ".ru"
+            ],
+            "outbound": "direct"
+        },
+        {
+            "domain_suffix": [
+                ".by"
+            ],
+            "outbound": "direct"
+        },
+        {
+            "domain_suffix": [
+                ".xn--p1ai"
+            ],
+            "outbound": "direct"
+        }
+    ]
+}
+

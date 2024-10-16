@@ -1,0 +1,1 @@
+/usr/bin/vivaldi-stable %U  --proxy-server="socks5://127.0.0.1:2080" --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"

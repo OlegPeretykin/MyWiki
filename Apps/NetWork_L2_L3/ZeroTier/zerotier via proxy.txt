@@ -1,0 +1,12 @@
+
+sudo mkdir -p /etc/systemd/system/zerotier-one.service.d/
+sudo nano /etc/systemd/system/zerotier-one.service.d/proxy.conf
+-----------------------------
+[Service]
+Environment="http_proxy=http://127.0.0.1:2080/"
+Environment="https_proxy=http://127.0.0.1:2080/"
+
+------------------------------
+sudo systemctl daemon-reload
+sudo systemctl restart zerotier-one
+sudo systemctl status zerotier-one
