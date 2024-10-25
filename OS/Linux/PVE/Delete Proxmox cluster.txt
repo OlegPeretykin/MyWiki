@@ -1,0 +1,29 @@
+Удаление кластера ProxMox
+Иногда требуется удалить созданный кластер Proxmox и создать новый. В сети есть инструкции, но они не годятся - после удаления кластер не работает, но старые ноды висят серыми(неактивными) и собрать новый кластер не представляется возможным.
+
+Первым делом останавливаем кластер
+
+rm -fr /etc/pve/nodes/*
+systemctl stop pve-cluster
+systemctl stop corosync
+Старуем кластер снова в одиночном режиме
+
+pmxcfs -l
+Удаляем файлы конфигов
+
+rm /etc/pve/corosync.conf
+rm -r /etc/corosync/*
+Убиваем одиночный процесс, лучше несколько раз.
+
+killall pmxcfs
+pmxcfs: no process found
+Удаляем список нод с сервера, иначе они будут болтаться там «неживые».
+
+rm -fr /etc/pve/nodes
+Включем кластер, радуемся жизни!
+
+systemctl start corosync
+systemctl start pve-cluster
+Рестарт веб морды
+
+service pveproxy restart

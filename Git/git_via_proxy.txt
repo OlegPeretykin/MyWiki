@@ -1,0 +1,42 @@
+git config --global http.proxy http://127.0.0.1:2080
+git config --global https.proxy http://127.0.0.1:2080
+--------------------------------------------------------------
+
+### Настройка Git для работы через прокси
+
+1. **Откройте терминал.**
+
+2. **Настройте прокси для Git.** Используйте следующие команды, чтобы указать адрес вашего прокси-сервера. Замените `http://proxy-server:port` на адрес вашего прокси-сервера и порт.
+
+   Для HTTP-прокси:
+   ```bash
+   git config --global http.proxy http://proxy-server:port
+   ```
+
+   Для HTTPS-прокси:
+   ```bash
+   git config --global https.proxy http://proxy-server:port
+   ```
+
+   Если ваш прокси требует аутентификации, используйте следующий формат:
+   ```bash
+   git config --global http.proxy http://username:password@proxy-server:port
+   ```
+
+3. **Проверка конфигурации.** Вы можете проверить, правильно ли настроены прокси, с помощью команды:
+   ```bash
+   git config --global --get http.proxy
+   git config --global --get https.proxy
+   ```
+
+4. **Отключение прокси (если необходимо).** Если вам нужно отключить прокси, выполните следующие команды:
+   ```bash
+   git config --global --unset http.proxy
+   git config --global --unset https.proxy
+   ```
+
+### Дополнительные настройки
+
+- **Проверка соединения.** После настройки прокси вы можете проверить, работает ли Git через прокси, выполнив команду `git clone` для какого-либо репозитория.
+
+
