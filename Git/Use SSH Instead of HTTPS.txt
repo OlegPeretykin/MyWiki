@@ -1,0 +1,18 @@
+se SSH Instead of HTTPS
+If you continue to have issues with HTTPS, consider using SSH for your Git operations. Here’s how you can set it up:
+
+Generate an SSH Key (if you don't have one):
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+Follow the prompts to save the key (default location is usually fine).
+
+Add the SSH Key to Your GitHub Account:
+Copy the SSH key to your clipboard:
+
+cat ~/.ssh/id_rsa.pub
+Then, go to GitHub > Settings > SSH and GPG keys > New SSH key, and paste your key there.
+
+Change the Remote URL to SSH:
+Update your repository's remote URL to use SSH:
+
+git remote set-url origin git@github.com:OlegPeretykin/acq.git
