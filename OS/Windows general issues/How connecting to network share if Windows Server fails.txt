@@ -1,0 +1,3 @@
+Connecting to network share from Windows Server fails with "organizations's security policies block unauthenticated guest access"
+
+Open group policy editor gpedit.msc. Then go to Computer configuration > Administrative Templates > Network > Lanman Workstation then go to Enable insecure guest logins and enable the policy setting.
