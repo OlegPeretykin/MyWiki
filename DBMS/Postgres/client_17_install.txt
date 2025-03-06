@@ -1,0 +1,7 @@
+sudo apt update
+sudo apt install -y curl ca-certificates gnupg
+sudo curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+sudo apt update
+sudo apt install -y postgresql-client-17
+pg_dump --dbname=postgresql://acq:NwQEqgTZbfZj@10.203.189.12:5432/acq > acq_dev_2025-03-04.dump

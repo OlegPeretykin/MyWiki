@@ -1,0 +1,8 @@
+auto vmbr1
+iface vmbr1 inet static
+  address 10.220.0.2
+  post-up ip addr add 10.220.0.3/24 dev vmbr1
+  bridge-ports bond1
+  bridge-stp off
+  bridge-fd 0
+  hwaddress 6c:3c:8c:80:25:47

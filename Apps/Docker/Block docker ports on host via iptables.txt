@@ -1,0 +1,12 @@
+# Очищаем цепочку DOCKER-USER (не трогаем другие цепочки Docker)
+iptables -F DOCKER-USER
+# Разрешаем трафик "на" и "из" порт 443 через внешний IP
+iptables -A DOCKER-USER -i eth2 -d 94.242.234.12 -p tcp --dport 443 -j ACCEPT
+iptables -A DOCKER-USER -o eth2 -s 94.242.234.12 -p tcp --sport 443 -j ACCEPT
+#
+iptables -A DOCKER-USER -m state --state ESTABLISHED,RELATED -j ACCEPT
+# Блокируем весь остальной трафик через внешний IP
+iptables -A DOCKER-USER -i eth2 -d 94.242.234.12 -j DROP
+iptables -A DOCKER-USER -o eth2 -s 94.242.234.12 -j DROP
+# Возвращаем управление Docker для остального трафика
+iptables -A DOCKER-USER -j RETURNs
