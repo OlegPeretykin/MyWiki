@@ -1,0 +1,17 @@
+---
+- name: Uninstall a list of applications on Ubuntu/Debian
+  hosts: all
+  become: yes  # Требуются права root
+  vars:
+    apps_to_remove:
+      - nginx
+      - apache2
+      - vim
+  tasks:
+    - name: Remove specified applications
+      ansible.builtin.apt:
+        name: "{{ apps_to_remove }}"
+        state: absent
+        purge: yes  # Удаляет конфигурационные файлы (опционально)
+      register: result
+      failed_when: result.failed and 'not installed' not in result.msg  # Игнорировать ошибку, если пакет не установлен
