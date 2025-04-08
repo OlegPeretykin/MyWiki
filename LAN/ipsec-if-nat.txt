@@ -1,0 +1,9 @@
+conn nl
+forceencaps=yes
+ike=aes256-sha256-modp2048
+esp=aes256-sha256-modp2048
+left=8deafultroute
+leftid=213.148.2.36
+leftsubnet=10.10.4.219/32
+right=172.255.143.172
+rightsubnet=10.203.189.219/32
