@@ -1,0 +1,9 @@
+Используйте утилиту netselect-apt для автоматического выбора самого быстрого зеркала:
+bash
+
+sudo apt install netselect-apt
+sudo netselect-apt -c Germany bookworm
+
+Это создаст новый файл sources.list с оптимальным зеркалом для Германии.
+
+
