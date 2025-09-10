@@ -1,0 +1,17 @@
+nekoray-installer
+
+Debian based OS requirements
+sudo apt update && sudo apt install build-essential \
+                                    libfontconfig1 \
+                                    libqt5network5 \
+                                    libqt5widgets5 \
+                                    libqt5x11extras5 \
+                                    libqt5gui5
+NekoRay Installer
+Install latest NekoRay with desktop shortcut in your linux:
+
+Install:
+wget -qO- https://raw.githubusercontent.com/ohmydevops/nekoray-installer/main/installer.sh | bash
+Uninstall:
+wget -qO- https://raw.githubusercontent.com/ohmydevops/nekoray-installer/main/uninstaller.sh | bash
+
