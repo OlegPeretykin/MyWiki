@@ -1,0 +1,21 @@
+Systemd (отключение suspend/hibernate):
+
+Отредактируйте файл /etc/systemd/logind.conf:
+textsudo nano /etc/systemd/logind.conf
+
+Установите следующие параметры:
+textHandleSuspendKey=ignore
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+HandleHibernateKey=ignore
+HandlePowerKey=ignore
+IdleAction=ignore
+IdleActionSec=0
+
+Перезапустите сервис:
+textsudo systemctl restart systemd-logind
+
+Полностью заблокировать спящий режим:
+textsudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+Для включения обратно: замените mask на unmask.

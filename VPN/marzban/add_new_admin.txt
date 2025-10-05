@@ -1,0 +1,4 @@
+marzban cli admin create --sudo
+
+https://88.211.243.138:8000/dashboard/
+
